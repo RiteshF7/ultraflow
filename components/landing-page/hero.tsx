@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { heroContent } from '@/config/landing-page';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
-import { Star } from 'lucide-react';
+import { Star, Loader2 } from 'lucide-react';
 import Particles from '@/components/magicui/particles';
 import Ripple from '@/components/magicui/ripple';
 import AnimatedGradientText from '@/components/magicui/animated-shiny-text';
@@ -12,10 +12,13 @@ import { useTheme } from 'next-themes';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 export default function HeroSection() {
   const { theme } = useTheme();
+  const router = useRouter();
   const [currentQuote, setCurrentQuote] = useState(0)
+  const [isNavigating, setIsNavigating] = useState(false)
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -24,6 +27,11 @@ export default function HeroSection() {
 
     return () => clearInterval(intervalId)
   }, [])
+
+  const handleGetStarted = () => {
+    setIsNavigating(true)
+    router.push(heroContent.cta.primary.href)
+  }
 
   return (
     <section className="relative w-full overflow-hidden">
@@ -63,9 +71,24 @@ export default function HeroSection() {
             {heroContent.subheading}
           </div>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href={heroContent.cta.primary.href} className={cn(buttonVariants({ size: 'xl' }), 'rounded-full border-2 border-primary dark:border-white text-bold text-white')}>
-              {heroContent.cta.primary.text}
-            </Link>
+            <button 
+              onClick={handleGetStarted}
+              disabled={isNavigating}
+              className={cn(
+                buttonVariants({ size: 'xl' }), 
+                'rounded-full border-2 border-primary dark:border-white text-bold text-white',
+                isNavigating && 'opacity-90 cursor-not-allowed'
+              )}
+            >
+              {isNavigating ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                heroContent.cta.primary.text
+              )}
+            </button>
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-2 w-full">
             <AvatarCircles numPeople={heroContent.socialProof.totalUsers} avatarUrls={heroContent.socialProof.avatarUrls} />

@@ -27,7 +27,7 @@ export function UserAvatar({ user, size = 'md', ...props }: UserAvatarProps) {
 
   const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
   const avatarUrl = user.user_metadata?.avatar_url;
-  const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+  const initials = name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
 
   return (
     <Avatar className={sizeClasses[size]} {...props}>

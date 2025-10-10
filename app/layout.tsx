@@ -11,6 +11,7 @@ import localFont from 'next/font/local';
 import type { Viewport } from 'next';
 import { RootProvider } from 'fumadocs-ui/provider';
 import { TRPCReactProvider } from '@/trpc/react';
+import { NavigationProgress } from '@/components/page-loading';
 
 export const viewport: Viewport = {
   themeColor: [
@@ -89,6 +90,9 @@ export default async function RootLayout({ children }: PropsWithChildren) {
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Suspense fallback={null}>
+            <NavigationProgress />
+          </Suspense>
           <RootProvider>
             <TRPCReactProvider>{children}</TRPCReactProvider>
           </RootProvider>
