@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { faqItems } from '@/config/faq';
+import { faqContent } from '@/config/landing-page';
 
 export default function FAQSection() {
   const [activeItem, setActiveItem] = useState<number | null>(null);
@@ -13,9 +14,9 @@ export default function FAQSection() {
   return (
     <section className="max-w-3xl mx-auto p-6 mb-12">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold">FAQ</h2>
+        <h2 className="text-2xl font-bold">{faqContent.heading}</h2>
         <p className="text-muted-foreground">
-          You got questions? I got answers.
+          {faqContent.subheading}
         </p>
       </div>
       <div className="space-y-4">

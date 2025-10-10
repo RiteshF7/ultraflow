@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import ResultsGrid from '@/components/product/ResultsGrid';
+import ResultsGridModern from '@/components/product/ResultsGridModern';
 
 interface DiagramData {
   title: string;
@@ -50,7 +50,7 @@ export default function ResultsPage() {
   }, []);
 
   return (
-    <ResultsGrid
+    <ResultsGridModern
       diagrams={diagrams}
       loading={loading}
       error={error}

@@ -8,6 +8,7 @@ import {
   GithubSvg
 } from '@/components/svg';
 import Marquee from '@/components/magicui/marquee';
+import { logoCloudContent } from '@/config/landing-page';
 
 export default function LogoCloudScroll() {
   const [primaryColor, setPrimaryColor] = useState('');
@@ -49,7 +50,7 @@ export default function LogoCloudScroll() {
   return (
     <div className="logo-cloud-container w-[90vw] items-center justify-center mx-auto my-10">
       <p className="mt-24 text-xs uppercase text-primary text-center font-bold tracking-[0.3em]">
-        Built with these brands
+        {logoCloudContent.heading}
       </p>
       <Marquee
         pauseOnHover

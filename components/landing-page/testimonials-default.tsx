@@ -1,6 +1,7 @@
 import { Card, CardHeader, CardContent } from '@/components/ui/card-header';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { testimonials } from '@/config/testimonials';
+import { testimonialsContent } from '@/config/landing-page';
 
 export default function Testimonials() {
   const groupedTestimonials = [];
@@ -13,9 +14,9 @@ export default function Testimonials() {
       <div className="flex items-center w-full max-w-7xl mb-8">
         <div className="flex-grow border-t border-gray-300"></div>
         <div className="flex-shrink px-2 text-center">
-          <h2 className="text-3xl font-bold">Testimonials</h2>
+          <h2 className="text-3xl font-bold">{testimonialsContent.heading}</h2>
           <p className="text-muted-foreground">
-            What everyone else is saying
+            {testimonialsContent.subheading}
           </p>
         </div>
         <div className="flex-grow border-t border-gray-300"></div>

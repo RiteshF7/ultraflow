@@ -8,6 +8,7 @@ import {
   GithubSvg,
   LogoSupacrawler
 } from '@/components/svg';
+import { logoCloudContent } from '@/config/landing-page';
 
 export default function LogoCloud() {
   const [primaryColor, setPrimaryColor] = useState('');
@@ -22,27 +23,27 @@ export default function LogoCloud() {
   return (
     <div>
       <p className="mt-12 text-xs uppercase text-primary text-center font-bold tracking-[0.3em]">
-        Built with these brands
+        {logoCloudContent.heading}
       </p>
       <div className="grid grid-cols-1 place-items-center justify-center my-12 space-y-4 sm:mt-8 sm:space-y-0 md:mx-auto md:max-w-2xl sm:grid sm:gap-10 sm:grid-cols-6">
         <div className="flex items-center justify-center h-15 w-24">
-          <a href="https://nextjs.org" aria-label="Next.js Link">
+          <a href={logoCloudContent.logos[0].href} aria-label={logoCloudContent.logos[0].ariaLabel}>
             <NextjsSvg className="size-full" style={{ color: primaryColor }} />
           </a>
         </div>
         <div className="flex items-center justify-center h-15 w-24">
-          <a href="https://vercel.com" aria-label="Vercel.com Link">
+          <a href={logoCloudContent.logos[1].href} aria-label={logoCloudContent.logos[1].ariaLabel}>
             <VercelSvg className="size-full" style={{ color: primaryColor }} />
           </a>
         </div>
         <div className="flex items-center justify-center h-12 w-24">
-          <a href="https://stripe.com" aria-label="stripe.com Link">
+          <a href={logoCloudContent.logos[2].href} aria-label={logoCloudContent.logos[2].ariaLabel}>
             <StripeSvg className="size-full" style={{ color: primaryColor }} />
           </a>
         </div>
         <LogoSupacrawler />
         <div className="flex items-center justify-center h-15 w-24 sm:ml-8">
-          <a href="https://supabase.io" aria-label="supabase.io Link">
+          <a href={logoCloudContent.logos[3].href} aria-label={logoCloudContent.logos[3].ariaLabel}>
             <SupabaseSvg
               className="size-full"
               style={{ color: primaryColor }}
@@ -50,7 +51,7 @@ export default function LogoCloud() {
           </a>
         </div>
         <div className="flex items-center justify-center h-15 w-24">
-          <a href="https://github.com" aria-label="github.com Link">
+          <a href={logoCloudContent.logos[4].href} aria-label={logoCloudContent.logos[4].ariaLabel}>
             <GithubSvg className="size-full" style={{ color: primaryColor }} />
           </a>
         </div>

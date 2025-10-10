@@ -7,44 +7,22 @@ import { AnimatedBeamMultipleOutputDemo } from "@/components/animated-beam";
 import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
 import Marquee from "@/components/magicui/marquee";
 import {AnimatedListDemo} from "@/components/animated-list";
-
-const files = [
-  {
-    name: "bitcoin.pdf",
-    body: "Bitcoin is a cryptocurrency invented in 2008 by an unknown person or group of people using the name Satoshi Nakamoto.",
-  },
-  {
-    name: "finances.xlsx",
-    body: "A spreadsheet or worksheet is a file made of rows and columns that help sort data, arrange data easily, and calculate numerical data.",
-  },
-  {
-    name: "logo.svg",
-    body: "Scalable Vector Graphics is an Extensible Markup Language-based vector image format for two-dimensional graphics with support for interactivity and animation.",
-  },
-  {
-    name: "keys.gpg",
-    body: "GPG keys are used to encrypt and decrypt email, files, directories, and whole disk partitions and to authenticate messages.",
-  },
-  {
-    name: "seed.txt",
-    body: "A seed phrase, seed recovery phrase or backup seed phrase is a list of words which store all the information needed to recover Bitcoin funds on-chain.",
-  },
-];
+import { bentoGridContent } from "@/config/landing-page";
 
 const features = [
   {
     Icon: FileTextIcon,
-    name: "Save your files",
-    description: "We automatically save your files as you type.",
-    href: "#",
-    cta: "Learn more",
+    name: bentoGridContent.features[0].name,
+    description: bentoGridContent.features[0].description,
+    href: bentoGridContent.features[0].href,
+    cta: bentoGridContent.features[0].cta,
     className: "col-span-3 lg:col-span-1",
     background: (
       <Marquee
         pauseOnHover
         className="absolute top-10 [--duration:20s] [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] "
       >
-        {files.map((f, idx) => (
+        {bentoGridContent.files.map((f, idx) => (
           <figure
             key={idx}
             className={cn(
@@ -91,11 +69,11 @@ const features = [
   // },
   {
     Icon: CalendarIcon,
-    name: "Calendar",
-    description: "Use the calendar to filter your files by date.",
+    name: bentoGridContent.features[1].name,
+    description: bentoGridContent.features[1].description,
     className: "col-span-3 lg:col-span-1",
-    href: "#",
-    cta: "Learn more",
+    href: bentoGridContent.features[1].href,
+    cta: bentoGridContent.features[1].cta,
     background: (
       <Calendar
         mode="single"

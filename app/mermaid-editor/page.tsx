@@ -1,6 +1,6 @@
-import MermaidEditor from '@/components/product/MermaidEditor';
+import MermaidEditorModern from '@/components/product/MermaidEditorModern';
 
 export default function MermaidEditorPage() {
-  return <MermaidEditor />;
+  return <MermaidEditorModern />;
 }
 
