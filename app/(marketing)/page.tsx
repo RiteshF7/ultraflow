@@ -3,16 +3,21 @@ import FAQSection from '@/components/landing-page/faq';
 import Hero from '@/components/landing-page/hero';
 import LogoCloud from '@/components/landing-page/logo-cloud-svg';
 import FeaturesHover from '@/components/landing-page/features-hover';
+import { BentoDemo } from '@/components/landing-page/features-bento-grid';
 import Pricing from '@/components/pricing/pricing-primary';
 import Link from 'next/link';
 import Image from 'next/image';
 
 export default async function IndexPage() {
   return (
-      <div className="flex-col gap-10 mb-5">
+      <div className="flex flex-col gap-10 mb-5 w-full">
         <Hero />
-        <LogoCloud />
+        {/* <LogoCloud /> */}
         <FeaturesHover />
+        {/* <div className="container mx-auto my-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Core Features</h2>
+          <BentoDemo />
+        </div> */}
         <Pricing />
         <Testimonials />
         <section className="my-16">

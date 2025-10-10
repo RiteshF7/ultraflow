@@ -2,12 +2,12 @@
 
 export const heroContent = {
     announcement: {
-      emoji: '🚀',
+      emoji: '',
       text: 'Transform Articles into Visual Flowcharts with AI',
     },
     heading: 'UltraFlow: AI-Powered Article to Flowchart Converter',
     subheading:
-      "Convert any article or text into beautiful, structured flowcharts using Google Gemini AI. Smart A4 optimization, local caching, and instant exports - all open source.",
+      "Convert any article or text into beautiful, structured flowcharts using Google Gemini AI. Smart A4 optimization, local caching, and instant exports.",
     cta: {
       primary: {
         text: 'Start Creating',

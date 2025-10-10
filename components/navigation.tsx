@@ -29,22 +29,26 @@ export default function CircularNavigation({
         <div className="bg-slate-50 dark:bg-slate-900 p-1 rounded-full">
           <SunIcon className="size-8 transition-transform duration-300 ease-in-out hover:scale-110" />
         </div>
-        <span className="text-lg md:text-xl font-extrabold tracking-tightest">HIKARI</span>
+        <span className="text-lg md:text-xl font-extrabold tracking-tightest">ULTRA FLOW</span>
       </div>
       {items?.length ? (
         <div className="hidden md:flex space-x-6">
-          {items?.map((item, index) => (
-            <Link
-              key={index}
-              href={item.disabled ? '#' : item.href}
-              className={cn(
-                'text-primary transition-colors hover:text-foreground/80',
-                item.disabled && 'cursor-not-allowed opacity-80'
-              )}
-            >
-              {item.title}
-            </Link>
-          ))}
+          {items?.map((item, index) => {
+            const hideText = ['Features', 'Blog', 'Documentation'].includes(item.title);
+            return (
+              <Link
+                key={index}
+                href={item.disabled ? '#' : item.href}
+                className={cn(
+                  'text-primary transition-colors hover:text-foreground/80',
+                  item.disabled && 'cursor-not-allowed opacity-80',
+                  hideText && 'sr-only'
+                )}
+              >
+                {item.title}
+              </Link>
+            );
+          })}
         </div>
       ) : null}
       <div className="flex items-center space-x-2">

@@ -8,7 +8,6 @@ import { Star } from 'lucide-react';
 import Particles from '@/components/magicui/particles';
 import Ripple from '@/components/magicui/ripple';
 import AnimatedGradientText from '@/components/magicui/animated-shiny-text';
-import { ArrowRightIcon, GitHubLogoIcon } from '@radix-ui/react-icons';
 import AvatarCircles from '@/components/magicui/avatar-circles';
 import { useTheme } from 'next-themes';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
@@ -41,25 +40,22 @@ export default function HeroSection() {
       </div>
       <div className="container mx-auto px-4 py-12 md:py-16 lg:py-32">
         <div className="relative z-10 flex max-w-[64rem] flex-col items-center gap-4 text-center mx-auto">
-          <Link href={siteConfig.links.twitter} className="w-fit">
             <div
               className={cn(
                 'group rounded-full border border-black/5 bg-neutral-100 text-base text-secondary transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800',
               )}
             >
-              <AnimatedGradientText className="inline-flex items-center justify-center px-4 py-2 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
-                {heroContent.announcement.emoji} <hr className="mx-2 h-4 w-[1px] shrink-0 bg-gray-300" />{" "}
+              <AnimatedGradientText className="inline-flex items-center justify-center gap-2 px-4 py-2">
+                <span>{heroContent.announcement.emoji}</span>
                 <span
                   className={cn(
-                    `inline animate-gradient bg-gradient-to-r from-[#b76a24] via-[#6a24b7] to-[#b76a24] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent`,
+                    `animate-gradient bg-gradient-to-r from-[#b76a24] via-[#6a24b7] to-[#b76a24] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent`,
                   )}
                 >
                   {heroContent.announcement.text}
-                </span>                
-                <ArrowRightIcon className="ml-2 size-4 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
+                </span>
               </AnimatedGradientText>
             </div>
-          </Link>
 
           <h1 className="font-heading tracking-tight   font-bold text-2xl sm:text-4xl md:text-5xl lg:text-6xl">
             {heroContent.heading}
@@ -77,7 +73,7 @@ export default function HeroSection() {
               rel="noreferrer"
               className={cn(buttonVariants({ variant: 'outline', size: 'xl' }), 'rounded-full border-2 border-primary dark:border-white text-semibold')}
             >
-              {heroContent.cta.secondary.text} <GitHubLogoIcon className="ml-2" />
+              {heroContent.cta.secondary.text}
             </Link>
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-2 w-full">
