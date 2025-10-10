@@ -8,50 +8,43 @@ interface Plan {
 
 const pricingPlans: Plan[] = [
   {
-    name: 'Starter',
-    description: 'Kickstart your journey with essential templates and community access.',
+    name: 'Monthly Plan',
+    description: 'Perfect for trying out our service with monthly billing.',
     features: [
-      'Access to basic template library',
-      'Monthly community newsletter',
-      "Entry to our 'Template Exchange' forum",
-      'Random template suggestions',
-      'Template of the month'
+      'All core features included',
+      'Generate unlimited flowcharts',
+      'AI-powered article analysis',
+      'Export to SVG/PNG',
+      'Banner image generation'
     ],
-    monthlyPrice: 900,
-    yearlyPrice: 9000
+    monthlyPrice: 30000,
+    yearlyPrice: 30000
   },
   {
-    name: 'Pro',
-    description: 'For those who need advanced templates and enhanced community engagement.',
+    name: 'Quarterly Plan',
+    description: 'Best value for 3 months with flexible commitment.',
     features: [
-      'Access to premium template library',
-      'Weekly community digest',
-      "Priority access to 'Template Exchange' forum",
-      'Personalized template recommendations',
-      'Monthly expert webinar',
-      "Access to exclusive templates with 20% more features!",
-      'Custom template requests'
+      'All core features included',
+      'Generate unlimited flowcharts',
+      'AI-powered article analysis',
+      'Export to SVG/PNG',
+      'Banner image generation'
     ],
-    monthlyPrice: 9900,
-    yearlyPrice: 99000
+    monthlyPrice: 20000,
+    yearlyPrice: 20000
   },
   {
-    name: 'Enterprise',
-    description: 'For organizations that require comprehensive templates and dedicated support.',
+    name: 'Yearly Plan',
+    description: 'Maximum savings with annual subscription.',
     features: [
-      'Unlimited access to all templates',
-      'Daily template updates',
-      "VIP access to 'Template Exchange' forum",
-      'Personalized consulting sessions',
-      'Weekly live Q&A sessions',
-      "Access to the complete template library (unlimited!)",
-      'Templates on demand',
-      "Remove 'Powered by Template Generator'",
-      'Free membership to exclusive community events',
-      'Dedicated support h2otline'
+      'All core features included',
+      'Generate unlimited flowcharts',
+      'AI-powered article analysis',
+      'Export to SVG/PNG',
+      'Banner image generation'
     ],
-    monthlyPrice: 99900,
-    yearlyPrice: 999000
+    monthlyPrice: 10000,
+    yearlyPrice: 10000
   }
 ];
 
@@ -67,33 +60,33 @@ interface ProductWithPrices extends Product {
 
 export const dummyPricing: ProductWithPrices[] = [
   {
-    id: 'dummy-basic',
-    name: 'Basic Plan',
-    description: 'For individuals just getting started',
+    id: 'dummy-monthly',
+    name: 'Monthly Plan',
+    description: 'Perfect for trying out our service with monthly billing.',
     prices: [
       {
-        id: 'dummy-basic-price-month',
-        currency: 'USD',
-        unit_amount: 999,
+        id: 'dummy-monthly-price-month',
+        currency: 'INR',
+        unit_amount: 30000,
         interval: 'month',
         interval_count: 1,
         trial_period_days: null,
         type: 'recurring',
         active: true,
-        product_id: 'dummy-basic',
+        product_id: 'dummy-monthly',
         description: null,
         metadata: null
       },
       {
-        id: 'dummy-basic-price-year',
-        currency: 'USD',
-        unit_amount: 9990,
+        id: 'dummy-monthly-price-year',
+        currency: 'INR',
+        unit_amount: 30000,
         interval: 'year',
         interval_count: 1,
         trial_period_days: null,
         type: 'recurring',
         active: true,
-        product_id: 'dummy-basic',
+        product_id: 'dummy-monthly',
         description: null,
         metadata: null
       }
@@ -103,33 +96,33 @@ export const dummyPricing: ProductWithPrices[] = [
     active: null
   },
   {
-    id: 'dummy-pro',
-    name: 'Pro Plan',
-    description: 'For growing businesses',
+    id: 'dummy-quarterly',
+    name: 'Quarterly Plan',
+    description: 'Best value for 3 months with flexible commitment.',
     prices: [
       {
-        id: 'dummy-pro-price-month',
-        currency: 'USD',
-        unit_amount: 2999,
+        id: 'dummy-quarterly-price-month',
+        currency: 'INR',
+        unit_amount: 20000,
         interval: 'month',
         interval_count: 1,
         trial_period_days: null,
         type: 'recurring',
         active: true,
-        product_id: 'dummy-pro',
+        product_id: 'dummy-quarterly',
         description: null,
         metadata: null
       },
       {
-        id: 'dummy-pro-price-year',
-        currency: 'USD',
-        unit_amount: 29990,
+        id: 'dummy-quarterly-price-year',
+        currency: 'INR',
+        unit_amount: 20000,
         interval: 'year',
         interval_count: 1,
         trial_period_days: null,
         type: 'recurring',
         active: true,
-        product_id: 'dummy-pro',
+        product_id: 'dummy-quarterly',
         description: null,
         metadata: null
       }
@@ -139,33 +132,33 @@ export const dummyPricing: ProductWithPrices[] = [
     active: null
   },
   {
-    id: 'dummy-enterprise',
-    name: 'Enterprise Plan',
-    description: 'For large organizations',
+    id: 'dummy-yearly',
+    name: 'Yearly Plan',
+    description: 'Maximum savings with annual subscription.',
     prices: [
       {
-        id: 'dummy-enterprise-price-month',
-        currency: 'USD',
-        unit_amount: 9999,
+        id: 'dummy-yearly-price-month',
+        currency: 'INR',
+        unit_amount: 10000,
         interval: 'month',
         interval_count: 1,
         trial_period_days: null,
         type: 'recurring',
         active: true,
-        product_id: 'dummy-enterprise',
+        product_id: 'dummy-yearly',
         description: null,
         metadata: null
       },
       {
-        id: 'dummy-enterprise-price-year',
-        currency: 'USD',
-        unit_amount: 99990,
+        id: 'dummy-yearly-price-year',
+        currency: 'INR',
+        unit_amount: 10000,
         interval: 'year',
         interval_count: 1,
         trial_period_days: null,
         type: 'recurring',
         active: true,
-        product_id: 'dummy-enterprise',
+        product_id: 'dummy-yearly',
         description: null,
         metadata: null
       }

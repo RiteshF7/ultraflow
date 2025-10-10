@@ -130,7 +130,7 @@ export default function PricingRounded({
               Note: This is dummy pricing data. Please add your own pricing data in the Stripe Dashboard to see actual plans. Alternatively, you may use the Stripe Fixtures command to create your own pricing data, see <a href="https://hikari.antoineross.com/docs/configure/stripe/local" className="underline" target="_blank" rel="noopener noreferrer">documentation</a>.
             </p>
           )}
-          <div className="flex items-center justify-center mt-6 space-x-4">
+          {/* <div className="flex items-center justify-center mt-6 space-x-4">
             <Button
               className="rounded-4xl"
               variant={billingInterval === 'month' ? 'default' : 'outline'}
@@ -145,7 +145,7 @@ export default function PricingRounded({
             >
               Yearly
             </Button>
-          </div>
+          </div> */}
           <div className="grid gap-6 mt-10 md:grid-cols-3">
             {displayProducts.map((product) => {
               const price = product?.prices?.find(
