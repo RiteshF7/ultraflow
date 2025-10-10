@@ -684,7 +684,7 @@ export default function MermaidEditor() {
                   style={{
                     padding: `${THEME.spacing.sm} ${THEME.spacing.md}`,
                     background: activeSection === section ? THEME.colors.primary : THEME.colors.active,
-                    color: activeSection === section ? '#ffffff' : THEME.colors.text,
+                    color: activeSection === section ? THEME.colors.white : THEME.colors.text,
                     border: 'none',
                     borderRadius: THEME.borderRadius.sm,
                     cursor: 'pointer',
@@ -932,7 +932,7 @@ export default function MermaidEditor() {
                 right: THEME.spacing.lg,
                 display: 'flex',
                 gap: THEME.spacing.xs,
-                backgroundColor: 'rgba(37, 37, 38, 0.95)',
+                backgroundColor: THEME.colors.cardBgTransparent,
                 padding: THEME.spacing.sm,
                 borderRadius: THEME.borderRadius.lg,
                 border: `1px solid ${THEME.colors.border}`,
@@ -1044,7 +1044,7 @@ function ThemeVariableInput({
       <div style={{ display: 'flex', gap: THEME.spacing.sm, alignItems: 'center' }}>
         <input
           type={type}
-          value={value || (type === 'color' ? '#000000' : '')}
+          value={value || (type === 'color' ? THEME.colors.background : '')}
           onChange={(e) => onChange(varKey, e.target.value)}
           style={{
             width: type === 'color' ? '50px' : '100%',
@@ -1064,7 +1064,7 @@ function ThemeVariableInput({
             type="text"
             value={value || ''}
             onChange={(e) => onChange(varKey, e.target.value)}
-            placeholder="#000000"
+            placeholder={THEME.colors.background}
             style={{
               flex: 1,
               height: '32px',

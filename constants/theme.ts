@@ -23,6 +23,7 @@ export const THEME = {
     text: '#f5f5f5', // Light gray for text
     textMuted: '#9ca3af', // Muted gray
     textSecondary: '#d1d5db', // Secondary text
+    white: '#ffffff', // Pure white for text on colored backgrounds
     
     // Background colors
     background: '#1e1e1e', // Dark background
@@ -30,12 +31,21 @@ export const THEME = {
     cardBg: '#2d2d2d', // Card background
     sidebarBg: '#252526', // Sidebar background
     overlay: 'rgba(0, 0, 0, 0.7)', // Modal overlay
+    overlayLight: 'rgba(0, 0, 0, 0.5)', // Lighter modal overlay
+    overlayDark: 'rgba(0, 0, 0, 0.7)', // Darker modal overlay
     previewBg: '#1a1a1a', // Preview area background
+    cardBgTransparent: 'rgba(37, 37, 38, 0.95)', // Semi-transparent card background
     
     // Interactive states
     hover: '#3a3a3b', // Hover state
+    hoverLight: '#F3F4F6', // Light hover state (for light backgrounds)
     active: '#37373d', // Active state
     focus: '#3b82f6', // Focus ring color
+    
+    // Banner backgrounds (semi-transparent)
+    errorBg: 'rgba(248, 81, 73, 0.1)', // Error banner background
+    warningBg: 'rgba(210, 153, 34, 0.1)', // Warning banner background
+    infoBg: 'rgba(88, 166, 255, 0.1)', // Info banner background
     
     // Borders
     border: '#3e3e42', // Border color

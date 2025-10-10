@@ -31,7 +31,7 @@ const getVariantStyles = (variant: ButtonVariant, disabled: boolean, loading: bo
       return {
         ...baseStyles,
         backgroundColor: disabled || loading ? THEME.colors.border : THEME.colors.primary,
-        color: disabled || loading ? THEME.colors.textMuted : '#ffffff',
+        color: disabled || loading ? THEME.colors.textMuted : THEME.colors.white,
         boxShadow: disabled || loading ? 'none' : THEME.shadows.primary,
       };
     case 'secondary':
@@ -52,14 +52,14 @@ const getVariantStyles = (variant: ButtonVariant, disabled: boolean, loading: bo
       return {
         ...baseStyles,
         backgroundColor: disabled || loading ? THEME.colors.border : THEME.colors.success,
-        color: disabled || loading ? THEME.colors.textMuted : '#ffffff',
+        color: disabled || loading ? THEME.colors.textMuted : THEME.colors.white,
         boxShadow: disabled || loading ? 'none' : THEME.shadows.success,
       };
     case 'error':
       return {
         ...baseStyles,
         backgroundColor: disabled || loading ? THEME.colors.border : THEME.colors.error,
-        color: disabled || loading ? THEME.colors.textMuted : '#ffffff',
+        color: disabled || loading ? THEME.colors.textMuted : THEME.colors.white,
       };
     default:
       return baseStyles;

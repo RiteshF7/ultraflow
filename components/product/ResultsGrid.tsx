@@ -240,8 +240,8 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
             onClick={handleEditCode}
             disabled={isLoadingEditor}
             style={{
-              backgroundColor: 'rgba(37, 37, 38, 0.95)',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
+              backgroundColor: THEME.colors.cardBgTransparent,
+              boxShadow: THEME.shadows.md,
               border: `1px solid ${THEME.colors.border}`,
             }}
           >
@@ -253,8 +253,8 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
             onClick={handleForceRefresh}
             disabled={!isRendered}
             style={{
-              backgroundColor: 'rgba(37, 37, 38, 0.95)',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
+              backgroundColor: THEME.colors.cardBgTransparent,
+              boxShadow: THEME.shadows.md,
               border: `1px solid ${THEME.colors.border}`,
               color: isRendered ? THEME.colors.warning : THEME.colors.textMuted,
             }}
@@ -267,8 +267,8 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
             onClick={handleDownloadSvg}
             disabled={!isRendered || downloadType === 'svg'}
             style={{
-              backgroundColor: 'rgba(37, 37, 38, 0.95)',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
+              backgroundColor: THEME.colors.cardBgTransparent,
+              boxShadow: THEME.shadows.md,
               border: `1px solid ${THEME.colors.border}`,
             }}
           >
@@ -280,8 +280,8 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
             onClick={handleDownloadPng}
             disabled={!isRendered || isDownloading || downloadType === 'png'}
             style={{
-              backgroundColor: 'rgba(37, 37, 38, 0.95)',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
+              backgroundColor: THEME.colors.cardBgTransparent,
+              boxShadow: THEME.shadows.md,
               border: `1px solid ${THEME.colors.border}`,
             }}
           >
@@ -298,11 +298,11 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
           right: THEME.spacing.sm,
           display: 'flex',
           gap: THEME.spacing.xs,
-          backgroundColor: 'rgba(37, 37, 38, 0.95)',
+          backgroundColor: THEME.colors.cardBgTransparent,
           padding: THEME.spacing.xs,
           borderRadius: THEME.borderRadius.sm,
           border: `1px solid ${THEME.colors.border}`,
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
+          boxShadow: THEME.shadows.md,
           zIndex: 10
         }}>
           <button

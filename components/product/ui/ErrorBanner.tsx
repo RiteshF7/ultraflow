@@ -20,25 +20,25 @@ export default function ErrorBanner({
     switch (type) {
       case 'error':
         return {
-          backgroundColor: 'rgba(248, 81, 73, 0.1)',
+          backgroundColor: THEME.colors.errorBg,
           borderColor: THEME.colors.error,
           color: THEME.colors.error,
         };
       case 'warning':
         return {
-          backgroundColor: 'rgba(210, 153, 34, 0.1)',
+          backgroundColor: THEME.colors.warningBg,
           borderColor: THEME.colors.warning,
           color: THEME.colors.warning,
         };
       case 'info':
         return {
-          backgroundColor: 'rgba(88, 166, 255, 0.1)',
+          backgroundColor: THEME.colors.infoBg,
           borderColor: THEME.colors.primary,
           color: THEME.colors.primary,
         };
       default:
         return {
-          backgroundColor: 'rgba(248, 81, 73, 0.1)',
+          backgroundColor: THEME.colors.errorBg,
           borderColor: THEME.colors.error,
           color: THEME.colors.error,
         };
@@ -92,7 +92,7 @@ export default function ErrorBanner({
           style={dismissButtonStyles}
           onMouseEnter={(e) => {
             e.currentTarget.style.opacity = '1';
-            e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            e.currentTarget.style.backgroundColor = THEME.colors.hover;
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.opacity = '0.7';

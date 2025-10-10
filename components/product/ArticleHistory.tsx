@@ -9,15 +9,7 @@ import {
   getCacheStats,
   type CachedArticle
 } from '@/lib/utils/articleCache';
-
-// Color constants
-const BACKGROUND_COLOR = '#FFFFFF';
-const TEXT_COLOR = '#000000';
-const BORDER_COLOR = '#E5E7EB';
-const DANGER_COLOR = '#EF4444';
-const DANGER_HOVER_COLOR = '#DC2626';
-const SECONDARY_COLOR = '#6B7280';
-const LIGHT_BACKGROUND = '#F9FAFB';
+import { THEME } from '@/constants/theme';
 
 interface ArticleHistoryProps {
   onSelectArticle: (content: string) => void;
@@ -133,33 +125,34 @@ export default function ArticleHistory({ onSelectArticle, onClose }: ArticleHist
 
   return (
     <div style={{
-      backgroundColor: BACKGROUND_COLOR,
-      border: `1px solid ${BORDER_COLOR}`,
-      borderRadius: '0.5rem',
-      padding: '1.5rem',
-      boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+      backgroundColor: THEME.colors.cardBg,
+      border: `1px solid ${THEME.colors.border}`,
+      borderRadius: THEME.borderRadius.lg,
+      padding: THEME.spacing.xxl,
+      boxShadow: THEME.shadows.lg,
+      fontFamily: THEME.typography.fontFamily,
     }}>
       {/* Header */}
       <div style={{ 
         display: 'flex', 
         justifyContent: 'space-between', 
         alignItems: 'center',
-        marginBottom: '1rem'
+        marginBottom: THEME.spacing.lg
       }}>
         <div>
           <h2 style={{ 
-            fontSize: '1.5rem', 
-            fontWeight: '600',
-            color: TEXT_COLOR,
+            fontSize: THEME.typography.fontSize.xl, 
+            fontWeight: THEME.typography.fontWeight.semibold,
+            color: THEME.colors.text,
             margin: 0,
-            marginBottom: '0.25rem'
+            marginBottom: THEME.spacing.xs
           }}>
             📚 Article History
           </h2>
           {stats && (
             <p style={{ 
-              fontSize: '0.875rem', 
-              color: SECONDARY_COLOR,
+              fontSize: THEME.typography.fontSize.sm, 
+              color: THEME.colors.textMuted,
               margin: 0
             }}>
               {stats.totalArticles} article{stats.totalArticles !== 1 ? 's' : ''} • {stats.totalWords.toLocaleString()} words
@@ -167,23 +160,24 @@ export default function ArticleHistory({ onSelectArticle, onClose }: ArticleHist
           )}
         </div>
         
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', gap: THEME.spacing.sm }}>
           {articles.length > 0 && (
             <button
               onClick={() => setShowDeleteConfirm(true)}
               style={{
-                padding: '0.5rem 1rem',
-                backgroundColor: DANGER_COLOR,
-                color: BACKGROUND_COLOR,
+                padding: `${THEME.spacing.sm} ${THEME.spacing.lg}`,
+                backgroundColor: THEME.colors.error,
+                color: THEME.colors.white,
                 border: 'none',
-                borderRadius: '0.375rem',
-                fontSize: '0.875rem',
-                fontWeight: '500',
+                borderRadius: THEME.borderRadius.md,
+                fontSize: THEME.typography.fontSize.sm,
+                fontWeight: THEME.typography.fontWeight.medium,
                 cursor: 'pointer',
-                transition: 'background-color 0.2s'
+                transition: THEME.transitions.normal,
+                fontFamily: THEME.typography.fontFamily,
               }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = DANGER_HOVER_COLOR}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = DANGER_COLOR}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = THEME.colors.errorHover}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = THEME.colors.error}
             >
               🗑️ Clear All
             </button>
@@ -192,15 +186,19 @@ export default function ArticleHistory({ onSelectArticle, onClose }: ArticleHist
             <button
               onClick={onClose}
               style={{
-                padding: '0.5rem 1rem',
-                backgroundColor: SECONDARY_COLOR,
-                color: BACKGROUND_COLOR,
-                border: 'none',
-                borderRadius: '0.375rem',
-                fontSize: '0.875rem',
-                fontWeight: '500',
-                cursor: 'pointer'
+                padding: `${THEME.spacing.sm} ${THEME.spacing.lg}`,
+                backgroundColor: THEME.colors.active,
+                color: THEME.colors.text,
+                border: `1px solid ${THEME.colors.border}`,
+                borderRadius: THEME.borderRadius.md,
+                fontSize: THEME.typography.fontSize.sm,
+                fontWeight: THEME.typography.fontWeight.medium,
+                cursor: 'pointer',
+                transition: THEME.transitions.normal,
+                fontFamily: THEME.typography.fontFamily,
               }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = THEME.colors.hover}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = THEME.colors.active}
             >
               ✕ Close
             </button>
@@ -216,47 +214,73 @@ export default function ArticleHistory({ onSelectArticle, onClose }: ArticleHist
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          backgroundColor: THEME.colors.overlayLight,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          zIndex: 1000
+          zIndex: THEME.zIndex.modal
         }}>
           <div style={{
-            backgroundColor: BACKGROUND_COLOR,
-            padding: '2rem',
-            borderRadius: '0.5rem',
+            backgroundColor: THEME.colors.cardBg,
+            padding: THEME.spacing.xxxl,
+            borderRadius: THEME.borderRadius.lg,
             maxWidth: '400px',
-            boxShadow: '0 10px 25px rgba(0, 0, 0, 0.3)'
+            boxShadow: THEME.shadows.xl,
+            border: `1px solid ${THEME.colors.border}`,
+            fontFamily: THEME.typography.fontFamily,
           }}>
-            <h3 style={{ margin: '0 0 1rem 0', color: TEXT_COLOR }}>⚠️ Confirm Delete All</h3>
-            <p style={{ color: SECONDARY_COLOR, marginBottom: '1.5rem' }}>
+            <h3 style={{ 
+              margin: `0 0 ${THEME.spacing.lg} 0`, 
+              color: THEME.colors.text,
+              fontSize: THEME.typography.fontSize.lg,
+              fontWeight: THEME.typography.fontWeight.semibold
+            }}>
+              ⚠️ Confirm Delete All
+            </h3>
+            <p style={{ 
+              color: THEME.colors.textMuted, 
+              marginBottom: THEME.spacing.xxl,
+              fontSize: THEME.typography.fontSize.sm,
+              lineHeight: THEME.typography.lineHeight.normal
+            }}>
               This will permanently delete all {articles.length} cached articles. This action cannot be undone.
             </p>
-            <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', gap: THEME.spacing.sm, justifyContent: 'flex-end' }}>
               <button
                 onClick={() => setShowDeleteConfirm(false)}
                 style={{
-                  padding: '0.5rem 1rem',
-                  backgroundColor: SECONDARY_COLOR,
-                  color: BACKGROUND_COLOR,
-                  border: 'none',
-                  borderRadius: '0.375rem',
-                  cursor: 'pointer'
+                  padding: `${THEME.spacing.sm} ${THEME.spacing.lg}`,
+                  backgroundColor: THEME.colors.active,
+                  color: THEME.colors.text,
+                  border: `1px solid ${THEME.colors.border}`,
+                  borderRadius: THEME.borderRadius.md,
+                  cursor: 'pointer',
+                  fontSize: THEME.typography.fontSize.sm,
+                  fontWeight: THEME.typography.fontWeight.medium,
+                  transition: THEME.transitions.normal,
+                  fontFamily: THEME.typography.fontFamily,
                 }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = THEME.colors.hover}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = THEME.colors.active}
               >
                 Cancel
               </button>
               <button
                 onClick={handleClearAll}
                 style={{
-                  padding: '0.5rem 1rem',
-                  backgroundColor: DANGER_COLOR,
-                  color: BACKGROUND_COLOR,
+                  padding: `${THEME.spacing.sm} ${THEME.spacing.lg}`,
+                  backgroundColor: THEME.colors.error,
+                  color: THEME.colors.white,
                   border: 'none',
-                  borderRadius: '0.375rem',
-                  cursor: 'pointer'
+                  borderRadius: THEME.borderRadius.md,
+                  cursor: 'pointer',
+                  fontSize: THEME.typography.fontSize.sm,
+                  fontWeight: THEME.typography.fontWeight.medium,
+                  transition: THEME.transitions.normal,
+                  fontFamily: THEME.typography.fontFamily,
                 }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = THEME.colors.errorHover}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = THEME.colors.error}
               >
                 Delete All
               </button>
@@ -267,7 +291,7 @@ export default function ArticleHistory({ onSelectArticle, onClose }: ArticleHist
 
       {/* Search Box */}
       {articles.length > 0 && (
-        <div style={{ marginBottom: '1rem' }}>
+        <div style={{ marginBottom: THEME.spacing.lg }}>
           <input
             type="text"
             placeholder="🔍 Search articles..."
@@ -275,12 +299,14 @@ export default function ArticleHistory({ onSelectArticle, onClose }: ArticleHist
             onChange={(e) => setSearchQuery(e.target.value)}
             style={{
               width: '100%',
-              padding: '0.75rem',
-              fontSize: '0.875rem',
-              border: `1px solid ${BORDER_COLOR}`,
-              borderRadius: '0.375rem',
+              padding: THEME.spacing.md,
+              fontSize: THEME.typography.fontSize.sm,
+              border: `1px solid ${THEME.colors.border}`,
+              borderRadius: THEME.borderRadius.md,
               outline: 'none',
-              color: TEXT_COLOR
+              color: THEME.colors.text,
+              backgroundColor: THEME.colors.background,
+              fontFamily: THEME.typography.fontFamily,
             }}
           />
         </div>
@@ -290,35 +316,36 @@ export default function ArticleHistory({ onSelectArticle, onClose }: ArticleHist
       <div style={{
         maxHeight: '500px',
         overflowY: 'auto',
-        border: `1px solid ${BORDER_COLOR}`,
-        borderRadius: '0.375rem',
-        backgroundColor: LIGHT_BACKGROUND
+        border: `1px solid ${THEME.colors.border}`,
+        borderRadius: THEME.borderRadius.md,
+        backgroundColor: THEME.colors.background
       }}>
         {loading ? (
           <div style={{ 
-            padding: '3rem',
+            padding: THEME.spacing.xxxl,
             textAlign: 'center',
-            color: SECONDARY_COLOR
+            color: THEME.colors.textMuted,
+            fontSize: THEME.typography.fontSize.sm
           }}>
             Loading articles...
           </div>
         ) : filteredArticles.length === 0 ? (
           <div style={{ 
-            padding: '3rem',
+            padding: THEME.spacing.xxxl,
             textAlign: 'center',
-            color: SECONDARY_COLOR
+            color: THEME.colors.textMuted
           }}>
             {searchQuery ? (
               <>
-                <p style={{ margin: 0, fontSize: '1rem' }}>🔍 No articles found</p>
-                <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.875rem' }}>
+                <p style={{ margin: 0, fontSize: THEME.typography.fontSize.md }}>🔍 No articles found</p>
+                <p style={{ margin: `${THEME.spacing.sm} 0 0 0`, fontSize: THEME.typography.fontSize.sm }}>
                   Try a different search term
                 </p>
               </>
             ) : (
               <>
-                <p style={{ margin: 0, fontSize: '1rem' }}>📝 No articles yet</p>
-                <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.875rem' }}>
+                <p style={{ margin: 0, fontSize: THEME.typography.fontSize.md }}>📝 No articles yet</p>
+                <p style={{ margin: `${THEME.spacing.sm} 0 0 0`, fontSize: THEME.typography.fontSize.sm }}>
                   Articles you process will appear here
                 </p>
               </>
@@ -331,26 +358,26 @@ export default function ArticleHistory({ onSelectArticle, onClose }: ArticleHist
                 key={article.id}
                 onClick={() => handleSelectArticle(article)}
                 style={{
-                  padding: '1rem',
-                  borderBottom: index < filteredArticles.length - 1 ? `1px solid ${BORDER_COLOR}` : 'none',
+                  padding: THEME.spacing.lg,
+                  borderBottom: index < filteredArticles.length - 1 ? `1px solid ${THEME.colors.border}` : 'none',
                   cursor: 'pointer',
-                  transition: 'background-color 0.2s',
-                  backgroundColor: BACKGROUND_COLOR
+                  transition: THEME.transitions.normal,
+                  backgroundColor: THEME.colors.cardBg
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F3F4F6'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = BACKGROUND_COLOR}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = THEME.colors.hover}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = THEME.colors.cardBg}
               >
                 <div style={{ 
                   display: 'flex', 
                   justifyContent: 'space-between',
                   alignItems: 'flex-start',
-                  marginBottom: '0.5rem'
+                  marginBottom: THEME.spacing.sm
                 }}>
                   <h3 style={{
                     margin: 0,
-                    fontSize: '1rem',
-                    fontWeight: '600',
-                    color: TEXT_COLOR,
+                    fontSize: THEME.typography.fontSize.md,
+                    fontWeight: THEME.typography.fontWeight.semibold,
+                    color: THEME.colors.text,
                     flex: 1
                   }}>
                     {article.title}
@@ -358,15 +385,18 @@ export default function ArticleHistory({ onSelectArticle, onClose }: ArticleHist
                   <button
                     onClick={(e) => handleDeleteArticle(article.id, e)}
                     style={{
-                      padding: '0.25rem 0.5rem',
+                      padding: `${THEME.spacing.xs} ${THEME.spacing.sm}`,
                       backgroundColor: 'transparent',
-                      color: DANGER_COLOR,
+                      color: THEME.colors.error,
                       border: 'none',
-                      borderRadius: '0.25rem',
-                      fontSize: '0.875rem',
+                      borderRadius: THEME.borderRadius.sm,
+                      fontSize: THEME.typography.fontSize.sm,
                       cursor: 'pointer',
-                      marginLeft: '0.5rem'
+                      marginLeft: THEME.spacing.sm,
+                      transition: THEME.transitions.normal
                     }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = THEME.colors.hover}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                     title="Delete article"
                   >
                     🗑️
@@ -374,19 +404,19 @@ export default function ArticleHistory({ onSelectArticle, onClose }: ArticleHist
                 </div>
                 
                 <p style={{
-                  margin: '0 0 0.5rem 0',
-                  fontSize: '0.875rem',
-                  color: SECONDARY_COLOR,
-                  lineHeight: '1.5'
+                  margin: `0 0 ${THEME.spacing.sm} 0`,
+                  fontSize: THEME.typography.fontSize.sm,
+                  color: THEME.colors.textMuted,
+                  lineHeight: THEME.typography.lineHeight.normal
                 }}>
                   {article.preview}
                 </p>
                 
                 <div style={{
                   display: 'flex',
-                  gap: '1rem',
-                  fontSize: '0.75rem',
-                  color: SECONDARY_COLOR
+                  gap: THEME.spacing.lg,
+                  fontSize: THEME.typography.fontSize.xs,
+                  color: THEME.colors.textMuted
                 }}>
                   <span>📅 {formatDate(article.timestamp)}</span>
                   <span>📝 {article.wordCount} words</span>
@@ -401,11 +431,11 @@ export default function ArticleHistory({ onSelectArticle, onClose }: ArticleHist
       {/* Helper Text */}
       {filteredArticles.length > 0 && (
         <p style={{
-          marginTop: '1rem',
-          fontSize: '0.75rem',
-          color: SECONDARY_COLOR,
+          marginTop: THEME.spacing.lg,
+          fontSize: THEME.typography.fontSize.xs,
+          color: THEME.colors.textMuted,
           textAlign: 'center',
-          margin: '1rem 0 0 0'
+          margin: `${THEME.spacing.lg} 0 0 0`
         }}>
           Click on an article to load it into the editor
         </p>

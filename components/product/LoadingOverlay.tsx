@@ -3,9 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { THEME } from '@/constants/theme';
 
-const BACKGROUND_COLOR = '#FFFFFF';
-const PRIMARY_COLOR = THEME.colors.primary;
-
 interface LoadingOverlayProps {
   isLoading: boolean;
   message?: string;
@@ -55,16 +52,16 @@ export default function LoadingOverlay({ isLoading, message = 'Processing...' }:
         left: 0,
         right: 0,
         height: '4px',
-        backgroundColor: '#E5E7EB',
-        zIndex: 9999,
+        backgroundColor: THEME.colors.border,
+        zIndex: THEME.zIndex.tooltip,
         overflow: 'hidden'
       }}>
         <div style={{
           height: '100%',
-          backgroundColor: PRIMARY_COLOR,
+          backgroundColor: THEME.colors.primary,
           width: `${progress}%`,
-          transition: 'width 0.3s ease-out',
-          boxShadow: `0 0 10px ${PRIMARY_COLOR}`,
+          transition: THEME.transitions.normal,
+          boxShadow: THEME.shadows.primary,
         }} />
       </div>
 
@@ -76,34 +73,36 @@ export default function LoadingOverlay({ isLoading, message = 'Processing...' }:
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          backgroundColor: THEME.colors.overlayLight,
           backdropFilter: 'blur(4px)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          zIndex: 9998,
-          gap: '2rem'
+          zIndex: THEME.zIndex.modal,
+          gap: THEME.spacing.xxxl,
+          fontFamily: THEME.typography.fontFamily,
         }}>
           {/* Loading Spinner Container */}
           <div style={{
-            backgroundColor: BACKGROUND_COLOR,
-            borderRadius: '1rem',
-            padding: '3rem',
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+            backgroundColor: THEME.colors.cardBg,
+            borderRadius: THEME.borderRadius.xl,
+            padding: THEME.spacing.xxxl,
+            boxShadow: THEME.shadows.xl,
+            border: `1px solid ${THEME.colors.border}`,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: '1.5rem',
+            gap: THEME.spacing.xxl,
             minWidth: '300px'
           }}>
             {/* Spinner */}
             <div style={{
               width: '64px',
               height: '64px',
-              border: '6px solid #E5E7EB',
-              borderTop: `6px solid ${PRIMARY_COLOR}`,
-              borderRadius: '50%',
+              border: `6px solid ${THEME.colors.border}`,
+              borderTop: `6px solid ${THEME.colors.primary}`,
+              borderRadius: THEME.borderRadius.full,
               animation: 'spin 1s linear infinite'
             }} />
             
@@ -112,16 +111,16 @@ export default function LoadingOverlay({ isLoading, message = 'Processing...' }:
               textAlign: 'center'
             }}>
               <p style={{
-                fontSize: '1.25rem',
-                fontWeight: '600',
-                color: '#1F2937',
-                marginBottom: '0.5rem'
+                fontSize: THEME.typography.fontSize.lg,
+                fontWeight: THEME.typography.fontWeight.semibold,
+                color: THEME.colors.text,
+                marginBottom: THEME.spacing.sm
               }}>
                 {message}
               </p>
               <p style={{
-                fontSize: '0.875rem',
-                color: '#6B7280'
+                fontSize: THEME.typography.fontSize.sm,
+                color: THEME.colors.textMuted
               }}>
                 Please wait, do not close or refresh the page
               </p>
@@ -129,9 +128,9 @@ export default function LoadingOverlay({ isLoading, message = 'Processing...' }:
 
             {/* Progress Percentage */}
             <div style={{
-              fontSize: '0.875rem',
-              fontWeight: '500',
-              color: PRIMARY_COLOR
+              fontSize: THEME.typography.fontSize.sm,
+              fontWeight: THEME.typography.fontWeight.medium,
+              color: THEME.colors.primary
             }}>
               {Math.round(progress)}%
             </div>
