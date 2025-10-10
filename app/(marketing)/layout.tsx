@@ -17,9 +17,10 @@ export default async function MarketingLayout({
   const user = await getUser(supabase);
 
   return (
-    <div className="flex h-screen flex-col items-center w-full overflow-hidden">
+    <div className="flex min-h-screen flex-col items-center w-full">
       <CircularNavigation items={marketingConfig.mainNav} user={user ? true : false} />
-      <main className="flex-1 w-full overflow-hidden">{children}</main>
+      <main className="flex-1">{children}</main>
+      <FooterPrimary />
     </div>
   );
 }
