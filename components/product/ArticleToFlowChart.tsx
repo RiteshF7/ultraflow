@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import InputArticle from './InputArticle';
+import InputArticleModern from './InputArticleModern';
 import LoadingOverlay from './LoadingOverlay';
 
 interface DiagramData {
@@ -84,7 +84,7 @@ export default function ArticleToFlowChart() {
         message="Processing your article..."
       />
       
-      <InputArticle
+      <InputArticleModern
         article={article}
         setArticle={setArticle}
         loading={loading}
