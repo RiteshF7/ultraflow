@@ -1,7 +1,7 @@
 import { SiteConfig } from 'types';
 
 export const siteConfig: SiteConfig = {
-  name: 'Hikari',
+  name: 'Ultra Flow',
   description:
     'A complete & open-source Next.js 14 Subscription Starter template using Supabase, Stripe, Tailwind CSS.',
   url: 'https://hikari.antoineross.com',
