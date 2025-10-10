@@ -1,74 +1,156 @@
-# 🚀 Complete Next.js Subscription Starter Template
+# UltraFlow
 
-The all-in-one starter kit for building high-performance SaaS applications using Next.js, TailwindCSS, and Supabase.
+A Next.js application that converts articles into beautiful flowcharts using AI-powered analysis with Google Gemini.
 
-> **Warning**: This app is a work in progress. I'm building this in public. Follow the progress on Twitter [@antoineross\_\_](https://twitter.com/antoineross__). Check out the features below.
+## Features
 
-## 🎉 Features
+- 🤖 AI-powered article analysis using Google Gemini
+- 📊 Automatic flowchart generation from text
+- 🎨 Customizable themes and styling
+- 📄 **A4 page size optimization** - Automatically restructures large flowcharts to fit A4 dimensions
+- 🔄 **Intelligent subgraph splitting** - Optimizes space by alternating vertical/horizontal layouts
+- 💾 Export as SVG or PNG with A4 optimization
+- 🎭 Interactive Mermaid editor with live preview
+- 📚 **Article caching** - Client-side local storage of articles using IndexedDB
+- 🔍 **Search & filter** - Quickly find and reuse previous articles
+- 📈 **Statistics dashboard** - Track your article usage and history
+- ⚡ Built with Next.js 15 and React 19
+- 🎯 TypeScript support
 
-- 🔐 **Complete Auth Package**: Secure user management and authentication with [Supabase](https://supabase.io/docs/guides/auth)
-- 🛠️ **Data Management**: Powerful data access & management tooling on top of PostgreSQL with [Supabase](https://supabase.io/docs/guides/database)
-- 💳 **Stripe Integration**: Seamless integration with [Stripe Checkout](https://stripe.com/docs/payments/checkout) and the [Stripe customer portal](https://stripe.com/docs/billing/subscriptions/customer-portal)
-- 🌐 **Pricing & Subscriptions**: Automatic syncing of pricing plans and subscription statuses via [Stripe webhooks](https://stripe.com/docs/webhooks)
-- 🌈 **TailwindCSS & Tailwind UI**: Customized and flexible UI components with Tailwind UI
-- ⚛️ **React 18**: Enjoy the latest features and improvements with React 18
-- 📘 **TypeScript**: Strongly typed programming for better development experience
-- 🎨 **Shadcn/ui**: Beautiful and customizable UI components
-- 🔍 **Zod Validation**: Schema validation to keep your data safe and sound
-- 🧪 **Testing Tools**: Integrated unit and e2e testing with Jest, React Testing Library, and Playwright
-- 🧑‍💻 **Developer Experience**: ESLint, Prettier, Husky, and Commitlint for maintaining code quality and consistency
-- 📀 **Supabase storage** - Included are setting up policies, and handling image compression in the browser.
-- ⼬ **tRPC** - Included a guide on how to add a very lean trpc router for your api. You just need to add 3 folders, and 1 file.
-- ⚙️ **Local Development**: Develop locally with Supabase, Docker, and a set of custom commands
-- 📚 **Documentation & Blog**: Utilize MDX compiler from the open-source project Fumadocs for documentation and blog content.
+## Getting Started
 
-## 🎬 Demo
+### Prerequisites
 
-[Live Demo](https://hikari.antoineross.com/)
+- Node.js 18+ installed
+- A Google Gemini API key ([Get one here](https://makersuite.google.com/app/apikey))
 
-**Hero Section:** ![Screenshot of demo](./public/hikari-landingpage.png)
+### Installation
 
-**Dashboard View:** ![Screenshot of dashboard](./public/hikari-dashboard.png)
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/ultraflow.git
+cd ultraflow
+```
 
-**Pricing Table:** ![Screenshot of pricing](./public/hikari-pricing.png)
+2. Install dependencies:
+```bash
+npm install
+```
 
-**Documentation:** ![Screenshot of documentation](./public/hikari-documentation.png)
+3. Set up environment variables:
+```bash
+cp .env.example .env.local
+```
 
-**Blog:** ![Screenshot of blog](./public/hikari-blog.png)
+4. Add your Gemini API key to `.env.local`:
+```env
+GEMINI_API_KEY=your_actual_api_key_here
+```
 
-## 📄 Quick Start Guide
+5. Run the development server:
+```bash
+npm run dev
+```
 
-Get up and running quickly by following the [Quick Start Guide](https://hikari.antoineross.com/docs/quick-start).
+6. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-## 🚀 Going Live
+## Environment Variables
 
-### **1. Archive Testing Products**
+Create a `.env.local` file in the root directory with the following variables:
 
-Before going live, archive all test mode Stripe products. Switch Stripe from test mode to production mode and update your environment variables.
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `GEMINI_API_KEY` | Your Google Gemini API key | Yes |
 
-### **2. Redeploy**
+## Deployment
 
-After updating environment variables, redeploy your application through Vercel.
+### Deploy to Vercel
 
-## 📚 Additional Features
+The easiest way to deploy this application is using Vercel:
 
-- 📈 **Analytics Ready**: Easy integration with analytics tools like Google Analytics
-- 🌐 **I18n Support**: Built-in internationalization with Paraglide
-- 🔥 **Lighthouse Performance**: Achieve a perfect score with optimized performance, accessibility, and SEO
+1. Push your code to GitHub
+2. Import your repository on [Vercel](https://vercel.com/new)
+3. Add your environment variables in the Vercel dashboard:
+   - `GEMINI_API_KEY`: Your Gemini API key
+4. Deploy!
 
-## 🤝 Contribution
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/ultraflow)
 
-To contribute:
+### Manual Deployment
 
-1. Fork the repository.
-2. Create a new branch.
-3. Make your changes and commit them.
-4. Push to the forked repository.
-5. Create a pull request.
+```bash
+npm run build
+npm start
+```
 
-## ❤️ Support
+## Project Structure
 
-If you like the project, consider leaving a star. 🌟
-[![Star History Chart](https://api.star-history.com/svg?repos=antoineross/Hikari&type=Date)](https://star-history.com/#antoineross/Hikari&Date)
+```
+ultraflow/
+├── src/
+│   ├── app/              # Next.js app directory
+│   │   ├── api/          # API routes
+│   │   ├── flowchart/    # Flowchart page
+│   │   └── model-config/ # Model configuration page
+│   ├── components/       # React components
+│   └── lib/              # Library files and utilities
+├── public/               # Static assets
+└── flowcharts/          # Generated flowcharts
+```
 
-Made by [Antoine Ross](https://antoineross.com).
+## API Routes
+
+### POST `/api/article-to-flowchart`
+Converts an article to a flowchart diagram.
+
+### POST `/api/apply-theme-to-diagram`
+Applies a custom theme to a flowchart diagram.
+
+### POST `/api/gemini`
+Direct access to Gemini AI for text generation.
+
+## Technologies Used
+
+- [Next.js 15](https://nextjs.org/) - React framework
+- [React 19](https://react.dev/) - UI library
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [Google Gemini AI](https://ai.google.dev/) - AI processing
+- [Mermaid](https://mermaid.js.org/) - Diagram generation
+
+## Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm run lint` - Run ESLint
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+MIT License - feel free to use this project for personal or commercial purposes.
+
+## Documentation
+
+- [Gemini Setup Guide](./GEMINI_SETUP.md) - Detailed Gemini API setup instructions
+- [A4 Optimization Guide](./A4_OPTIMIZATION_GUIDE.md) - How to use A4 page size optimization
+- [Article Cache Guide](./ARTICLE_CACHE_GUIDE.md) - Local article storage and management
+- [Deployment Guide](./DEPLOYMENT_GUIDE.md) - Production deployment instructions
+- [AI Theme Application](./AI_THEME_APPLICATION.md) - Theme customization guide
+
+## Support
+
+For support, please open an issue in the GitHub repository or refer to the documentation files above.
+
+## Acknowledgments
+
+- Built with [Next.js](https://nextjs.org/)
+- Powered by [Google Gemini AI](https://ai.google.dev/)
+- Diagrams generated using [Mermaid](https://mermaid.js.org/)
+# ultraflow
+# ultraflow

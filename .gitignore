@@ -30,6 +30,14 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.env*.local
+.env.example
+.env.local.example
+*.env
+*.env.local
+
+# Exclude .enc files from being ignored
+!*.enc
 
 # vercel
 .vercel
@@ -39,4 +47,3 @@ yarn-error.log*
 
 # certificates
 certificates
-.env*.local
