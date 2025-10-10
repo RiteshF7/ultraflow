@@ -1,6 +1,5 @@
 'use client';
 import Link from 'next/link';
-import { siteConfig } from '@/config/site';
 import { heroContent } from '@/config/landing-page';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
@@ -66,14 +65,6 @@ export default function HeroSection() {
           <div className="flex flex-wrap justify-center gap-4">
             <Link href={heroContent.cta.primary.href} className={cn(buttonVariants({ size: 'xl' }), 'rounded-full border-2 border-primary dark:border-white text-bold text-white')}>
               {heroContent.cta.primary.text}
-            </Link>
-            <Link
-              href={siteConfig.links.github}
-              target="_blank"
-              rel="noreferrer"
-              className={cn(buttonVariants({ variant: 'outline', size: 'xl' }), 'rounded-full border-2 border-primary dark:border-white text-semibold')}
-            >
-              {heroContent.cta.secondary.text}
             </Link>
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-2 w-full">
