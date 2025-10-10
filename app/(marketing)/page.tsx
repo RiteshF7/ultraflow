@@ -18,10 +18,13 @@ export default async function IndexPage() {
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Core Features</h2>
           <BentoDemo />
         </div> */}
-                <Testimonials />
+        <div id="testimonials">
+          <Testimonials />
+        </div>
         <Pricing />
-        {/*   */}
-      <FAQSection />
+        <div id="faq">
+          <FAQSection />
+        </div>
     </div>
   );
 }

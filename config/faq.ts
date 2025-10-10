@@ -2,33 +2,43 @@
 
 export const faqItems = [
   {
-    question: 'Is everything really included in the price?',
+    question: 'How does Ultra Flow generate flowcharts from articles?',
     answer:
-      'Yes, everything is included in the price. There are no hidden fees or additional charges.'
+      'Ultra Flow uses Google Gemini AI to analyze your article content, understand the logical flow, and automatically generate structured Mermaid flowcharts. Simply paste your article text, and our AI identifies key concepts, relationships, and creates a visual diagram in seconds.'
   },
   {
-    question: 'How do revisions work?',
+    question: 'What export formats are supported?',
     answer:
-      "You can request revisions within the first 30 days of your project. We'll work with you to make any necessary changes."
+      'You can export your flowcharts as SVG or PNG images. We also provide A4 page optimization that automatically restructures large diagrams into subgraphs with alternating layouts, perfect for printing and presentations.'
   },
   {
-    question: 'What do you mean by high-converting?',
+    question: 'Is my article data stored or shared?',
     answer:
-      'High-converting means our designs are optimized to drive more conversions, such as signups, purchases, or other desired actions.'
+      'Your privacy is our priority. Articles are processed client-side and cached locally in your browser using IndexedDB. We do not store your articles on our servers. The AI processing happens through secure API calls, and data is not retained after generation.'
   },
   {
-    question: 'What does site optimization mean exactly?',
+    question: 'Can I edit the generated flowcharts?',
     answer:
-      'Site optimization refers to the process of improving the performance, user experience, and search engine visibility of your website.'
+      'Absolutely! Ultra Flow includes a live Mermaid editor where you can manually edit the generated diagrams. Any changes you make are instantly previewed, giving you full control over the final output.'
   },
   {
-    question: 'Why do you use Framer?',
+    question: 'What kind of articles work best?',
     answer:
-      'We use Framer because it allows us to create highly interactive and visually stunning designs with ease.'
+      'Ultra Flow works best with articles that have clear logical structure, processes, or workflows. Technical documentation, how-to guides, process descriptions, and educational content typically produce excellent results. The AI can handle various writing styles and automatically identifies the flow.'
   },
   {
-    question: 'Are there any refunds?',
+    question: 'Are there any usage limits?',
     answer:
-      "We offer a 30-day money-back guarantee. If you're not satisfied with our services, you can request a full refund."
+      'With our paid plans, you get unlimited flowchart generation. The local cache feature allows you to search and reuse previous articles without any restrictions. Banner image generation uses AI credits which vary by plan.'
+  },
+  {
+    question: 'Can I use the generated flowcharts commercially?',
+    answer:
+      'Yes! All flowcharts you generate with Ultra Flow are yours to use for any purpose, including commercial projects, presentations, documentation, and publications. There are no attribution requirements.'
+  },
+  {
+    question: 'What is A4 optimization?',
+    answer:
+      'A4 optimization is our intelligent feature that automatically restructures large flowcharts to fit perfectly on A4-sized pages. It splits complex diagrams into subgraphs with alternating layouts, making them ideal for printing, PDFs, and professional presentations.'
   }
 ];

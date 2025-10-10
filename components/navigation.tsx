@@ -34,7 +34,7 @@ export default function CircularNavigation({
       {items?.length ? (
         <div className="hidden md:flex space-x-6">
           {items?.map((item, index) => {
-            const hideText = ['Features', 'Blog', 'Documentation'].includes(item.title);
+            const hideText = ['Features', 'Blog', 'Documentation', 'Home'].includes(item.title);
             return (
               <Link
                 key={index}
