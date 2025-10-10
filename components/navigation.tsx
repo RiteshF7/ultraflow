@@ -8,12 +8,13 @@ import { MobileNav } from '@/components/mobile-nav';
 import { Icons } from '@/components/icons';
 import { buttonVariants } from '@/components/ui/button';
 import { ModeToggle } from '@/components/mode-toggle';
-import { SunIcon } from '@heroicons/react/24/solid'
+import { SunIcon } from '@heroicons/react/24/solid';
+import { UserAvatar } from '@/components/user-avatar';
 
 interface CircularNavProps {
   items?: MainNavItem[];
   children?: React.ReactNode;
-  user?: boolean;
+  user?: any;
 }
 
 export default function CircularNavigation({
@@ -55,15 +56,28 @@ export default function CircularNavigation({
         <div className="hidden md:block">
           <ModeToggle />
         </div>
-        <Link
-          href={user ? '/dashboard' : '/signin'}
-          className={cn(
-            buttonVariants({ variant: 'outline', size: 'sm' }),
-            'rounded-full p-2 md:p-5 text-xs md:text-sm hidden md:inline-flex'
-          )}
-        >
-          {user ? 'Dashboard' : 'Login'}
-        </Link>
+        {user ? (
+          <Link
+            href="/dashboard"
+            className={cn(
+              buttonVariants({ variant: 'ghost', size: 'sm' }),
+              'rounded-full p-2 md:p-3 text-xs md:text-sm hidden md:inline-flex items-center gap-2'
+            )}
+          >
+            <UserAvatar user={user} size="sm" />
+            <span className="hidden lg:inline">Dashboard</span>
+          </Link>
+        ) : (
+          <Link
+            href="/signin"
+            className={cn(
+              buttonVariants({ variant: 'outline', size: 'sm' }),
+              'rounded-full p-2 md:p-5 text-xs md:text-sm hidden md:inline-flex'
+            )}
+          >
+            Login
+          </Link>
+        )}
         <button
           className="md:hidden"
           onClick={() => setShowMobileMenu(!showMobileMenu)}

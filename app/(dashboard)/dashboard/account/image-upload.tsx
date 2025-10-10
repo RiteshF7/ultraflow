@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 
 export function ImageUpload({ user }: { user: any }) {
   const [avatarUrl, setAvatarUrl] = useState(
-    user?.avatar_url ? `${user.avatar_url}?t=${Date.now()}` : 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.name || user?.email || 'User') + '&background=6366f1&color=fff&size=96'
+    user?.avatar_url ? `${user.avatar_url}?t=${Date.now()}` : 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.full_name || user?.email || 'User') + '&background=6366f1&color=fff&size=96'
   );
   const [imageUrl, setImageUrl] = useState("");
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -76,7 +76,7 @@ export function ImageUpload({ user }: { user: any }) {
       <span className="text-sm font-medium">Avatar Image</span>
       <div className="ml-1 w-24 h-24 rounded-lg overflow-hidden border-2 border-primary p-0.5">
       <Image 
-        src={imageUrl || avatarUrl || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.name || user?.email || 'User') + '&background=6366f1&color=fff&size=96'} 
+        src={imageUrl || avatarUrl || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.full_name || user?.email || 'User') + '&background=6366f1&color=fff&size=96'} 
         width={96} 
         height={96} 
         alt="User Avatar" 
@@ -84,7 +84,7 @@ export function ImageUpload({ user }: { user: any }) {
         unoptimized
         key={avatarUrl}
         onError={(e) => {
-          e.currentTarget.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.name || user?.email || 'User') + '&background=6366f1&color=fff&size=96';
+          e.currentTarget.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user?.full_name || user?.email || 'User') + '&background=6366f1&color=fff&size=96';
         }}
       />
       </div>
