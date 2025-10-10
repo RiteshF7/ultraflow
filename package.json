@@ -22,6 +22,7 @@
     "supabase:pull": "npx supabase db pull"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "@heroicons/react": "^2.1.5",
     "@hookform/resolvers": "^3.6.0",
     "@radix-ui/react-accordion": "^1.2.0",
@@ -70,6 +71,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
+    "dotenv": "^16.6.1",
     "embla-carousel-react": "^8.1.5",
     "framer-motion": "^11.2.13",
     "fumadocs-core": "12.4.1",
@@ -77,6 +79,7 @@
     "fumadocs-ui": "12.4.1",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.376.0",
+    "mermaid": "^10.9.4",
     "next": "14.2.3",
     "next-themes": "^0.3.0",
     "react": "^18.2.0",

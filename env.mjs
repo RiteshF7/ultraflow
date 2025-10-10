@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 export const env = createEnv({
   server: {
+    NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     // This is optional because it's only used in development.
     // See https://next-auth.js.org/deployment.
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
@@ -17,6 +18,7 @@ export const env = createEnv({
     NEXT_PUBLIC_APP_URL: z.string().min(1)
   },
   runtimeEnv: {
+    NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     STRIPE_API_KEY: process.env.STRIPE_API_KEY,
@@ -25,5 +27,7 @@ export const env = createEnv({
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     GITHUB_ACCESS_TOKEN: process.env.GITHUB_ACCESS_TOKEN,
     SERVER_API_KEY: process.env.SERVER_API_KEY
-  }
+  },
+  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+  emptyStringAsUndefined: true
 });

@@ -81,7 +81,7 @@ export default function HeroSection() {
             sourcing everything. Follow along as we figure this out together.
           </div>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/login" className={cn(buttonVariants({ size: 'xl' }), 'rounded-full border-2 border-primary dark:border-white text-bold text-white')}>
+            <Link href="/flowchart" className={cn(buttonVariants({ size: 'xl' }), 'rounded-full border-2 border-primary dark:border-white text-bold text-white')}>
               Get Started
             </Link>
             <Link
