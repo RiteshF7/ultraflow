@@ -81,6 +81,7 @@ export default function InputArticleModern({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fileError, setFileError] = useState('');
   const [showHistory, setShowHistory] = useState(false);
+  const [specialInstruction, setSpecialInstruction] = useState('');
 
   const selectedArticle = articles.find(a => a.id === selectedArticleId);
 
@@ -178,14 +179,20 @@ export default function InputArticleModern({
       return;
     }
 
+    // Merge article content with special instructions
+    let finalContent = selectedArticle.content;
+    if (specialInstruction.trim()) {
+      finalContent = `${selectedArticle.content}\n\n---\n\nSpecial Instructions:\n${specialInstruction.trim()}`;
+    }
+
     try {
-      await saveArticle(selectedArticle.content, selectedArticle.name);
+      await saveArticle(finalContent, selectedArticle.name);
       console.log('Article saved to cache');
     } catch (err) {
       console.error('Error saving article to cache:', err);
     }
 
-    setArticle(selectedArticle.content);
+    setArticle(finalContent);
     onNext();
   };
 
@@ -358,13 +365,40 @@ export default function InputArticleModern({
             <CardContent>
               {selectedArticle ? (
                 <div className="space-y-4">
-                  <Textarea
-                    value={selectedArticle.content}
-                    onChange={(e) => handleUpdateArticleContent(e.target.value)}
-                    placeholder="Paste or type your article here..."
-                    className="min-h-[500px] font-mono text-sm resize-none"
-                    disabled={loading}
-                  />
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">
+                      Article Content
+                    </label>
+                    <Textarea
+                      value={selectedArticle.content}
+                      onChange={(e) => handleUpdateArticleContent(e.target.value)}
+                      placeholder="Paste or type your article here..."
+                      className="min-h-[400px] font-mono text-sm resize-none"
+                      disabled={loading}
+                    />
+                  </div>
+
+                  <div className="border-t pt-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="text-sm font-medium flex items-center gap-2">
+                        <Sparkles className="h-4 w-4 text-primary" />
+                        Special Instructions (Optional)
+                      </label>
+                      <span className="text-xs text-muted-foreground">
+                        {specialInstruction.length} characters
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Add instructions for the AI (e.g., focus areas, style preferences, specific details to include/exclude)
+                    </p>
+                    <Textarea
+                      value={specialInstruction}
+                      onChange={(e) => setSpecialInstruction(e.target.value)}
+                      placeholder="e.g., Focus on the main workflow, exclude technical details, use simple language..."
+                      className="min-h-[150px] text-sm resize-none"
+                      disabled={loading}
+                    />
+                  </div>
                   
                   <Button
                     size="lg"
