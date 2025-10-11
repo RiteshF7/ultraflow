@@ -56,6 +56,10 @@ export default function BannerGeneratorButton({
   } = useBannerImageGenerator();
 
   const [settingsPanelVisible, setSettingsPanelVisible] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiImageData, setAiImageData] = useState('');
+  const [aiModalVisible, setAiModalVisible] = useState(false);
+  const [aiError, setAiError] = useState('');
 
   const handleGenerate = async () => {
     if (!articleContent || articleContent.trim().length === 0) {
@@ -65,8 +69,58 @@ export default function BannerGeneratorButton({
     await generateImage(articleContent, articleTitle);
   };
 
-  const handleDownload = () => {
-    downloadImage(articleTitle);
+  const handleAIGenerate = async () => {
+    if (!articleContent || articleContent.trim().length === 0) {
+      return;
+    }
+
+    setAiLoading(true);
+    setAiError('');
+
+    try {
+      const response = await fetch('/api/generate-banner-image-ai', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          articleContent,
+          articleTitle,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Failed to generate AI banner');
+      }
+
+      setAiImageData(data.imageData);
+      setAiModalVisible(true);
+      console.log('🤖 AI Design Spec:', data.designSpec);
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Failed to generate AI banner';
+      console.error('AI Banner Error:', err);
+      setAiError(errorMsg);
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  const handleDownload = async () => {
+    await downloadImage(articleTitle);
+  };
+
+  const handleAIDownload = async () => {
+    if (!aiImageData) return;
+    
+    try {
+      const { downloadBase64Image, generateImageFilename } = await import('../utils/imageDownloader');
+      const filename = generateImageFilename(articleTitle ? `${articleTitle}-ai` : 'ai-banner');
+      await downloadBase64Image(aiImageData, filename);
+    } catch (err) {
+      console.error('Download failed:', err);
+    }
   };
 
   const isDisabled = disabled || !articleContent || articleContent.trim().length === 0;
@@ -93,18 +147,31 @@ export default function BannerGeneratorButton({
         />
       </div>
 
-      {/* Generate Button */}
+      {/* Quick Gradient Banner Button */}
+      <Button
+        variant="secondary"
+        size={mapSize(size)}
+        onClick={handleGenerate}
+        disabled={isDisabled || loading}
+        loading={loading}
+        title="Generate quick gradient banner"
+      >
+        {loading ? '⏳ Generating...' : '🎨 Quick Banner'}
+      </Button>
+
+      {/* AI-Enhanced Banner Button */}
       <Button
         variant={mapVariant(variant)}
         size={mapSize(size)}
-        onClick={handleGenerate}
-        disabled={isDisabled}
-        loading={loading}
+        onClick={handleAIGenerate}
+        disabled={isDisabled || aiLoading}
+        loading={aiLoading}
+        title="Generate AI-enhanced banner using Gemini"
       >
-        {loading ? '⏳ Generating...' : '🎨 Generate Banner'}
+        {aiLoading ? '🤖 AI Generating...' : '🤖 AI Banner'}
       </Button>
 
-      {/* Modal */}
+      {/* Quick Banner Modal */}
       {modalVisible && (
         <BannerImageModal
           imageData={imageData}
@@ -112,6 +179,17 @@ export default function BannerGeneratorButton({
           onDownload={handleDownload}
           loading={loading}
           error={error}
+        />
+      )}
+
+      {/* AI Banner Modal */}
+      {aiModalVisible && (
+        <BannerImageModal
+          imageData={aiImageData}
+          onClose={() => setAiModalVisible(false)}
+          onDownload={handleAIDownload}
+          loading={aiLoading}
+          error={aiError}
         />
       )}
     </div>

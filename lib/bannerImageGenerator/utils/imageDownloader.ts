@@ -4,11 +4,54 @@
  */
 
 /**
+ * Check if data is SVG
+ */
+function isSVGData(base64Data: string): boolean {
+  return base64Data.includes('data:image/svg+xml');
+}
+
+/**
+ * Convert SVG to PNG using canvas
+ */
+async function convertSVGToPNG(svgDataUrl: string, width = 1200, height = 630): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    
+    img.onload = () => {
+      // Create canvas
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        reject(new Error('Could not get canvas context'));
+        return;
+      }
+      
+      // Draw image on canvas
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      // Convert to PNG data URL
+      const pngDataUrl = canvas.toDataURL('image/png');
+      resolve(pngDataUrl);
+    };
+    
+    img.onerror = () => {
+      reject(new Error('Failed to load SVG image'));
+    };
+    
+    img.src = svgDataUrl;
+  });
+}
+
+/**
  * Convert base64 string to Blob object
  */
 export function createImageBlob(base64Data: string): Blob {
   // Remove data URL prefix if present
-  const base64String = base64Data.replace(/^data:image\/\w+;base64,/, '');
+  const base64String = base64Data.replace(/^data:image\/[\w+\-]+;base64,/, '');
   
   // Convert base64 to binary
   const binaryString = atob(base64String);
@@ -24,9 +67,17 @@ export function createImageBlob(base64Data: string): Blob {
 /**
  * Download base64 image as PNG file
  */
-export function downloadBase64Image(base64Data: string, filename: string): void {
+export async function downloadBase64Image(base64Data: string, filename: string): Promise<void> {
   try {
-    const blob = createImageBlob(base64Data);
+    let finalDataUrl = base64Data;
+    
+    // Convert SVG to PNG if necessary
+    if (isSVGData(base64Data)) {
+      console.log('Converting SVG to PNG for download...');
+      finalDataUrl = await convertSVGToPNG(base64Data);
+    }
+    
+    const blob = createImageBlob(finalDataUrl);
     const url = URL.createObjectURL(blob);
     
     // Create temporary download link

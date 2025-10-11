@@ -80,7 +80,7 @@ export function useBannerImageGenerator() {
         
         case 'auto-download':
           const filename = generateImageFilename(articleTitle);
-          downloadBase64Image(result.imageData, filename);
+          await downloadBase64Image(result.imageData, filename);
           break;
         
         case 'inline':
@@ -102,7 +102,7 @@ export function useBannerImageGenerator() {
   /**
    * Download current image
    */
-  const downloadImage = useCallback((articleTitle?: string) => {
+  const downloadImage = useCallback(async (articleTitle?: string) => {
     if (!imageData) {
       setError('No image to download');
       return;
@@ -110,7 +110,7 @@ export function useBannerImageGenerator() {
 
     try {
       const filename = generateImageFilename(articleTitle);
-      downloadBase64Image(imageData, filename);
+      await downloadBase64Image(imageData, filename);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Download failed';
       setError(errorMessage);
