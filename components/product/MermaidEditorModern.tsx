@@ -23,13 +23,17 @@ import {
   Copy,
   ExternalLink,
   Shuffle,
-  Play,
   ZoomIn,
   ZoomOut,
   RotateCcw,
   Settings,
-  RefreshCw
+  Palette
 } from 'lucide-react';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 // Example templates
 const EXAMPLES = {
@@ -135,7 +139,19 @@ export default function MermaidEditorModern() {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [showZoomControls, setShowZoomControls] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState<MermaidTheme>('default');
-  const [showThemeSidebar, setShowThemeSidebar] = useState(false);
+  
+  // Preview customization
+  const [previewBgColor, setPreviewBgColor] = useState('#ffffff');
+  
+  // Mermaid theme customization
+  const [customTheme, setCustomTheme] = useState<Partial<CustomThemeVariables>>({
+    primaryColor: '#4f46e5',
+    primaryTextColor: '#ffffff',
+    primaryBorderColor: '#4338ca',
+    lineColor: '#6366f1',
+    secondaryColor: '#e0e7ff',
+    tertiaryColor: '#c7d2fe',
+  });
   
   const mermaidRef = useRef<HTMLDivElement>(null);
   const renderTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -153,7 +169,8 @@ export default function MermaidEditorModern() {
       const { svg } = await renderMermaidToElement(
         mermaidCode,
         `mermaid-preview-${Date.now()}`,
-        selectedTheme
+        selectedTheme,
+        customTheme
       );
       
       mermaidRef.current.innerHTML = svg;
@@ -177,7 +194,7 @@ export default function MermaidEditorModern() {
         clearTimeout(renderTimeoutRef.current);
       }
     };
-  }, [mermaidCode, selectedTheme]);
+  }, [mermaidCode, selectedTheme, customTheme]);
 
   const exportSVG = () => {
     const svg = mermaidRef.current?.querySelector('svg');
@@ -294,10 +311,141 @@ export default function MermaidEditorModern() {
             Shuffle Direction
           </Button>
 
-          <Button variant="default" size="sm" onClick={renderDiagram}>
-            <Play className="h-4 w-4 mr-2" />
-            Render
-          </Button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Palette className="h-4 w-4 mr-2" />
+                Customize Theme
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <div className="space-y-4">
+                <h4 className="font-medium text-sm">Theme Customization</h4>
+                
+                <div className="space-y-3">
+                  <div>
+                    <Label htmlFor="preview-bg" className="text-xs">Preview Background</Label>
+                    <div className="flex gap-2 mt-1">
+                      <Input
+                        id="preview-bg"
+                        type="color"
+                        value={previewBgColor}
+                        onChange={(e) => setPreviewBgColor(e.target.value)}
+                        className="h-9 w-16"
+                      />
+                      <Input
+                        type="text"
+                        value={previewBgColor}
+                        onChange={(e) => setPreviewBgColor(e.target.value)}
+                        className="h-9 flex-1 font-mono text-xs"
+                        placeholder="#ffffff"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="node-color" className="text-xs">Node Container Color</Label>
+                    <div className="flex gap-2 mt-1">
+                      <Input
+                        id="node-color"
+                        type="color"
+                        value={customTheme.primaryColor || '#4f46e5'}
+                        onChange={(e) => setCustomTheme(prev => ({ ...prev, primaryColor: e.target.value }))}
+                        className="h-9 w-16"
+                      />
+                      <Input
+                        type="text"
+                        value={customTheme.primaryColor || '#4f46e5'}
+                        onChange={(e) => setCustomTheme(prev => ({ ...prev, primaryColor: e.target.value }))}
+                        className="h-9 flex-1 font-mono text-xs"
+                        placeholder="#4f46e5"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="border-color" className="text-xs">Border Color</Label>
+                    <div className="flex gap-2 mt-1">
+                      <Input
+                        id="border-color"
+                        type="color"
+                        value={customTheme.primaryBorderColor || '#4338ca'}
+                        onChange={(e) => setCustomTheme(prev => ({ ...prev, primaryBorderColor: e.target.value }))}
+                        className="h-9 w-16"
+                      />
+                      <Input
+                        type="text"
+                        value={customTheme.primaryBorderColor || '#4338ca'}
+                        onChange={(e) => setCustomTheme(prev => ({ ...prev, primaryBorderColor: e.target.value }))}
+                        className="h-9 flex-1 font-mono text-xs"
+                        placeholder="#4338ca"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="arrow-color" className="text-xs">Arrow/Line Color</Label>
+                    <div className="flex gap-2 mt-1">
+                      <Input
+                        id="arrow-color"
+                        type="color"
+                        value={customTheme.lineColor || '#6366f1'}
+                        onChange={(e) => setCustomTheme(prev => ({ ...prev, lineColor: e.target.value }))}
+                        className="h-9 w-16"
+                      />
+                      <Input
+                        type="text"
+                        value={customTheme.lineColor || '#6366f1'}
+                        onChange={(e) => setCustomTheme(prev => ({ ...prev, lineColor: e.target.value }))}
+                        className="h-9 flex-1 font-mono text-xs"
+                        placeholder="#6366f1"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="text-color" className="text-xs">Node Text Color</Label>
+                    <div className="flex gap-2 mt-1">
+                      <Input
+                        id="text-color"
+                        type="color"
+                        value={customTheme.primaryTextColor || '#ffffff'}
+                        onChange={(e) => setCustomTheme(prev => ({ ...prev, primaryTextColor: e.target.value }))}
+                        className="h-9 w-16"
+                      />
+                      <Input
+                        type="text"
+                        value={customTheme.primaryTextColor || '#ffffff'}
+                        onChange={(e) => setCustomTheme(prev => ({ ...prev, primaryTextColor: e.target.value }))}
+                        className="h-9 flex-1 font-mono text-xs"
+                        placeholder="#ffffff"
+                      />
+                    </div>
+                  </div>
+
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full"
+                    onClick={() => {
+                      setPreviewBgColor('#ffffff');
+                      setCustomTheme({
+                        primaryColor: '#4f46e5',
+                        primaryTextColor: '#ffffff',
+                        primaryBorderColor: '#4338ca',
+                        lineColor: '#6366f1',
+                        secondaryColor: '#e0e7ff',
+                        tertiaryColor: '#c7d2fe',
+                      });
+                    }}
+                  >
+                    <RotateCcw className="h-3 w-3 mr-2" />
+                    Reset to Default
+                  </Button>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
 
           <Button variant="outline" size="sm" onClick={exportSVG}>
             <Download className="h-4 w-4 mr-2" />
@@ -355,7 +503,8 @@ export default function MermaidEditorModern() {
             </CardHeader>
             <CardContent>
               <div 
-                className="relative bg-muted/30 rounded-lg overflow-hidden min-h-[600px] flex items-center justify-center"
+                className="relative rounded-lg overflow-hidden min-h-[600px] flex items-center justify-center"
+                style={{ backgroundColor: previewBgColor }}
                 onMouseEnter={() => setShowZoomControls(true)}
                 onMouseLeave={() => setShowZoomControls(false)}
               >
