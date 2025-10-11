@@ -48,9 +48,9 @@ export function initializeMermaid(theme: MermaidTheme = 'default', customThemeVa
     mainBkg: '#4f46e5',
     nodeBkg: '#4f46e5',
     
-    // Label colors
-    edgeLabelColor: '#000000',
-    clusterTextColor: '#000000',
+    // Label colors (theme-aware)
+    edgeLabelColor: theme === 'dark' ? '#ffffff' : '#000000',
+    clusterTextColor: theme === 'dark' ? '#ffffff' : '#000000',
   };
 
   // Filter out empty/undefined custom theme variables and map decision variables
