@@ -1,0 +1,123 @@
+%%{init: {'theme':'base', 'themeVariables': {'primaryColor':'#ff6b6b','primaryTextColor':'#fff','primaryBorderColor':'#c92a2a','lineColor':'#495057','secondaryColor':'#51cf66','tertiaryColor':'#339af0'}}}%%
+
+flowchart TB
+    %% ===========================================
+    %% SECTION 1: NODE DECLARATIONS
+    %% ===========================================
+    %% All nodes should be declared first
+    
+    %% Basic Nodes
+    A[Rectangle Node]
+    B(Rounded Edges Node)
+    C([Stadium Shaped Node])
+    D[[Subroutine Shape]]
+    E[(Database Cylinder)]
+    F((Circle Node))
+    
+    %% Diamond and Special Shapes
+    G{Diamond Decision}
+    H{{Hexagon Node}}
+    I[/Parallelogram/]
+    J[\Parallelogram Alt\]
+    K[/Trapezoid\]
+    L[\Trapezoid Alt/]
+    M(((Double Circle)))
+    
+    %% New Shape Syntax (v11.3.0+)
+    N@{shape: rect, label: "Process Rectangle"}
+    O@{shape: stadium, label: "Terminal Point"}
+    P@{shape: cyl, label: "Database Storage"}
+    Q@{shape: diam, label: "Decision Diamond"}
+    R@{shape: hex, label: "Prepare Condition"}
+    S@{shape: odd, label: "Odd Shape"}
+    T@{shape: text, label: "Text Block"}
+    U@{shape: notch-rect, label: "Card Shape"}
+    V@{shape: lin-rect, label: "Lined Process"}
+    W@{shape: sm-circ, label: "Start"}
+    X@{shape: fr-circ, label: "Stop"}
+    Y@{shape: dbl-circ, label: "End Point"}
+    Z@{shape: docs, label: "Multi-Document"}
+    
+    %% Advanced Shape Types
+    AA@{shape: hourglass, label: "Collate"}
+    AB@{shape: bolt, label: "Communication Link"}
+    AC@{shape: doc, label: "Document"}
+    AD@{shape: lean-r, label: "Input/Output"}
+    AE@{shape: delay, label: "Delay Process"}
+    AF@{shape: curv-trap, label: "Display"}
+    AG@{shape: div-rect, label: "Divided Process"}
+    AH@{shape: tri, label: "Extract"}
+    AI@{shape: win-pane, label: "Internal Storage"}
+    AJ@{shape: f-circ, label: "Junction"}
+    AK@{shape: notch-pent, label: "Loop Limit"}
+    AL@{shape: flip-tri, label: "Manual File"}
+    AM@{shape: sl-rect, label: "Manual Input"}
+    AN@{shape: trap-t, label: "Manual Operation"}
+    AO@{shape: bow-rect, label: "Stored Data"}
+    AP@{shape: cross-circ, label: "Summary"}
+    AQ@{shape: tag-doc, label: "Tagged Document"}
+    
+    %% Subgraph Nodes
+    SG1A[Subgraph Node 1]
+    SG1B[Subgraph Node 2]
+    SG2A[Another Subgraph Node]
+    SG2B{Decision in Subgraph}
+    
+    %% Nodes with Special Text
+    NT1["Node with `markdown` **formatting**"]
+    NT2["Node with \" quotes"]
+    NT3["Node with unicode ♠ ♣ ♥ ♦"]
+    NT4[fa:fa-ban Forbidden]
+    NT5[fa:fa-spinner Processing]
+    
+    %% ===========================================
+    %% SECTION 2: LINK DEFINITIONS
+    %% ===========================================
+    %% All links should be defined after nodes
+    
+    %% Basic Links
+    A --> B
+    B --- C
+    C --> D
+    
+    
+    %% Multi-directional Links
+    J <--> K
+    K o--o L
+    L x--x M
+    
+    %% Chaining Links
+    M --> N --> O --> P
+    
+    %% Links with IDs and Animation
+    P e1@--> Q
+    Q e2@==> R
+    R e3@-.-> S
+    
+    %% Longer Links (extra dashes)
+    S ----> T
+    T =====> U
+    U -...-> V
+    
+    
+    %% Circle and Cross Edges
+    W --o X
+    X --x Y
+    
+    %% Complex Chaining
+    Y --> Z & AA & AB
+    Z --> AC
+    AA --> AC
+    AB --> AC
+    
+    %% Links to Advanced Shapes
+    AC --> AD
+    AD --> AE --> AF
+    AF --> AG --> AH
+    AH --> AI --> AJ
+    AJ --> AK --> AL
+    AL --> AM --> AN
+    AN --> AO --> AP
+    AP --> AQ
+    
+   

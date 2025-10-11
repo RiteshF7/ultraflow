@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import BannerImageModal from './BannerImageModal';
 import BannerSettingsPanel from './BannerSettingsPanel';
+import BannerSelectionGallery from './BannerSelectionGallery';
 import { useBannerImageGenerator } from '../hooks/useBannerImageGenerator';
 
 interface BannerGeneratorButtonProps {
@@ -57,8 +58,10 @@ export default function BannerGeneratorButton({
 
   const [settingsPanelVisible, setSettingsPanelVisible] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
-  const [aiImageData, setAiImageData] = useState('');
-  const [aiModalVisible, setAiModalVisible] = useState(false);
+  const [aiBanners, setAiBanners] = useState<any[]>([]);
+  const [showGallery, setShowGallery] = useState(false);
+  const [selectedAIBanner, setSelectedAIBanner] = useState<any>(null);
+  const [showSelectedModal, setShowSelectedModal] = useState(false);
   const [aiError, setAiError] = useState('');
 
   const handleGenerate = async () => {
@@ -76,6 +79,7 @@ export default function BannerGeneratorButton({
 
     setAiLoading(true);
     setAiError('');
+    setAiBanners([]);
 
     try {
       const response = await fetch('/api/generate-banner-image-ai', {
@@ -92,14 +96,14 @@ export default function BannerGeneratorButton({
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        throw new Error(data.error || 'Failed to generate AI banner');
+        throw new Error(data.error || 'Failed to generate AI banners');
       }
 
-      setAiImageData(data.imageData);
-      setAiModalVisible(true);
-      console.log('🤖 AI Design Spec:', data.designSpec);
+      console.log('🤖 Generated', data.banners?.length || 0, 'banner variations');
+      setAiBanners(data.banners || []);
+      setShowGallery(true);
     } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : 'Failed to generate AI banner';
+      const errorMsg = err instanceof Error ? err.message : 'Failed to generate AI banners';
       console.error('AI Banner Error:', err);
       setAiError(errorMsg);
     } finally {
@@ -107,17 +111,27 @@ export default function BannerGeneratorButton({
     }
   };
 
+  const handleSelectBanner = (banner: any) => {
+    setSelectedAIBanner(banner);
+    setShowGallery(false);
+    setShowSelectedModal(true);
+  };
+
   const handleDownload = async () => {
     await downloadImage(articleTitle);
   };
 
-  const handleAIDownload = async () => {
-    if (!aiImageData) return;
+  const handleSelectedBannerDownload = async () => {
+    if (!selectedAIBanner) return;
     
     try {
       const { downloadBase64Image, generateImageFilename } = await import('../utils/imageDownloader');
-      const filename = generateImageFilename(articleTitle ? `${articleTitle}-ai` : 'ai-banner');
-      await downloadBase64Image(aiImageData, filename);
+      const filename = generateImageFilename(
+        articleTitle 
+          ? `${articleTitle}-${selectedAIBanner.designSpec.style}`
+          : `ai-banner-${selectedAIBanner.designSpec.style}`
+      );
+      await downloadBase64Image(selectedAIBanner.imageData, filename);
     } catch (err) {
       console.error('Download failed:', err);
     }
@@ -182,13 +196,23 @@ export default function BannerGeneratorButton({
         />
       )}
 
-      {/* AI Banner Modal */}
-      {aiModalVisible && (
+      {/* AI Banner Selection Gallery */}
+      {showGallery && aiBanners.length > 0 && (
+        <BannerSelectionGallery
+          banners={aiBanners}
+          onClose={() => setShowGallery(false)}
+          onSelectBanner={handleSelectBanner}
+          articleTitle={articleTitle}
+        />
+      )}
+
+      {/* Selected AI Banner Modal */}
+      {showSelectedModal && selectedAIBanner && (
         <BannerImageModal
-          imageData={aiImageData}
-          onClose={() => setAiModalVisible(false)}
-          onDownload={handleAIDownload}
-          loading={aiLoading}
+          imageData={selectedAIBanner.imageData}
+          onClose={() => setShowSelectedModal(false)}
+          onDownload={handleSelectedBannerDownload}
+          loading={false}
           error={aiError}
         />
       )}

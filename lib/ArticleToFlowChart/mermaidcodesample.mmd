@@ -1,0 +1,221 @@
+%%{init: {'theme':'base', 'themeVariables': {'primaryColor':'#ff6b6b','primaryTextColor':'#fff','primaryBorderColor':'#c92a2a','lineColor':'#495057','secondaryColor':'#51cf66','tertiaryColor':'#339af0'}}}%%
+
+flowchart TB
+    %% ===========================================
+    %% SECTION 1: NODE DECLARATIONS
+    %% ===========================================
+    %% All nodes should be declared first
+    
+    %% Basic Nodes
+    A[Rectangle Node]
+    B(Rounded Edges Node)
+    C([Stadium Shaped Node])
+    D[[Subroutine Shape]]
+    E[(Database Cylinder)]
+    F((Circle Node))
+    
+    %% Diamond and Special Shapes
+    G{Diamond Decision}
+    H{{Hexagon Node}}
+    I[/Parallelogram/]
+    J[\Parallelogram Alt\]
+    K[/Trapezoid\]
+    L[\Trapezoid Alt/]
+    M(((Double Circle)))
+    
+    %% New Shape Syntax (v11.3.0+)
+    N@{shape: rect, label: "Process Rectangle"}
+    O@{shape: stadium, label: "Terminal Point"}
+    P@{shape: cyl, label: "Database Storage"}
+    Q@{shape: diam, label: "Decision Diamond"}
+    R@{shape: hex, label: "Prepare Condition"}
+    S@{shape: odd, label: "Odd Shape"}
+    T@{shape: text, label: "Text Block"}
+    U@{shape: notch-rect, label: "Card Shape"}
+    V@{shape: lin-rect, label: "Lined Process"}
+    W@{shape: sm-circ, label: "Start"}
+    X@{shape: fr-circ, label: "Stop"}
+    Y@{shape: dbl-circ, label: "End Point"}
+    Z@{shape: docs, label: "Multi-Document"}
+    
+    %% Advanced Shape Types
+    AA@{shape: hourglass, label: "Collate"}
+    AB@{shape: bolt, label: "Communication Link"}
+    AC@{shape: doc, label: "Document"}
+    AD@{shape: lean-r, label: "Input/Output"}
+    AE@{shape: delay, label: "Delay Process"}
+    AF@{shape: curv-trap, label: "Display"}
+    AG@{shape: div-rect, label: "Divided Process"}
+    AH@{shape: tri, label: "Extract"}
+    AI@{shape: win-pane, label: "Internal Storage"}
+    AJ@{shape: f-circ, label: "Junction"}
+    AK@{shape: notch-pent, label: "Loop Limit"}
+    AL@{shape: flip-tri, label: "Manual File"}
+    AM@{shape: sl-rect, label: "Manual Input"}
+    AN@{shape: trap-t, label: "Manual Operation"}
+    AO@{shape: bow-rect, label: "Stored Data"}
+    AP@{shape: cross-circ, label: "Summary"}
+    AQ@{shape: tag-doc, label: "Tagged Document"}
+    
+    %% Subgraph Nodes
+    SG1A[Subgraph Node 1]
+    SG1B[Subgraph Node 2]
+    SG2A[Another Subgraph Node]
+    SG2B{Decision in Subgraph}
+    
+    %% Nodes with Special Text
+    NT1["Node with `markdown` **formatting**"]
+    NT2["Node with \" quotes"]
+    NT3["Node with unicode ♠ ♣ ♥ ♦"]
+    NT4[fa:fa-ban Forbidden]
+    NT5[fa:fa-spinner Processing]
+    
+    %% ===========================================
+    %% SECTION 2: LINK DEFINITIONS
+    %% ===========================================
+    %% All links should be defined after nodes
+    
+    %% Basic Links
+    A --> B
+    B --- C
+    C --> D
+    
+    %% Links with Text
+    D -->|Label Text| E
+    E ---|Text on Link| F
+    
+    %% Different Link Types
+    F -.-> G
+    G -.Text on Dotted.-> H
+    H ==> I
+    I ==Text on Thick==> J
+    
+    %% Multi-directional Links
+    J <--> K
+    K o--o L
+    L x--x M
+    
+    %% Chaining Links
+    M --> N --> O --> P
+    
+    %% Links with IDs and Animation
+    P e1@--> Q
+    Q e2@==> R
+    R e3@-.-> S
+    
+    %% Longer Links (extra dashes)
+    S ----> T
+    T =====> U
+    U -...-> V
+    
+    %% Invisible Link (for positioning)
+    V ~~~ W
+    
+    %% Circle and Cross Edges
+    W --o X
+    X --x Y
+    
+    %% Complex Chaining
+    Y --> Z & AA & AB
+    Z --> AC
+    AA --> AC
+    AB --> AC
+    
+    %% Links to Advanced Shapes
+    AC --> AD
+    AD --> AE --> AF
+    AF --> AG --> AH
+    AH --> AI --> AJ
+    AJ --> AK --> AL
+    AL --> AM --> AN
+    AN --> AO --> AP
+    AP --> AQ
+    
+    %% Subgraph Connections
+    AQ --> SG1A
+    SG1B --> NT1
+    SG2B --> NT2
+    
+    %% Special Text Node Links
+    NT1 --> NT3
+    NT2 --> NT3
+    NT3 --> NT4
+    NT4 --> NT5
+    
+    %% Link from Subgraph to Outside
+    NT5 --> A
+    
+    %% ===========================================
+    %% SECTION 3: SUBGRAPH DEFINITIONS
+    %% ===========================================
+    
+    subgraph SG1["First Subgraph - Vertical"]
+        direction TB
+        SG1A
+        SG1B
+        SG1A --> SG1B
+    end
+    
+    subgraph SG2["Second Subgraph - Horizontal"]
+        direction LR
+        SG2A
+        SG2B
+        SG2A --> SG2B
+    end
+    
+    %% ===========================================
+    %% SECTION 4: STYLING & CLASSES
+    %% ===========================================
+    
+    %% Style Individual Nodes
+    style A fill:#ff6b6b,stroke:#c92a2a,stroke-width:4px,color:#fff
+    style G fill:#ffd43b,stroke:#fab005,stroke-width:3px
+    style M fill:#51cf66,stroke:#2f9e44,stroke-width:4px
+    
+    %% Class Definitions
+    classDef processClass fill:#4c6ef5,stroke:#364fc7,stroke-width:2px,color:#fff
+    classDef decisionClass fill:#f59f00,stroke:#e67700,stroke-width:3px,color:#000
+    classDef dataClass fill:#20c997,stroke:#12b886,stroke-width:2px,color:#fff
+    classDef terminalClass fill:#e64980,stroke:#c2255c,stroke-width:3px,color:#fff
+    classDef documentClass fill:#9775fa,stroke:#7950f2,stroke-width:2px,color:#fff
+    
+    %% Apply Classes to Nodes
+    class N,O,P,V processClass
+    class Q,G,SG2B decisionClass
+    class E,P,AO dataClass
+    class W,X,Y,C terminalClass
+    class Z,AC,AQ documentClass
+    
+    %% Apply Class to Multiple Nodes at Once
+    class AA,AB,AD,AE,AF dataClass
+    
+    %% Style Links
+    linkStyle 0 stroke:#ff6b6b,stroke-width:3px
+    linkStyle 5 stroke:#51cf66,stroke-width:4px
+    linkStyle 10 stroke:#339af0,stroke-width:2px,stroke-dasharray: 5 5
+    
+    %% Style Multiple Links
+    linkStyle 1,2,3 stroke:#868e96,stroke-width:2px
+    
+    %% Edge Animation (with ID)
+    linkStyle 20 stroke:#ff6b6b,stroke-width:3px,stroke-dasharray:5\,5,animation:dash 1s linear infinite
+    
+    %% Class for Animated Edges
+    classDef animateEdge stroke:#ff6b6b,stroke-width:3px,animation:dash 1s linear infinite
+    class e1,e2,e3 animateEdge
+    
+    %% ===========================================
+    %% SECTION 5: INTERACTION (requires loose security)
+    %% ===========================================
+    
+    %% Click Events (JavaScript callbacks)
+    click NT4 callback "Click for callback"
+    click NT5 "https://mermaid.js.org" "Open Mermaid docs" _blank
+    
+    %% ===========================================
+    %% SECTION 6: COMMENTS
+    %% ===========================================
+    
+    %% This is a comment - it won't be rendered
+    %% Comments must be on their own line
+    %% Use double percent signs (%%) to start a comment
