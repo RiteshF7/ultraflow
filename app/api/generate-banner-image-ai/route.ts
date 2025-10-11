@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import Replicate from 'replicate';
 
 /**
  * AI-Enhanced Banner Image Generation API
  * 
- * This endpoint uses Gemini AI to analyze the article content and generate
- * an intelligent, context-aware banner with enhanced colors, layout, and design elements.
+ * This endpoint uses:
+ * 1. Gemini AI to analyze article content and generate image prompts
+ * 2. Replicate's Stable Diffusion XL to generate actual AI images
+ * 3. Falls back to SVG banners if image generation fails
  */
 
 export async function POST(request: NextRequest) {
@@ -38,32 +41,39 @@ export async function POST(request: NextRequest) {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
 
-    // Create a prompt for Gemini to analyze the article and suggest multiple banner designs
+    // Create a prompt for Gemini to analyze the article and generate AI image prompts
     const aiPrompt = `
-Analyze the following article and create 4 different banner design variations:
+Analyze the following article and create 4 different AI image prompts for banner designs:
 
 Title: ${articleTitle || 'Article'}
 Content: ${articleContent ? articleContent.substring(0, 1000) : finalPrompt}
 
-Please provide a JSON response with 4 distinct design variations. Each should have a unique style, color scheme, and visual approach:
+Please provide a JSON response with 4 distinct image generation prompts. Each should create a realistic, high-quality banner image:
 
 {
   "designs": [
     {
       "id": 1,
-      "style": "minimalist" | "bold" | "illustrated" | "geometric",
+      "style": "photographic" | "digital-art" | "cinematic" | "illustration",
       "title": "A catchy, concise title (max 50 characters)",
       "subtitle": "A descriptive subtitle (max 60 characters)",
+      "imagePrompt": "A detailed DALL-E/Stable Diffusion prompt describing a realistic, non-abstract banner image. Include: subject, composition, lighting, mood, colors, style. Be specific and visual. Example: 'A professional banner image of a futuristic AI brain network with glowing neural connections, cinematic lighting, blue and purple tones, photorealistic, high detail, modern tech aesthetic'",
       "theme": "The main theme (e.g., 'technology', 'nature', 'business', 'education', 'science')",
-      "colorScheme": "Color scheme name (e.g., 'vibrant-blue', 'warm-orange', 'cool-purple', 'nature-green', 'tech-cyan', 'elegant-pink', 'professional-navy', 'energetic-red', 'sunset-gradient', 'ocean-deep', 'forest-fresh', 'cosmic-purple')",
-      "mood": "Emotional tone (e.g., 'professional', 'creative', 'energetic', 'calm', 'innovative', 'playful', 'serious')",
-      "icons": ["2-3 relevant icon suggestions like 'brain', 'lightbulb', 'rocket', 'chart', 'book', 'code', 'leaf', 'star'"],
-      "description": "Brief description of the design approach"
+      "mood": "Emotional tone (e.g., 'professional', 'creative', 'energetic', 'calm', 'innovative')",
+      "description": "Brief description of the image concept"
     }
   ]
 }
 
-Create 4 variations with DIFFERENT color schemes and styles. Make them visually distinct from each other.
+Requirements for imagePrompt:
+- Create REALISTIC, NON-ABSTRACT prompts
+- Include specific visual elements related to the article topic
+- Describe lighting, colors, composition
+- Mention photographic/cinematic quality
+- Avoid abstract concepts, use concrete visual elements
+- Each prompt should be visually distinct
+
+Create 4 variations with DIFFERENT visual styles and compositions.
 Only respond with valid JSON, no additional text.
 `;
 

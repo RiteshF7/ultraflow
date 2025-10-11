@@ -74,14 +74,14 @@ export default function BannerSelectionGallery({
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 flex overflow-hidden">
+        <div className="flex-1 flex overflow-hidden min-h-0">
           {/* Gallery Sidebar - Scrollable */}
-          <div className="w-80 border-r flex flex-col overflow-hidden">
-            <div className="p-3 border-b bg-muted/50">
+          <div className="w-[600px] border-r flex flex-col overflow-hidden min-h-0">
+            <div className="p-3 border-b bg-muted/50 flex-shrink-0">
               <p className="text-sm font-medium">{banners.length} Design Variations</p>
             </div>
-            <div className="flex-1 overflow-y-auto p-4">
-              <div className="space-y-4">
+            <div className="flex-1 overflow-y-auto p-4 min-h-0">
+              <div className="grid grid-cols-2 gap-4">
                 {banners.map((banner, index) => (
                   <div
                     key={banner.id || index}
@@ -98,17 +98,17 @@ export default function BannerSelectionGallery({
                       alt={`${banner.designSpec.style} style banner`}
                       className="w-full h-auto"
                     />
-                    <div className="p-3 bg-muted/50">
+                    <div className="p-2 bg-muted/50">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="font-semibold text-sm capitalize">
+                        <span className="font-semibold text-xs capitalize">
                           {banner.designSpec.style}
                         </span>
-                        <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">
                           {banner.designSpec.colorScheme?.split('-')[0]}
                         </span>
                       </div>
                       {banner.designSpec.description && (
-                        <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                        <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
                           {banner.designSpec.description}
                         </p>
                       )}
@@ -120,7 +120,7 @@ export default function BannerSelectionGallery({
           </div>
 
           {/* Preview Area - Scrollable */}
-          <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="flex-1 flex flex-col overflow-hidden min-h-0">
             {selectedBanner ? (
               <>
                 {/* Zoom Controls */}
@@ -150,8 +150,8 @@ export default function BannerSelectionGallery({
                 </div>
 
                 {/* Image Preview - Scrollable */}
-                <div className="flex-1 overflow-auto bg-muted/20">
-                  <div className="min-h-full flex items-center justify-center p-8">
+                <div className="flex-1 overflow-auto bg-muted/20 min-h-0">
+                  <div className="flex items-center justify-center p-8" style={{ minHeight: '100%' }}>
                     <img 
                       src={selectedBanner.imageData}
                       alt="Selected banner"
