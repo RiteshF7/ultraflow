@@ -1,0 +1,81 @@
+
+    <svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="mainGrad_1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
+          <stop offset="50%" style="stop-color:#00f2fe;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#43e97b;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="overlayGrad_1" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:rgba(0,0,0,0);stop-opacity:0" />
+          <stop offset="100%" style="stop-color:rgba(0,0,0,0.2);stop-opacity:1" />
+        </linearGradient>
+        <pattern id="grid_1" width="50" height="50" patternUnits="userSpaceOnUse">
+          <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+        </pattern>
+        <filter id="glow_1">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      
+      <!-- Background gradient -->
+      <rect width="1200" height="630" fill="url(#mainGrad_1)"/>
+      
+      
+      
+      <!-- Decorative elements based on AI analysis -->
+      
+        <circle cx="100" cy="100" r="140" fill="rgba(255,255,255,0.08)"/>
+        <circle cx="1100" cy="530" r="160" fill="rgba(255,255,255,0.06)"/>
+        <g transform="translate(85, 505)">
+      <!-- Bulb base -->
+      <rect x="24.5" y="45.5" width="21" height="10.5" rx="2.1" fill="rgba(255,255,255,0.2)"/>
+      <rect x="26.6" y="50.4" width="16.8" height="5.6000000000000005" fill="rgba(255,255,255,0.2)" opacity="0.8"/>
+      <!-- Bulb glass -->
+      <circle cx="35" cy="26.6" r="19.6" fill="rgba(255,255,255,0.2)" opacity="0.9"/>
+      <path d="M22.400000000000002,31.5 Q35,14 47.6,31.5 L43.4,45.5 L26.6,45.5 Z" fill="rgba(255,255,255,0.2)"/>
+      <!-- Highlight -->
+      <circle cx="29.4" cy="22.400000000000002" r="5.6000000000000005" fill="rgba(255,255,255,0.3)"/>
+    </g>
+      
+      
+      <!-- Dark overlay for text readability -->
+      <rect width="1200" height="630" fill="url(#overlayGrad_1)"/>
+      
+      <!-- Title with glow effect -->
+      <text x="600" y="285" 
+            font-family="system-ui, -apple-system, sans-serif" 
+            font-size="48" 
+            font-weight="300" 
+            fill="white" 
+            text-anchor="middle"
+            >
+        Article Banner
+      </text>
+      
+      <!-- Subtitle -->
+      <text x="600" y="345" 
+            font-family="system-ui, -apple-system, sans-serif" 
+            font-size="24" 
+            fill="rgba(255,255,255,0.95)" 
+            text-anchor="middle">
+        # Understanding Machine Learning
+Machine learning is a subse...
+      </text>
+      
+      <!-- Style badge -->
+      <rect x="1020" y="30" width="150" height="35" rx="17.5" fill="rgba(255,255,255,0.2)"/>
+      <text x="1095" y="53" 
+            font-family="system-ui, -apple-system, sans-serif" 
+            font-size="14" 
+            font-weight="600"
+            fill="white" 
+            text-anchor="middle">
+        MINIMALIST
+      </text>
+    </svg>
+  
