@@ -48,8 +48,7 @@ export function initializeMermaid(theme: MermaidTheme = 'default', customThemeVa
     mainBkg: '#4f46e5',
     nodeBkg: '#4f46e5',
     
-    // Decision text colors - using the correct Mermaid variables
-    nodeTextColor: '#000000',
+    // Label colors
     edgeLabelColor: '#000000',
     clusterTextColor: '#000000',
   };
