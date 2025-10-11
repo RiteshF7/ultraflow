@@ -3,9 +3,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
   renderMermaidToElement,
-  initializeMermaid,
-  MERMAID_THEMES,
-  type MermaidTheme,
   type CustomThemeVariables
 } from '@/lib/ArticleToFlowChart/step2-mmdToImage-browser';
 import {
@@ -34,6 +31,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { MERMAID_COLOR_THEMES, DEFAULT_MERMAID_THEME } from '@/constants/mermaidThemes';
 
 // Example templates
 const EXAMPLES = {
@@ -138,32 +136,31 @@ export default function MermaidEditorModern() {
   const [renderError, setRenderError] = useState('');
   const [zoomLevel, setZoomLevel] = useState(1);
   const [showZoomControls, setShowZoomControls] = useState(false);
-  const [selectedTheme, setSelectedTheme] = useState<MermaidTheme>('default');
   
   // Preview customization
-  const [previewBgColor, setPreviewBgColor] = useState('#ffffff');
+  const [previewBgColor, setPreviewBgColor] = useState(DEFAULT_MERMAID_THEME.previewBg);
   
   // Mermaid theme customization
   const [customTheme, setCustomTheme] = useState<Partial<CustomThemeVariables>>({
     // Node background colors
-    primaryColor: '#4f46e5',
-    secondaryColor: '#e0e7ff',
-    tertiaryColor: '#c7d2fe',
-    mainBkg: '#4f46e5',
-    nodeBkg: '#4f46e5',
+    primaryColor: DEFAULT_MERMAID_THEME.nodeColor,
+    secondaryColor: DEFAULT_MERMAID_THEME.nodeColor,
+    tertiaryColor: DEFAULT_MERMAID_THEME.nodeColor,
+    mainBkg: DEFAULT_MERMAID_THEME.nodeColor,
+    nodeBkg: DEFAULT_MERMAID_THEME.nodeColor,
     
     // Text colors
-    primaryTextColor: '#ffffff',
-    textColor: '#ffffff',
-    nodeTextColor: '#ffffff',
+    primaryTextColor: DEFAULT_MERMAID_THEME.textColor,
+    textColor: DEFAULT_MERMAID_THEME.textColor,
+    nodeTextColor: DEFAULT_MERMAID_THEME.textColor,
     
     // Border colors
-    primaryBorderColor: '#4338ca',
-    nodeBorder: '#4338ca',
+    primaryBorderColor: DEFAULT_MERMAID_THEME.borderColor,
+    nodeBorder: DEFAULT_MERMAID_THEME.borderColor,
     
     // Line/Arrow colors
-    lineColor: '#6366f1',
-    edgeLabelBackground: '#ffffff',
+    lineColor: DEFAULT_MERMAID_THEME.arrowColor,
+    edgeLabelBackground: DEFAULT_MERMAID_THEME.previewBg,
   });
   
   const mermaidRef = useRef<HTMLDivElement>(null);
@@ -182,7 +179,7 @@ export default function MermaidEditorModern() {
       const { svg } = await renderMermaidToElement(
         mermaidCode,
         `mermaid-preview-${Date.now()}`,
-        selectedTheme,
+        'default',
         customTheme
       );
       
@@ -207,7 +204,7 @@ export default function MermaidEditorModern() {
         clearTimeout(renderTimeoutRef.current);
       }
     };
-  }, [mermaidCode, selectedTheme, customTheme]);
+  }, [mermaidCode, customTheme]);
 
   const exportSVG = () => {
     const svg = mermaidRef.current?.querySelector('svg');
@@ -237,7 +234,7 @@ export default function MermaidEditorModern() {
     try {
       const state = {
         code: mermaidCode,
-        mermaid: { theme: selectedTheme }
+        mermaid: { theme: 'default' }
       };
       const json = JSON.stringify(state);
       const bytes = new TextEncoder().encode(json);
@@ -255,6 +252,34 @@ export default function MermaidEditorModern() {
     if (example && EXAMPLES[example as keyof typeof EXAMPLES]) {
       setMermaidCode(EXAMPLES[example as keyof typeof EXAMPLES]);
     }
+  };
+
+  const applyColorTheme = (themeKey: string) => {
+    const theme = MERMAID_COLOR_THEMES[themeKey as keyof typeof MERMAID_COLOR_THEMES];
+    if (!theme) return;
+
+    setPreviewBgColor(theme.previewBg);
+    setCustomTheme({
+      // Node background colors
+      primaryColor: theme.nodeColor,
+      secondaryColor: theme.nodeColor,
+      tertiaryColor: theme.nodeColor,
+      mainBkg: theme.nodeColor,
+      nodeBkg: theme.nodeColor,
+      
+      // Text colors
+      primaryTextColor: theme.textColor,
+      textColor: theme.textColor,
+      nodeTextColor: theme.textColor,
+      
+      // Border colors
+      primaryBorderColor: theme.borderColor,
+      nodeBorder: theme.borderColor,
+      
+      // Line/Arrow colors
+      lineColor: theme.arrowColor,
+      edgeLabelBackground: theme.previewBg,
+    });
   };
 
   const shuffleDirection = () => {
@@ -284,10 +309,10 @@ export default function MermaidEditorModern() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold tracking-tight mb-2">
-            🧜‍♀️ Mermaid Interactive Playground
+            🧜 Ultra Editor
           </h1>
           <p className="text-muted-foreground text-lg">
-            Create and edit Mermaid diagrams with live preview
+            Create and edit diagrams with live preview
           </p>
         </div>
 
@@ -297,7 +322,7 @@ export default function MermaidEditorModern() {
             onChange={(e) => loadExample(e.target.value)}
             className="px-4 py-2 bg-background border border-input rounded-lg text-sm cursor-pointer hover:bg-accent"
           >
-            <option value="">Load Example...</option>
+            <option value=""> Load Example...</option>
             <option value="flowchart">Flowchart</option>
             <option value="sequence">Sequence Diagram</option>
             <option value="class">Class Diagram</option>
@@ -308,13 +333,17 @@ export default function MermaidEditorModern() {
           </select>
 
           <select
-            value={selectedTheme}
-            onChange={(e) => setSelectedTheme(e.target.value as MermaidTheme)}
+            onChange={(e) => {
+              if (e.target.value) {
+                applyColorTheme(e.target.value);
+              }
+            }}
             className="px-4 py-2 bg-background border border-input rounded-lg text-sm cursor-pointer hover:bg-accent"
           >
-            {Object.entries(MERMAID_THEMES).map(([key, label]) => (
+            <option value="">🎨 Color Themes...</option>
+            {Object.entries(MERMAID_COLOR_THEMES).map(([key, theme]) => (
               <option key={key} value={key}>
-                🎨 {label}
+                {theme.name}
               </option>
             ))}
           </select>
@@ -331,9 +360,57 @@ export default function MermaidEditorModern() {
                 Customize Theme
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-80">
+            <PopoverContent className="w-96 max-h-[600px] overflow-y-auto">
               <div className="space-y-4">
                 <h4 className="font-medium text-sm">Theme Customization</h4>
+                
+                {/* Color Theme Presets */}
+                <div className="space-y-2">
+                  <Label className="text-xs font-semibold">Quick Theme Presets</Label>
+                  <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto p-1">
+                    {Object.entries(MERMAID_COLOR_THEMES).map(([key, theme]) => (
+                      <button
+                        key={key}
+                        onClick={() => applyColorTheme(key)}
+                        className="group relative p-3 rounded-lg border-2 border-border hover:border-primary transition-all text-left hover:shadow-md"
+                      >
+                        <div className="flex items-center gap-2 mb-2">
+                          <div 
+                            className="w-4 h-4 rounded-full border border-border/50"
+                            style={{ backgroundColor: theme.nodeColor }}
+                          />
+                          <span className="text-xs font-medium truncate">{theme.name}</span>
+                        </div>
+                        <div className="flex gap-1">
+                          <div 
+                            className="w-4 h-4 rounded border border-border/30"
+                            style={{ backgroundColor: theme.previewBg }}
+                            title="Preview BG"
+                          />
+                          <div 
+                            className="w-4 h-4 rounded border border-border/30"
+                            style={{ backgroundColor: theme.borderColor }}
+                            title="Border"
+                          />
+                          <div 
+                            className="w-4 h-4 rounded border border-border/30"
+                            style={{ backgroundColor: theme.arrowColor }}
+                            title="Arrow"
+                          />
+                          <div 
+                            className="w-4 h-4 rounded border border-border/30"
+                            style={{ backgroundColor: theme.textColor }}
+                            title="Text"
+                          />
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="border-t pt-3">
+                  <Label className="text-xs font-semibold">Custom Colors</Label>
+                </div>
                 
                 <div className="space-y-3">
                   <div>
@@ -473,33 +550,33 @@ export default function MermaidEditorModern() {
                     size="sm" 
                     className="w-full"
                     onClick={() => {
-                      setPreviewBgColor('#ffffff');
+                      setPreviewBgColor(DEFAULT_MERMAID_THEME.previewBg);
                       setCustomTheme({
                         // Node background colors
-                        primaryColor: '#4f46e5',
-                        secondaryColor: '#e0e7ff',
-                        tertiaryColor: '#c7d2fe',
-                        mainBkg: '#4f46e5',
-                        nodeBkg: '#4f46e5',
+                        primaryColor: DEFAULT_MERMAID_THEME.nodeColor,
+                        secondaryColor: DEFAULT_MERMAID_THEME.nodeColor,
+                        tertiaryColor: DEFAULT_MERMAID_THEME.nodeColor,
+                        mainBkg: DEFAULT_MERMAID_THEME.nodeColor,
+                        nodeBkg: DEFAULT_MERMAID_THEME.nodeColor,
                         
                         // Text colors
-                        primaryTextColor: '#ffffff',
-                        textColor: '#ffffff',
-                        nodeTextColor: '#ffffff',
+                        primaryTextColor: DEFAULT_MERMAID_THEME.textColor,
+                        textColor: DEFAULT_MERMAID_THEME.textColor,
+                        nodeTextColor: DEFAULT_MERMAID_THEME.textColor,
                         
                         // Border colors
-                        primaryBorderColor: '#4338ca',
-                        nodeBorder: '#4338ca',
+                        primaryBorderColor: DEFAULT_MERMAID_THEME.borderColor,
+                        nodeBorder: DEFAULT_MERMAID_THEME.borderColor,
                         
                         // Line/Arrow colors
-                        lineColor: '#6366f1',
-                        edgeLabelBackground: '#ffffff',
+                        lineColor: DEFAULT_MERMAID_THEME.arrowColor,
+                        edgeLabelBackground: DEFAULT_MERMAID_THEME.previewBg,
                       });
                     }}
                   >
                     <RotateCcw className="h-3 w-3 mr-2" />
                     Reset to Default
-                  </Button>
+          </Button>
                 </div>
               </div>
             </PopoverContent>
