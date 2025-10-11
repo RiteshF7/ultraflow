@@ -15,7 +15,7 @@ export interface ColorTheme {
 export const MERMAID_COLOR_THEMES: Record<string, ColorTheme> = {
   default: {
     name: 'Default Blue',
-    previewBg: '#ffffff',
+    previewBg: '#f0f9ff',
     nodeColor: '#4f46e5',
     borderColor: '#4338ca',
     arrowColor: '#6366f1',
@@ -63,7 +63,7 @@ export const MERMAID_COLOR_THEMES: Record<string, ColorTheme> = {
   },
   dark: {
     name: 'Dark Mode',
-    previewBg: '#1f2937',
+    previewBg: '#f9fafb',
     nodeColor: '#374151',
     borderColor: '#6b7280',
     arrowColor: '#9ca3af',
@@ -71,7 +71,7 @@ export const MERMAID_COLOR_THEMES: Record<string, ColorTheme> = {
   },
   neon: {
     name: 'Neon Night',
-    previewBg: '#0f172a',
+    previewBg: '#f0f9ff',
     nodeColor: '#22d3ee',
     borderColor: '#06b6d4',
     arrowColor: '#67e8f9',
@@ -207,7 +207,7 @@ export const MERMAID_COLOR_THEMES: Record<string, ColorTheme> = {
   },
   base: {
     name: 'Base',
-    previewBg: '#ffffff',
+    previewBg: '#f9fafb',
     nodeColor: '#6b7280',
     borderColor: '#374151',
     arrowColor: '#9ca3af',
@@ -223,7 +223,7 @@ export const MERMAID_COLOR_THEMES: Record<string, ColorTheme> = {
   },
   redux: {
     name: 'Redux',
-    previewBg: '#ffffff',
+    previewBg: '#faf5ff',
     nodeColor: '#764abc',
     borderColor: '#5b21b6',
     arrowColor: '#8b5cf6',
@@ -231,7 +231,7 @@ export const MERMAID_COLOR_THEMES: Record<string, ColorTheme> = {
   },
   reduxDark: {
     name: 'Redux Dark',
-    previewBg: '#1a1a1a',
+    previewBg: '#faf5ff',
     nodeColor: '#764abc',
     borderColor: '#5b21b6',
     arrowColor: '#8b5cf6',
