@@ -18,6 +18,8 @@ export default function BannerGeneratorPage() {
   const router = useRouter();
   const [articleContent, setArticleContent] = useState('');
   const [articleTitle, setArticleTitle] = useState('');
+  const [bannerTitleText, setBannerTitleText] = useState('');
+  const [bannerSubtitleText, setBannerSubtitleText] = useState('');
   const [customInstructions, setCustomInstructions] = useState('');
   const [generationType, setGenerationType] = useState<GenerationType>('svg');
   const [loading, setLoading] = useState(false);
@@ -69,6 +71,8 @@ export default function BannerGeneratorPage() {
           articleContent,
           articleTitle: articleTitle || 'Article Banner',
           customInstructions,
+          bannerTitleText: bannerTitleText || undefined,
+          bannerSubtitleText: bannerSubtitleText || undefined,
         }),
       });
 
@@ -166,6 +170,48 @@ export default function BannerGeneratorPage() {
                   onChange={(e) => setArticleTitle(e.target.value)}
                   className="w-full px-3 py-2 border rounded-md bg-background"
                 />
+              </div>
+
+              {/* Banner Text Customization */}
+              <div className="bg-muted/50 rounded-lg p-4 space-y-3">
+                <h3 className="text-sm font-semibold">Banner Text Overlay (Optional)</h3>
+                <p className="text-xs text-muted-foreground mb-2">
+                  Customize the text that appears on your banner images
+                </p>
+                
+                <div>
+                  <label className="text-sm font-medium mb-2 block">
+                    Main Title Text
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Leave empty to auto-generate from article"
+                    value={bannerTitleText}
+                    onChange={(e) => setBannerTitleText(e.target.value)}
+                    className="w-full px-3 py-2 border rounded-md bg-background text-sm"
+                    maxLength={50}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {bannerTitleText.length}/50 characters
+                  </p>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium mb-2 block">
+                    Subtitle/Description Text
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Leave empty to auto-generate from article"
+                    value={bannerSubtitleText}
+                    onChange={(e) => setBannerSubtitleText(e.target.value)}
+                    className="w-full px-3 py-2 border rounded-md bg-background text-sm"
+                    maxLength={60}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {bannerSubtitleText.length}/60 characters
+                  </p>
+                </div>
               </div>
 
               {/* Article Content */}

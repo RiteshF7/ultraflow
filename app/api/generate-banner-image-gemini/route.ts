@@ -11,7 +11,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { articleContent, articleTitle, style = 'photographic' } = body;
+    const { articleContent, articleTitle, style = 'photographic', bannerTitleText, bannerSubtitleText } = body;
 
     // Validate input
     if (!articleContent) {
@@ -98,6 +98,15 @@ Return ONLY valid JSON in this format:
       imagePrompts.push(imagePrompts[imagePrompts.length % (imagePrompts.length || 1)]);
     }
     imagePrompts = imagePrompts.slice(0, 8);
+
+    // Apply custom text overrides if provided
+    if (bannerTitleText || bannerSubtitleText) {
+      imagePrompts = imagePrompts.map(prompt => ({
+        ...prompt,
+        title: bannerTitleText || prompt.title,
+        subtitle: bannerSubtitleText || prompt.subtitle
+      }));
+    }
 
     // Note: Gemini 2.0 Flash image generation is currently in preview
     // For now, we'll generate SVG fallbacks with AI-enhanced designs

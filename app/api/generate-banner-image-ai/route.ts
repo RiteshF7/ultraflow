@@ -14,7 +14,7 @@ import Replicate from 'replicate';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { prompt, customPrompt, articleContent, articleTitle } = body;
+    const { prompt, customPrompt, articleContent, articleTitle, bannerTitleText, bannerSubtitleText } = body;
 
     // Validate input
     if (!articleContent && !prompt && !customPrompt) {
@@ -129,10 +129,12 @@ Only respond with valid JSON, no additional text.
       designSpecs = designSpecs.slice(0, 8);
     }
 
-    // Assign unique IDs to each design
+    // Assign unique IDs to each design and apply custom text overrides
     designSpecs = designSpecs.map((spec, index) => ({
       ...spec,
-      id: index + 1
+      id: index + 1,
+      title: bannerTitleText || spec.title,
+      subtitle: bannerSubtitleText || spec.subtitle
     }));
 
     console.log('🎨 Generating banners for', designSpecs.length, 'design variations:', 
