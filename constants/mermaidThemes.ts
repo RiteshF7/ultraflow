@@ -10,6 +10,9 @@ export interface ColorTheme {
   borderColor: string;
   arrowColor: string;
   textColor: string;
+  decisionBg?: string;
+  decisionBorder?: string;
+  decisionText?: string;
 }
 
 export const MERMAID_COLOR_THEMES: Record<string, ColorTheme> = {
@@ -20,6 +23,9 @@ export const MERMAID_COLOR_THEMES: Record<string, ColorTheme> = {
     borderColor: '#4338ca',
     arrowColor: '#6366f1',
     textColor: '#ffffff',
+    decisionBg: '#ffffff',
+    decisionBorder: '#4338ca',
+    decisionText: '#4338ca',
   },
   ocean: {
     name: 'Ocean Breeze',
@@ -28,6 +34,9 @@ export const MERMAID_COLOR_THEMES: Record<string, ColorTheme> = {
     borderColor: '#0284c7',
     arrowColor: '#38bdf8',
     textColor: '#ffffff',
+    decisionBg: '#ffffff',
+    decisionBorder: '#0284c7',
+    decisionText: '#0284c7',
   },
   sunset: {
     name: 'Sunset Glow',
@@ -36,6 +45,9 @@ export const MERMAID_COLOR_THEMES: Record<string, ColorTheme> = {
     borderColor: '#ea580c',
     arrowColor: '#fb923c',
     textColor: '#ffffff',
+    decisionBg: '#ffffff',
+    decisionBorder: '#ea580c',
+    decisionText: '#ea580c',
   },
   forest: {
     name: 'Forest Green',
@@ -44,6 +56,9 @@ export const MERMAID_COLOR_THEMES: Record<string, ColorTheme> = {
     borderColor: '#059669',
     arrowColor: '#34d399',
     textColor: '#ffffff',
+    decisionBg: '#ffffff',
+    decisionBorder: '#059669',
+    decisionText: '#059669',
   },
   purple: {
     name: 'Purple Dream',

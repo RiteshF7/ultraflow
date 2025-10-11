@@ -47,20 +47,38 @@ export function initializeMermaid(theme: MermaidTheme = 'default', customThemeVa
     primaryColor: '#4f46e5',
     mainBkg: '#4f46e5',
     nodeBkg: '#4f46e5',
+    
+    // Decision text colors - using the correct Mermaid variables
+    nodeTextColor: '#000000',
+    edgeLabelColor: '#000000',
+    clusterTextColor: '#000000',
   };
 
-  // Filter out empty/undefined custom theme variables
+  // Filter out empty/undefined custom theme variables and map decision variables
   const filteredCustomVars: Record<string, string> = {};
   if (customThemeVariables) {
     Object.entries(customThemeVariables).forEach(([key, value]) => {
       if (value && value.trim() !== '') {
-        filteredCustomVars[key] = value;
+        // Map custom decision variables to Mermaid's actual variables
+        if (key === 'decisionSecondaryTextColor' || key === 'decisionTertiaryTextColor') {
+          // Apply decision text color to multiple relevant variables
+          filteredCustomVars['nodeTextColor'] = value;
+          filteredCustomVars['edgeLabelColor'] = value;
+          filteredCustomVars['clusterTextColor'] = value;
+        } else {
+          filteredCustomVars[key] = value;
+        }
       }
     });
   }
 
   console.log('🎨 Initializing Mermaid with theme:', theme);
   console.log('🎨 Custom theme variables:', filteredCustomVars);
+  console.log('🎨 Decision text colors:', {
+    nodeTextColor: filteredCustomVars['nodeTextColor'],
+    edgeLabelColor: filteredCustomVars['edgeLabelColor'],
+    clusterTextColor: filteredCustomVars['clusterTextColor']
+  });
 
   mermaid.initialize({
     startOnLoad: false,
@@ -184,6 +202,11 @@ export async function renderMermaidToElement(
     console.log('✅ Diagram rendered successfully!');
     console.log('📏 SVG length:', result.svg.length);
     
+    // Apply decision text color styling if provided
+    if (customThemeVars && (customThemeVars.decisionSecondaryTextColor || customThemeVars.decisionTertiaryTextColor)) {
+      result.svg = applyDecisionTextStyling(result.svg, customThemeVars);
+    }
+    
     return result;
   } catch (error) {
     console.error('❌ Mermaid rendering error:', error);
@@ -192,6 +215,41 @@ export async function renderMermaidToElement(
       stack: error instanceof Error ? error.stack : undefined
     });
     throw new Error(`Failed to render diagram: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+/**
+ * Apply decision text color styling to SVG
+ * @param svg - SVG string
+ * @param customThemeVars - Custom theme variables
+ * @returns Modified SVG string
+ */
+function applyDecisionTextStyling(svg: string, customThemeVars: CustomThemeVariables): string {
+  try {
+    console.log('🎨 Applying decision text styling...');
+    
+    const decisionTextColor = customThemeVars.decisionSecondaryTextColor || customThemeVars.decisionTertiaryTextColor;
+    if (!decisionTextColor) return svg;
+    
+    let modifiedSvg = svg;
+    
+    // Apply decision text color to edge labels (like "Yes", "No", "Maybe")
+    modifiedSvg = modifiedSvg.replace(
+      /<text([^>]*class="[^"]*edgeLabel[^"]*"[^>]*)fill="[^"]*"/g,
+      `$1fill="${decisionTextColor}"`
+    );
+    
+    // Apply decision text color to any text that looks like decision labels
+    modifiedSvg = modifiedSvg.replace(
+      /<text([^>]*>)\s*(Yes|No|Maybe|True|False|Pass|Fail)\s*(<\/text>)/gi,
+      `$1$2$3`.replace(/<text([^>]*)fill="[^"]*"/g, `$1fill="${decisionTextColor}"`)
+    );
+    
+    console.log('✅ Decision text styling applied with color:', decisionTextColor);
+    return modifiedSvg;
+  } catch (error) {
+    console.error('❌ Error applying decision text styling:', error);
+    return svg; // Return original SVG if styling fails
   }
 }
 

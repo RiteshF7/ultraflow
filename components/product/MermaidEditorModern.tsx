@@ -38,10 +38,12 @@ const EXAMPLES = {
   flowchart: `flowchart TD
     Start([Start]) --> Input[Get User Input]
     Input --> Process{Process Data}
-    Process -->|Valid| Success[Display Success]
-    Process -->|Invalid| Error[Show Error]
+    Process -->|Yes| Success[Display Success]
+    Process -->|No| Error[Show Error]
+    Process -->|Maybe| Review[Review Again]
     Error --> Input
     Success --> End([End])
+    Review --> Process
     
     style Start fill:#90EE90
     style End fill:#90EE90
@@ -161,6 +163,10 @@ export default function MermaidEditorModern() {
     // Line/Arrow colors
     lineColor: DEFAULT_MERMAID_THEME.arrowColor,
     edgeLabelBackground: DEFAULT_MERMAID_THEME.previewBg,
+    
+    // Decision text color only
+    decisionSecondaryTextColor: DEFAULT_MERMAID_THEME.decisionText || DEFAULT_MERMAID_THEME.borderColor,
+    decisionTertiaryTextColor: DEFAULT_MERMAID_THEME.decisionText || DEFAULT_MERMAID_THEME.borderColor,
   });
   
   const mermaidRef = useRef<HTMLDivElement>(null);
@@ -279,6 +285,10 @@ export default function MermaidEditorModern() {
       // Line/Arrow colors
       lineColor: theme.arrowColor,
       edgeLabelBackground: theme.previewBg,
+      
+      // Decision text color only
+      decisionSecondaryTextColor: theme.decisionText || theme.borderColor,
+      decisionTertiaryTextColor: theme.decisionText || theme.borderColor,
     });
   };
 
@@ -545,6 +555,35 @@ export default function MermaidEditorModern() {
                     </div>
                   </div>
 
+
+                  <div>
+                    <Label htmlFor="decision-text" className="text-xs">Decision Text Color</Label>
+                    <div className="flex gap-2 mt-1">
+                      <Input
+                        id="decision-text"
+                        type="color"
+                        value={customTheme.decisionSecondaryTextColor || '#4338ca'}
+                        onChange={(e) => setCustomTheme(prev => ({ 
+                          ...prev, 
+                          decisionSecondaryTextColor: e.target.value,
+                          decisionTertiaryTextColor: e.target.value
+                        }))}
+                        className="h-9 w-16"
+                      />
+                      <Input
+                        type="text"
+                        value={customTheme.decisionSecondaryTextColor || '#4338ca'}
+                        onChange={(e) => setCustomTheme(prev => ({ 
+                          ...prev, 
+                          decisionSecondaryTextColor: e.target.value,
+                          decisionTertiaryTextColor: e.target.value
+                        }))}
+                        className="h-9 flex-1 font-mono text-xs"
+                        placeholder="#4338ca"
+                      />
+                    </div>
+                  </div>
+
                   <Button 
                     variant="outline" 
                     size="sm" 
@@ -571,6 +610,10 @@ export default function MermaidEditorModern() {
                         // Line/Arrow colors
                         lineColor: DEFAULT_MERMAID_THEME.arrowColor,
                         edgeLabelBackground: DEFAULT_MERMAID_THEME.previewBg,
+                        
+                        // Decision text color only
+                        decisionSecondaryTextColor: DEFAULT_MERMAID_THEME.decisionText || DEFAULT_MERMAID_THEME.borderColor,
+                        decisionTertiaryTextColor: DEFAULT_MERMAID_THEME.decisionText || DEFAULT_MERMAID_THEME.borderColor,
                       });
                     }}
                   >
