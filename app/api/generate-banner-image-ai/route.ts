@@ -341,17 +341,6 @@ async function generateAIEnhancedBanner(designSpec: any): Promise<string> {
             text-anchor="middle">
         ${escapeXml(designSpec.subtitle)}
       </text>
-      
-      <!-- Style badge -->
-      <rect x="${width - 180}" y="30" width="150" height="35" rx="17.5" fill="rgba(255,255,255,0.2)"/>
-      <text x="${width - 105}" y="53" 
-            font-family="system-ui, -apple-system, sans-serif" 
-            font-size="14" 
-            font-weight="600"
-            fill="white" 
-            text-anchor="middle">
-        ${escapeXml(designSpec.style?.toUpperCase() || 'DESIGN')}
-      </text>
     </svg>
   `;
   

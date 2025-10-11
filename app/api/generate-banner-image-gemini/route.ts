@@ -331,17 +331,6 @@ async function generateEnhancedSVG(spec: any): Promise<string> {
             text-anchor="middle">
         ${escapeXml(spec.subtitle)}
       </text>
-      
-      <!-- Style badge -->
-      <rect x="${width - 200}" y="30" width="170" height="40" rx="20" fill="rgba(255,255,255,0.2)"/>
-      <text x="${width - 115}" y="58" 
-            font-family="system-ui, -apple-system, sans-serif" 
-            font-size="16" 
-            font-weight="600"
-            fill="${colors.text}" 
-            text-anchor="middle">
-        ${escapeXml(spec.style?.toUpperCase() || 'AI ENHANCED')}
-      </text>
     </svg>
   `;
   
