@@ -145,12 +145,25 @@ export default function MermaidEditorModern() {
   
   // Mermaid theme customization
   const [customTheme, setCustomTheme] = useState<Partial<CustomThemeVariables>>({
+    // Node background colors
     primaryColor: '#4f46e5',
-    primaryTextColor: '#ffffff',
-    primaryBorderColor: '#4338ca',
-    lineColor: '#6366f1',
     secondaryColor: '#e0e7ff',
     tertiaryColor: '#c7d2fe',
+    mainBkg: '#4f46e5',
+    nodeBkg: '#4f46e5',
+    
+    // Text colors
+    primaryTextColor: '#ffffff',
+    textColor: '#ffffff',
+    nodeTextColor: '#ffffff',
+    
+    // Border colors
+    primaryBorderColor: '#4338ca',
+    nodeBorder: '#4338ca',
+    
+    // Line/Arrow colors
+    lineColor: '#6366f1',
+    edgeLabelBackground: '#ffffff',
   });
   
   const mermaidRef = useRef<HTMLDivElement>(null);
@@ -350,13 +363,27 @@ export default function MermaidEditorModern() {
                         id="node-color"
                         type="color"
                         value={customTheme.primaryColor || '#4f46e5'}
-                        onChange={(e) => setCustomTheme(prev => ({ ...prev, primaryColor: e.target.value }))}
+                        onChange={(e) => setCustomTheme(prev => ({ 
+                          ...prev, 
+                          primaryColor: e.target.value,
+                          mainBkg: e.target.value,
+                          nodeBkg: e.target.value,
+                          secondaryColor: e.target.value,
+                          tertiaryColor: e.target.value
+                        }))}
                         className="h-9 w-16"
                       />
                       <Input
                         type="text"
                         value={customTheme.primaryColor || '#4f46e5'}
-                        onChange={(e) => setCustomTheme(prev => ({ ...prev, primaryColor: e.target.value }))}
+                        onChange={(e) => setCustomTheme(prev => ({ 
+                          ...prev, 
+                          primaryColor: e.target.value,
+                          mainBkg: e.target.value,
+                          nodeBkg: e.target.value,
+                          secondaryColor: e.target.value,
+                          tertiaryColor: e.target.value
+                        }))}
                         className="h-9 flex-1 font-mono text-xs"
                         placeholder="#4f46e5"
                       />
@@ -370,13 +397,21 @@ export default function MermaidEditorModern() {
                         id="border-color"
                         type="color"
                         value={customTheme.primaryBorderColor || '#4338ca'}
-                        onChange={(e) => setCustomTheme(prev => ({ ...prev, primaryBorderColor: e.target.value }))}
+                        onChange={(e) => setCustomTheme(prev => ({ 
+                          ...prev, 
+                          primaryBorderColor: e.target.value,
+                          nodeBorder: e.target.value
+                        }))}
                         className="h-9 w-16"
                       />
                       <Input
                         type="text"
                         value={customTheme.primaryBorderColor || '#4338ca'}
-                        onChange={(e) => setCustomTheme(prev => ({ ...prev, primaryBorderColor: e.target.value }))}
+                        onChange={(e) => setCustomTheme(prev => ({ 
+                          ...prev, 
+                          primaryBorderColor: e.target.value,
+                          nodeBorder: e.target.value
+                        }))}
                         className="h-9 flex-1 font-mono text-xs"
                         placeholder="#4338ca"
                       />
@@ -410,13 +445,23 @@ export default function MermaidEditorModern() {
                         id="text-color"
                         type="color"
                         value={customTheme.primaryTextColor || '#ffffff'}
-                        onChange={(e) => setCustomTheme(prev => ({ ...prev, primaryTextColor: e.target.value }))}
+                        onChange={(e) => setCustomTheme(prev => ({ 
+                          ...prev, 
+                          primaryTextColor: e.target.value,
+                          textColor: e.target.value,
+                          nodeTextColor: e.target.value
+                        }))}
                         className="h-9 w-16"
                       />
                       <Input
                         type="text"
                         value={customTheme.primaryTextColor || '#ffffff'}
-                        onChange={(e) => setCustomTheme(prev => ({ ...prev, primaryTextColor: e.target.value }))}
+                        onChange={(e) => setCustomTheme(prev => ({ 
+                          ...prev, 
+                          primaryTextColor: e.target.value,
+                          textColor: e.target.value,
+                          nodeTextColor: e.target.value
+                        }))}
                         className="h-9 flex-1 font-mono text-xs"
                         placeholder="#ffffff"
                       />
@@ -430,12 +475,25 @@ export default function MermaidEditorModern() {
                     onClick={() => {
                       setPreviewBgColor('#ffffff');
                       setCustomTheme({
+                        // Node background colors
                         primaryColor: '#4f46e5',
-                        primaryTextColor: '#ffffff',
-                        primaryBorderColor: '#4338ca',
-                        lineColor: '#6366f1',
                         secondaryColor: '#e0e7ff',
                         tertiaryColor: '#c7d2fe',
+                        mainBkg: '#4f46e5',
+                        nodeBkg: '#4f46e5',
+                        
+                        // Text colors
+                        primaryTextColor: '#ffffff',
+                        textColor: '#ffffff',
+                        nodeTextColor: '#ffffff',
+                        
+                        // Border colors
+                        primaryBorderColor: '#4338ca',
+                        nodeBorder: '#4338ca',
+                        
+                        // Line/Arrow colors
+                        lineColor: '#6366f1',
+                        edgeLabelBackground: '#ffffff',
                       });
                     }}
                   >

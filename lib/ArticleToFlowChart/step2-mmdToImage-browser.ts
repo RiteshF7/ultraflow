@@ -30,10 +30,23 @@ export interface CustomThemeVariables {
  */
 export function initializeMermaid(theme: MermaidTheme = 'default', customThemeVariables?: CustomThemeVariables) {
   const defaultThemeVars = {
+    // Line and arrow colors
     lineColor: '#000000',
     defaultLinkColor: '#000000',
+    
+    // Border colors
     primaryBorderColor: '#000000',
-    primaryTextColor: theme === 'dark' ? '#ffffff' : '#000000'
+    nodeBorder: '#000000',
+    
+    // Text colors
+    primaryTextColor: theme === 'dark' ? '#ffffff' : '#000000',
+    textColor: theme === 'dark' ? '#ffffff' : '#000000',
+    nodeTextColor: theme === 'dark' ? '#ffffff' : '#000000',
+    
+    // Background colors
+    primaryColor: '#4f46e5',
+    mainBkg: '#4f46e5',
+    nodeBkg: '#4f46e5',
   };
 
   // Filter out empty/undefined custom theme variables
@@ -56,7 +69,7 @@ export function initializeMermaid(theme: MermaidTheme = 'default', customThemeVa
     fontFamily: 'Segoe UI, sans-serif',
     flowchart: {
       useMaxWidth: true,
-      htmlLabels: false,
+      htmlLabels: true, // Enable HTML labels for proper text color rendering
       curve: 'basis',
       nodeSpacing: 50,
       rankSpacing: 80
