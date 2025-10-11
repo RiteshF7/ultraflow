@@ -43,12 +43,12 @@ export async function POST(request: NextRequest) {
 
     // Create a prompt for Gemini to analyze the article and generate AI image prompts
     const aiPrompt = `
-Analyze the following article and create 4 different AI image prompts for banner designs:
+Analyze the following article and create 8 different AI image prompts for banner designs:
 
 Title: ${articleTitle || 'Article'}
 Content: ${articleContent ? articleContent.substring(0, 1000) : finalPrompt}
 
-Please provide a JSON response with 4 distinct image generation prompts. Each should create a realistic, high-quality banner image:
+Please provide a JSON response with 8 distinct image generation prompts. Each should create a realistic, high-quality banner image:
 
 {
   "designs": [
@@ -73,7 +73,7 @@ Requirements for imagePrompt:
 - Avoid abstract concepts, use concrete visual elements
 - Each prompt should be visually distinct
 
-Create 4 variations with DIFFERENT visual styles and compositions.
+Create 8 variations with DIFFERENT visual styles, compositions, and color schemes.
 Only respond with valid JSON, no additional text.
 `;
 
@@ -114,19 +114,19 @@ Only respond with valid JSON, no additional text.
       designSpecs = generateFallbackDesigns(articleTitle, articleContent);
     }
 
-    // Ensure we have exactly 4 designs
+    // Ensure we have exactly 8 designs
     if (designSpecs.length === 0) {
       console.log('⚠️ No designs from AI, using all fallback designs');
       designSpecs = generateFallbackDesigns(articleTitle, articleContent);
-    } else if (designSpecs.length < 4) {
-      // Fill in with fallback designs if we got fewer than 4
+    } else if (designSpecs.length < 8) {
+      // Fill in with fallback designs if we got fewer than 8
       console.log(`⚠️ Only got ${designSpecs.length} designs from AI, filling with fallbacks`);
       const fallbackDesigns = generateFallbackDesigns(articleTitle, articleContent);
-      const neededCount = 4 - designSpecs.length;
+      const neededCount = 8 - designSpecs.length;
       designSpecs = [...designSpecs, ...fallbackDesigns.slice(0, neededCount)];
-    } else if (designSpecs.length > 4) {
-      // Trim to exactly 4 if AI gave us more
-      designSpecs = designSpecs.slice(0, 4);
+    } else if (designSpecs.length > 8) {
+      // Trim to exactly 8 if AI gave us more
+      designSpecs = designSpecs.slice(0, 8);
     }
 
     // Assign unique IDs to each design
@@ -223,6 +223,50 @@ function generateFallbackDesigns(articleTitle?: string, articleContent?: string)
       mood: 'innovative',
       icons: ['code', 'brain'],
       description: 'Geometric design with modern patterns'
+    },
+    {
+      id: 5,
+      style: 'gradient',
+      title,
+      subtitle,
+      theme: 'creative',
+      colorScheme: 'sunset-gradient',
+      mood: 'vibrant',
+      icons: ['palette', 'sparkles'],
+      description: 'Vibrant gradient design with artistic flair'
+    },
+    {
+      id: 6,
+      style: 'corporate',
+      title,
+      subtitle,
+      theme: 'business',
+      colorScheme: 'professional-navy',
+      mood: 'serious',
+      icons: ['briefcase', 'graph'],
+      description: 'Corporate professional design'
+    },
+    {
+      id: 7,
+      style: 'modern',
+      title,
+      subtitle,
+      theme: 'technology',
+      colorScheme: 'tech-cyan',
+      mood: 'innovative',
+      icons: ['cpu', 'network'],
+      description: 'Modern tech-inspired design'
+    },
+    {
+      id: 8,
+      style: 'elegant',
+      title,
+      subtitle,
+      theme: 'luxury',
+      colorScheme: 'elegant-pink',
+      mood: 'sophisticated',
+      icons: ['crown', 'diamond'],
+      description: 'Elegant and sophisticated design'
     }
   ];
 }

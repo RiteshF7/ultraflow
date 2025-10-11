@@ -40,12 +40,12 @@ export async function POST(request: NextRequest) {
     const proModel = genAI.getGenerativeModel({ model: 'gemini-pro' });
     
     const promptGenerationRequest = `
-Analyze this article and create 4 detailed image generation prompts for banner images:
+Analyze this article and create 8 detailed image generation prompts for banner images:
 
 Title: ${articleTitle || 'Article'}
 Content: ${articleContent.substring(0, 1500)}
 
-Create 4 DISTINCT, REALISTIC image prompts. Each prompt should:
+Create 8 DISTINCT, REALISTIC image prompts. Each prompt should:
 - Describe a specific, concrete visual scene (NOT abstract)
 - Include composition, lighting, mood, and colors
 - Be photorealistic or cinematic in style
@@ -81,7 +81,7 @@ Return ONLY valid JSON in this format:
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);
         if (parsed.prompts && Array.isArray(parsed.prompts)) {
-          imagePrompts = parsed.prompts.slice(0, 4);
+          imagePrompts = parsed.prompts.slice(0, 8);
           console.log(`✅ Generated ${imagePrompts.length} image prompts`);
         }
       }
@@ -90,14 +90,14 @@ Return ONLY valid JSON in this format:
       imagePrompts = generateDefaultPrompts(articleTitle, articleContent);
     }
 
-    // Ensure we have exactly 4 prompts
+    // Ensure we have exactly 8 prompts
     if (imagePrompts.length === 0) {
       imagePrompts = generateDefaultPrompts(articleTitle, articleContent);
     }
-    while (imagePrompts.length < 4) {
-      imagePrompts.push(imagePrompts[0]);
+    while (imagePrompts.length < 8) {
+      imagePrompts.push(imagePrompts[imagePrompts.length % (imagePrompts.length || 1)]);
     }
-    imagePrompts = imagePrompts.slice(0, 4);
+    imagePrompts = imagePrompts.slice(0, 8);
 
     // Note: Gemini 2.0 Flash image generation is currently in preview
     // For now, we'll generate SVG fallbacks with AI-enhanced designs
@@ -169,6 +169,34 @@ function generateDefaultPrompts(title?: string, content?: string): any[] {
       prompt: `Beautiful illustrated banner about ${theme}, clean design, professional aesthetic`,
       title: bannerTitle,
       subtitle: content?.substring(0, 60) || 'Get started'
+    },
+    {
+      id: 5,
+      style: 'minimalist',
+      prompt: `Minimalist banner design for ${theme}, clean lines, simple composition, elegant`,
+      title: bannerTitle,
+      subtitle: content?.substring(0, 60) || 'Discover more'
+    },
+    {
+      id: 6,
+      style: 'abstract',
+      prompt: `Abstract creative banner about ${theme}, artistic shapes, modern colors, dynamic composition`,
+      title: bannerTitle,
+      subtitle: content?.substring(0, 60) || 'Explore further'
+    },
+    {
+      id: 7,
+      style: 'futuristic',
+      prompt: `Futuristic high-tech banner for ${theme}, neon accents, modern technology aesthetic`,
+      title: bannerTitle,
+      subtitle: content?.substring(0, 60) || 'Innovate today'
+    },
+    {
+      id: 8,
+      style: 'vintage',
+      prompt: `Vintage retro banner about ${theme}, classic design, nostalgic colors, timeless appeal`,
+      title: bannerTitle,
+      subtitle: content?.substring(0, 60) || 'Classic style'
     }
   ];
 }
@@ -222,6 +250,30 @@ async function generateEnhancedSVG(spec: any): Promise<string> {
       primary: '#064e3b',
       secondary: '#10b981',
       tertiary: '#6ee7b7',
+      text: '#ffffff'
+    },
+    minimalist: {
+      primary: '#18181b',
+      secondary: '#52525b',
+      tertiary: '#a1a1aa',
+      text: '#ffffff'
+    },
+    abstract: {
+      primary: '#be123c',
+      secondary: '#f43f5e',
+      tertiary: '#fb7185',
+      text: '#ffffff'
+    },
+    futuristic: {
+      primary: '#0c4a6e',
+      secondary: '#0ea5e9',
+      tertiary: '#7dd3fc',
+      text: '#ffffff'
+    },
+    vintage: {
+      primary: '#713f12',
+      secondary: '#d97706',
+      tertiary: '#fbbf24',
       text: '#ffffff'
     }
   };
