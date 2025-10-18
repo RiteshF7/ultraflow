@@ -9,19 +9,19 @@ import mermaid from 'mermaid';
  * Available Mermaid themes
  */
 export const MERMAID_THEMES = {
-  'default': 'Light Blue (Default)',
-  'dark': 'Dark Theme',
-  'base': 'Base Theme',
-  'forest': 'Forest (Green)',
-  'neutral': 'Neutral Theme',
-  'ocean': 'Ocean Breeze',
-  'sunset': 'Sunset Glow',
+  'default': 'Modern Blue',
+  'dark': 'Dark Mode',
+  'base': 'Base',
+  'forest': 'Forest Green',
+  'neutral': 'Neutral',
+  'ocean': 'Ocean Blue',
+  'sunset': 'Sunset Orange',
   'purple': 'Purple Dream',
-  'rose': 'Rose Garden',
+  'rose': 'Rose Pink',
   'neon': 'Neon Night',
   'pastel': 'Pastel Dreams',
   'monochrome': 'Monochrome',
-  'mint': 'Mint Fresh',
+  'mint': 'Mint Green',
   'crimson': 'Crimson Wave',
   'slate': 'Slate Professional',
   'amber': 'Amber Warmth',
@@ -32,11 +32,17 @@ export const MERMAID_THEMES = {
   'indigo': 'Indigo Deep',
   'lime': 'Lime Zest',
   'sky': 'Sky Blue',
-  'neo': 'Neo',
+  'neo': 'Neo Green',
   'neoDark': 'Neo Dark',
   'forestMermaid': 'Forest Mermaid',
   'redux': 'Redux',
-  'reduxDark': 'Redux Dark'
+  'reduxDark': 'Redux Dark',
+  'modern': 'Modern Gradient',
+  'corporate': 'Corporate Blue',
+  'creative': 'Creative Orange',
+  'nature': 'Nature Green',
+  'royal': 'Royal Purple',
+  'lavender': 'Lavender'
 } as const;
 
 export type MermaidTheme = keyof typeof MERMAID_THEMES;
@@ -67,10 +73,10 @@ export function initializeMermaid(theme: MermaidTheme = 'default', customThemeVa
     primaryBorderColor: themeColors.borderColor,
     nodeBorder: themeColors.borderColor,
     
-    // Text colors
-    primaryTextColor: themeColors.textColor,
-    textColor: themeColors.textColor,
-    nodeTextColor: themeColors.textColor,
+    // Text colors - FORCE WHITE TEXT ON ALL NODES
+    primaryTextColor: '#ffffff',
+    textColor: '#ffffff',
+    nodeTextColor: '#ffffff',
     
     // Background colors
     primaryColor: themeColors.nodeColor,
@@ -79,13 +85,13 @@ export function initializeMermaid(theme: MermaidTheme = 'default', customThemeVa
     secondaryColor: themeColors.nodeColor,
     tertiaryColor: themeColors.nodeColor,
     
-    // Label colors
-    edgeLabelColor: themeColors.textColor,
-    clusterTextColor: themeColors.textColor,
+    // Label colors - FORCE WHITE TEXT
+    edgeLabelColor: '#ffffff',
+    clusterTextColor: '#ffffff',
     
-    // Decision colors
-    decisionSecondaryTextColor: themeColors.decisionText || themeColors.borderColor,
-    decisionTertiaryTextColor: themeColors.decisionText || themeColors.borderColor,
+    // Decision colors - FORCE WHITE TEXT
+    decisionSecondaryTextColor: '#ffffff',
+    decisionTertiaryTextColor: '#ffffff',
     
     // Edge label background
     edgeLabelBackground: themeColors.previewBg,

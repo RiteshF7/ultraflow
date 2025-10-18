@@ -151,10 +151,10 @@ export default function MermaidEditorModern() {
     mainBkg: DEFAULT_MERMAID_THEME.nodeColor,
     nodeBkg: DEFAULT_MERMAID_THEME.nodeColor,
     
-    // Text colors
-    primaryTextColor: DEFAULT_MERMAID_THEME.textColor,
-    textColor: DEFAULT_MERMAID_THEME.textColor,
-    nodeTextColor: DEFAULT_MERMAID_THEME.textColor,
+    // Text colors - FORCE WHITE TEXT
+    primaryTextColor: '#ffffff',
+    textColor: '#ffffff',
+    nodeTextColor: '#ffffff',
     
     // Border colors
     primaryBorderColor: DEFAULT_MERMAID_THEME.borderColor,
@@ -164,9 +164,9 @@ export default function MermaidEditorModern() {
     lineColor: DEFAULT_MERMAID_THEME.arrowColor,
     edgeLabelBackground: DEFAULT_MERMAID_THEME.previewBg,
     
-    // Decision text color only
-    decisionSecondaryTextColor: DEFAULT_MERMAID_THEME.decisionText || DEFAULT_MERMAID_THEME.borderColor,
-    decisionTertiaryTextColor: DEFAULT_MERMAID_THEME.decisionText || DEFAULT_MERMAID_THEME.borderColor,
+    // Decision text color - FORCE WHITE TEXT
+    decisionSecondaryTextColor: '#ffffff',
+    decisionTertiaryTextColor: '#ffffff',
   });
   
   const mermaidRef = useRef<HTMLDivElement>(null);
@@ -273,10 +273,10 @@ export default function MermaidEditorModern() {
       mainBkg: theme.nodeColor,
       nodeBkg: theme.nodeColor,
       
-      // Text colors
-      primaryTextColor: theme.textColor,
-      textColor: theme.textColor,
-      nodeTextColor: theme.textColor,
+      // Text colors - FORCE WHITE TEXT
+      primaryTextColor: '#ffffff',
+      textColor: '#ffffff',
+      nodeTextColor: '#ffffff',
       
       // Border colors
       primaryBorderColor: theme.borderColor,
@@ -286,9 +286,9 @@ export default function MermaidEditorModern() {
       lineColor: theme.arrowColor,
       edgeLabelBackground: theme.previewBg,
       
-      // Decision text color only
-      decisionSecondaryTextColor: theme.decisionText || theme.borderColor,
-      decisionTertiaryTextColor: theme.decisionText || theme.borderColor,
+      // Decision text color - FORCE WHITE TEXT
+      decisionSecondaryTextColor: '#ffffff',
+      decisionTertiaryTextColor: '#ffffff',
     });
   };
 
@@ -342,21 +342,6 @@ export default function MermaidEditorModern() {
             <option value="pie">Pie Chart</option>
           </select>
 
-          <select
-            onChange={(e) => {
-              if (e.target.value) {
-                applyColorTheme(e.target.value);
-              }
-            }}
-            className="px-4 py-2 bg-background border border-input rounded-lg text-sm cursor-pointer hover:bg-accent"
-          >
-            <option value="">🎨 Color Themes...</option>
-            {Object.entries(MERMAID_COLOR_THEMES).map(([key, theme]) => (
-              <option key={key} value={key}>
-                {theme.name}
-              </option>
-            ))}
-          </select>
 
           <Button variant="outline" size="sm" onClick={shuffleDirection}>
             <Shuffle className="h-4 w-4 mr-2" />
@@ -526,62 +511,46 @@ export default function MermaidEditorModern() {
                   </div>
 
                   <div>
-                    <Label htmlFor="text-color" className="text-xs">Node Text Color</Label>
+                    <Label htmlFor="text-color" className="text-xs">Node Text Color (Fixed to White)</Label>
                     <div className="flex gap-2 mt-1">
                       <Input
                         id="text-color"
                         type="color"
-                        value={customTheme.primaryTextColor || '#ffffff'}
-                        onChange={(e) => setCustomTheme(prev => ({ 
-                          ...prev, 
-                          primaryTextColor: e.target.value,
-                          textColor: e.target.value,
-                          nodeTextColor: e.target.value
-                        }))}
-                        className="h-9 w-16"
+                        value="#ffffff"
+                        disabled
+                        className="h-9 w-16 opacity-50"
                       />
                       <Input
                         type="text"
-                        value={customTheme.primaryTextColor || '#ffffff'}
-                        onChange={(e) => setCustomTheme(prev => ({ 
-                          ...prev, 
-                          primaryTextColor: e.target.value,
-                          textColor: e.target.value,
-                          nodeTextColor: e.target.value
-                        }))}
-                        className="h-9 flex-1 font-mono text-xs"
+                        value="#ffffff"
+                        disabled
+                        className="h-9 flex-1 font-mono text-xs opacity-50"
                         placeholder="#ffffff"
                       />
                     </div>
+                    <p className="text-xs text-muted-foreground mt-1">Text color is fixed to white for better readability</p>
                   </div>
 
 
                   <div>
-                    <Label htmlFor="decision-text" className="text-xs">Decision Text Color</Label>
+                    <Label htmlFor="decision-text" className="text-xs">Decision Text Color (Fixed to White)</Label>
                     <div className="flex gap-2 mt-1">
                       <Input
                         id="decision-text"
                         type="color"
-                        value={customTheme.decisionSecondaryTextColor || '#4338ca'}
-                        onChange={(e) => setCustomTheme(prev => ({ 
-                          ...prev, 
-                          decisionSecondaryTextColor: e.target.value,
-                          decisionTertiaryTextColor: e.target.value
-                        }))}
-                        className="h-9 w-16"
+                        value="#ffffff"
+                        disabled
+                        className="h-9 w-16 opacity-50"
                       />
                       <Input
                         type="text"
-                        value={customTheme.decisionSecondaryTextColor || '#4338ca'}
-                        onChange={(e) => setCustomTheme(prev => ({ 
-                          ...prev, 
-                          decisionSecondaryTextColor: e.target.value,
-                          decisionTertiaryTextColor: e.target.value
-                        }))}
-                        className="h-9 flex-1 font-mono text-xs"
-                        placeholder="#4338ca"
+                        value="#ffffff"
+                        disabled
+                        className="h-9 flex-1 font-mono text-xs opacity-50"
+                        placeholder="#ffffff"
                       />
                     </div>
+                    <p className="text-xs text-muted-foreground mt-1">Decision text color is fixed to white for better readability</p>
                   </div>
 
                   <Button 
@@ -598,10 +567,10 @@ export default function MermaidEditorModern() {
                         mainBkg: DEFAULT_MERMAID_THEME.nodeColor,
                         nodeBkg: DEFAULT_MERMAID_THEME.nodeColor,
                         
-                        // Text colors
-                        primaryTextColor: DEFAULT_MERMAID_THEME.textColor,
-                        textColor: DEFAULT_MERMAID_THEME.textColor,
-                        nodeTextColor: DEFAULT_MERMAID_THEME.textColor,
+                        // Text colors - FORCE WHITE TEXT
+                        primaryTextColor: '#ffffff',
+                        textColor: '#ffffff',
+                        nodeTextColor: '#ffffff',
                         
                         // Border colors
                         primaryBorderColor: DEFAULT_MERMAID_THEME.borderColor,
@@ -611,9 +580,9 @@ export default function MermaidEditorModern() {
                         lineColor: DEFAULT_MERMAID_THEME.arrowColor,
                         edgeLabelBackground: DEFAULT_MERMAID_THEME.previewBg,
                         
-                        // Decision text color only
-                        decisionSecondaryTextColor: DEFAULT_MERMAID_THEME.decisionText || DEFAULT_MERMAID_THEME.borderColor,
-                        decisionTertiaryTextColor: DEFAULT_MERMAID_THEME.decisionText || DEFAULT_MERMAID_THEME.borderColor,
+                        // Decision text color - FORCE WHITE TEXT
+                        decisionSecondaryTextColor: '#ffffff',
+                        decisionTertiaryTextColor: '#ffffff',
                       });
                     }}
                   >

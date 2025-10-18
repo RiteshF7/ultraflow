@@ -68,10 +68,10 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
         mainBkg: themeColors.nodeColor,
         nodeBkg: themeColors.nodeColor,
         
-        // Text colors
-        primaryTextColor: themeColors.textColor,
-        textColor: themeColors.textColor,
-        nodeTextColor: themeColors.textColor,
+        // Text colors - FORCE WHITE TEXT
+        primaryTextColor: '#ffffff',
+        textColor: '#ffffff',
+        nodeTextColor: '#ffffff',
         
         // Border colors
         primaryBorderColor: themeColors.borderColor,
@@ -81,9 +81,9 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
         lineColor: themeColors.arrowColor,
         edgeLabelBackground: themeColors.previewBg,
         
-        // Decision text color
-        decisionSecondaryTextColor: themeColors.decisionText || themeColors.borderColor,
-        decisionTertiaryTextColor: themeColors.decisionText || themeColors.borderColor,
+        // Decision text color - FORCE WHITE TEXT
+        decisionSecondaryTextColor: '#ffffff',
+        decisionTertiaryTextColor: '#ffffff',
       };
       
       if (forceRefresh && typeof window !== 'undefined') {
@@ -125,6 +125,13 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
       setRenderError('Failed to initialize diagram container');
     }
   }, [diagram.mermaidCode, index, retryCount, forceRefreshTrigger, theme]);
+
+  // Force re-render when theme changes
+  useEffect(() => {
+    if (mermaidRef.current && diagram.mermaidCode && isRendered) {
+      renderDiagram(true);
+    }
+  }, [theme]);
 
   const [downloadType, setDownloadType] = useState<'svg' | 'png' | null>(null);
 
