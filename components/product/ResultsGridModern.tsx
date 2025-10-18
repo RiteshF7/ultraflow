@@ -8,6 +8,7 @@ import {
   MERMAID_THEMES,
   type MermaidTheme
 } from '@/lib/ArticleToFlowChart/step2-mmdToImage-browser';
+import { MERMAID_COLOR_THEMES, DEFAULT_MERMAID_THEME } from '@/constants/mermaidThemes';
 import {
   downloadSvg,
   downloadPng
@@ -57,15 +58,45 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
       setRenderError('');
       setIsRendered(false);
       
+      // Get theme colors for custom theme variables
+      const themeColors = MERMAID_COLOR_THEMES[theme] || DEFAULT_MERMAID_THEME;
+      const customThemeVars = {
+        // Node background colors
+        primaryColor: themeColors.nodeColor,
+        secondaryColor: themeColors.nodeColor,
+        tertiaryColor: themeColors.nodeColor,
+        mainBkg: themeColors.nodeColor,
+        nodeBkg: themeColors.nodeColor,
+        
+        // Text colors
+        primaryTextColor: themeColors.textColor,
+        textColor: themeColors.textColor,
+        nodeTextColor: themeColors.textColor,
+        
+        // Border colors
+        primaryBorderColor: themeColors.borderColor,
+        nodeBorder: themeColors.borderColor,
+        
+        // Line/Arrow colors
+        lineColor: themeColors.arrowColor,
+        edgeLabelBackground: themeColors.previewBg,
+        
+        // Decision text color
+        decisionSecondaryTextColor: themeColors.decisionText || themeColors.borderColor,
+        decisionTertiaryTextColor: themeColors.decisionText || themeColors.borderColor,
+      };
+      
       if (forceRefresh && typeof window !== 'undefined') {
-        initializeMermaid(theme);
+        initializeMermaid(theme, customThemeVars);
       }
       
       await new Promise(resolve => setTimeout(resolve, 200));
       
       const result = await renderMermaidToElement(
         diagram.mermaidCode,
-        `mermaid-card-${index}-${Date.now()}`
+        `mermaid-card-${index}-${Date.now()}`,
+        theme,
+        customThemeVars
       );
       
       if (result.svg) {

@@ -13,7 +13,30 @@ export const MERMAID_THEMES = {
   'dark': 'Dark Theme',
   'base': 'Base Theme',
   'forest': 'Forest (Green)',
-  'neutral': 'Neutral Theme'
+  'neutral': 'Neutral Theme',
+  'ocean': 'Ocean Breeze',
+  'sunset': 'Sunset Glow',
+  'purple': 'Purple Dream',
+  'rose': 'Rose Garden',
+  'neon': 'Neon Night',
+  'pastel': 'Pastel Dreams',
+  'monochrome': 'Monochrome',
+  'mint': 'Mint Fresh',
+  'crimson': 'Crimson Wave',
+  'slate': 'Slate Professional',
+  'amber': 'Amber Warmth',
+  'teal': 'Teal Calm',
+  'grape': 'Grape Purple',
+  'emerald': 'Emerald Shine',
+  'fuchsia': 'Fuchsia Burst',
+  'indigo': 'Indigo Deep',
+  'lime': 'Lime Zest',
+  'sky': 'Sky Blue',
+  'neo': 'Neo',
+  'neoDark': 'Neo Dark',
+  'forestMermaid': 'Forest Mermaid',
+  'redux': 'Redux',
+  'reduxDark': 'Redux Dark'
 } as const;
 
 export type MermaidTheme = keyof typeof MERMAID_THEMES;
@@ -29,44 +52,51 @@ export interface CustomThemeVariables {
  * Initialize Mermaid with customizable theme settings
  */
 export function initializeMermaid(theme: MermaidTheme = 'default', customThemeVariables?: CustomThemeVariables) {
+  // Import color themes dynamically to avoid circular imports
+  const { MERMAID_COLOR_THEMES, DEFAULT_MERMAID_THEME } = require('@/constants/mermaidThemes');
+  
+  // Get theme colors from our color themes or use defaults
+  const themeColors = MERMAID_COLOR_THEMES[theme] || DEFAULT_MERMAID_THEME;
+  
   const defaultThemeVars = {
     // Line and arrow colors
-    lineColor: '#000000',
-    defaultLinkColor: '#000000',
+    lineColor: themeColors.arrowColor,
+    defaultLinkColor: themeColors.arrowColor,
     
     // Border colors
-    primaryBorderColor: '#000000',
-    nodeBorder: '#000000',
+    primaryBorderColor: themeColors.borderColor,
+    nodeBorder: themeColors.borderColor,
     
     // Text colors
-    primaryTextColor: theme === 'dark' ? '#ffffff' : '#000000',
-    textColor: theme === 'dark' ? '#ffffff' : '#000000',
-    nodeTextColor: theme === 'dark' ? '#ffffff' : '#000000',
+    primaryTextColor: themeColors.textColor,
+    textColor: themeColors.textColor,
+    nodeTextColor: themeColors.textColor,
     
     // Background colors
-    primaryColor: '#4f46e5',
-    mainBkg: '#4f46e5',
-    nodeBkg: '#4f46e5',
+    primaryColor: themeColors.nodeColor,
+    mainBkg: themeColors.nodeColor,
+    nodeBkg: themeColors.nodeColor,
+    secondaryColor: themeColors.nodeColor,
+    tertiaryColor: themeColors.nodeColor,
     
-    // Label colors (theme-aware)
-    edgeLabelColor: theme === 'dark' ? '#ffffff' : '#000000',
-    clusterTextColor: theme === 'dark' ? '#ffffff' : '#000000',
+    // Label colors
+    edgeLabelColor: themeColors.textColor,
+    clusterTextColor: themeColors.textColor,
+    
+    // Decision colors
+    decisionSecondaryTextColor: themeColors.decisionText || themeColors.borderColor,
+    decisionTertiaryTextColor: themeColors.decisionText || themeColors.borderColor,
+    
+    // Edge label background
+    edgeLabelBackground: themeColors.previewBg,
   };
 
-  // Filter out empty/undefined custom theme variables and map decision variables
+  // Filter out empty/undefined custom theme variables
   const filteredCustomVars: Record<string, string> = {};
   if (customThemeVariables) {
     Object.entries(customThemeVariables).forEach(([key, value]) => {
       if (value && value.trim() !== '') {
-        // Map custom decision variables to Mermaid's actual variables
-        if (key === 'decisionSecondaryTextColor' || key === 'decisionTertiaryTextColor') {
-          // Apply decision text color to multiple relevant variables
-          filteredCustomVars['nodeTextColor'] = value;
-          filteredCustomVars['edgeLabelColor'] = value;
-          filteredCustomVars['clusterTextColor'] = value;
-        } else {
-          filteredCustomVars[key] = value;
-        }
+        filteredCustomVars[key] = value;
       }
     });
   }
