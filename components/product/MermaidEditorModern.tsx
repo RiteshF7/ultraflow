@@ -260,37 +260,6 @@ export default function MermaidEditorModern() {
     }
   };
 
-  const applyColorTheme = (themeKey: string) => {
-    const theme = MERMAID_COLOR_THEMES[themeKey as keyof typeof MERMAID_COLOR_THEMES];
-    if (!theme) return;
-
-    setPreviewBgColor(theme.previewBg);
-    setCustomTheme({
-      // Node background colors
-      primaryColor: theme.nodeColor,
-      secondaryColor: theme.nodeColor,
-      tertiaryColor: theme.nodeColor,
-      mainBkg: theme.nodeColor,
-      nodeBkg: theme.nodeColor,
-      
-      // Text colors - FORCE WHITE TEXT
-      primaryTextColor: '#ffffff',
-      textColor: '#ffffff',
-      nodeTextColor: '#ffffff',
-      
-      // Border colors
-      primaryBorderColor: theme.borderColor,
-      nodeBorder: theme.borderColor,
-      
-      // Line/Arrow colors
-      lineColor: theme.arrowColor,
-      edgeLabelBackground: theme.previewBg,
-      
-      // Decision text color - FORCE WHITE TEXT
-      decisionSecondaryTextColor: '#ffffff',
-      decisionTertiaryTextColor: '#ffffff',
-    });
-  };
 
   const shuffleDirection = () => {
     const directions = ['TD', 'LR', 'RL', 'BT'];
@@ -359,49 +328,6 @@ export default function MermaidEditorModern() {
               <div className="space-y-4">
                 <h4 className="font-medium text-sm">Theme Customization</h4>
                 
-                {/* Color Theme Presets */}
-                <div className="space-y-2">
-                  <Label className="text-xs font-semibold">Quick Theme Presets</Label>
-                  <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto p-1">
-                    {Object.entries(MERMAID_COLOR_THEMES).map(([key, theme]) => (
-                      <button
-                        key={key}
-                        onClick={() => applyColorTheme(key)}
-                        className="group relative p-3 rounded-lg border-2 border-border hover:border-primary transition-all text-left hover:shadow-md"
-                      >
-                        <div className="flex items-center gap-2 mb-2">
-                          <div 
-                            className="w-4 h-4 rounded-full border border-border/50"
-                            style={{ backgroundColor: theme.nodeColor }}
-                          />
-                          <span className="text-xs font-medium truncate">{theme.name}</span>
-                        </div>
-                        <div className="flex gap-1">
-                          <div 
-                            className="w-4 h-4 rounded border border-border/30"
-                            style={{ backgroundColor: theme.previewBg }}
-                            title="Preview BG"
-                          />
-                          <div 
-                            className="w-4 h-4 rounded border border-border/30"
-                            style={{ backgroundColor: theme.borderColor }}
-                            title="Border"
-                          />
-                          <div 
-                            className="w-4 h-4 rounded border border-border/30"
-                            style={{ backgroundColor: theme.arrowColor }}
-                            title="Arrow"
-                          />
-                          <div 
-                            className="w-4 h-4 rounded border border-border/30"
-                            style={{ backgroundColor: theme.textColor }}
-                            title="Text"
-                          />
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
 
                 <div className="border-t pt-3">
                   <Label className="text-xs font-semibold">Custom Colors</Label>
