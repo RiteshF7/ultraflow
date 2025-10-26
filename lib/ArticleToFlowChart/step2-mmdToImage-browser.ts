@@ -55,6 +55,54 @@ export interface CustomThemeVariables {
 }
 
 /**
+ * Utility: Pick readable text color for a given background
+ */
+function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
+  const normalized = hex.trim().toLowerCase();
+  const short = /^#?([a-f0-9]{3})$/i;
+  const long = /^#?([a-f0-9]{6})$/i;
+  if (short.test(normalized)) {
+    const [, s] = normalized.match(short) as RegExpMatchArray;
+    const r = parseInt(s[0] + s[0], 16);
+    const g = parseInt(s[1] + s[1], 16);
+    const b = parseInt(s[2] + s[2], 16);
+    return { r, g, b };
+  }
+  if (long.test(normalized)) {
+    const [, l] = normalized.match(long) as RegExpMatchArray;
+    const r = parseInt(l.slice(0, 2), 16);
+    const g = parseInt(l.slice(2, 4), 16);
+    const b = parseInt(l.slice(4, 6), 16);
+    return { r, g, b };
+  }
+  return null;
+}
+
+function luminance(hex: string): number {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return 1; // default to bright so we choose dark text
+  const toLinear = (c: number) => {
+    const s = c / 255;
+    return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+  };
+  const r = toLinear(rgb.r);
+  const g = toLinear(rgb.g);
+  const b = toLinear(rgb.b);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function getReadableTextColor(backgroundHex: string): string {
+  // WCAG recommends contrast ratio >= 4.5; we approximate with luminance threshold
+  // Pick near-black for light backgrounds, white for dark backgrounds
+  try {
+    const L = luminance(backgroundHex);
+    return L > 0.5 ? '#111827' : '#ffffff';
+  } catch {
+    return '#111827';
+  }
+}
+
+/**
  * Initialize Mermaid with customizable theme settings
  */
 export function initializeMermaid(theme: MermaidTheme = 'default', customThemeVariables?: CustomThemeVariables) {
@@ -64,6 +112,21 @@ export function initializeMermaid(theme: MermaidTheme = 'default', customThemeVa
   // Get theme colors from our color themes or use defaults
   const themeColors = MERMAID_COLOR_THEMES[theme] || DEFAULT_MERMAID_THEME;
   
+  // Determine effective node background and text colors
+  const providedVars = customThemeVariables || {};
+  const nodeBackground =
+    (providedVars.nodeBkg && providedVars.nodeBkg.trim()) ||
+    (providedVars.mainBkg && providedVars.mainBkg.trim()) ||
+    (providedVars.primaryColor && providedVars.primaryColor.trim()) ||
+    themeColors.nodeColor;
+
+  const explicitText =
+    (providedVars.nodeTextColor && providedVars.nodeTextColor.trim()) ||
+    (providedVars.textColor && providedVars.textColor.trim()) ||
+    (providedVars.primaryTextColor && providedVars.primaryTextColor.trim());
+
+  const computedTextColor = explicitText || getReadableTextColor(nodeBackground);
+
   const defaultThemeVars = {
     // Line and arrow colors
     lineColor: themeColors.arrowColor,
@@ -73,25 +136,25 @@ export function initializeMermaid(theme: MermaidTheme = 'default', customThemeVa
     primaryBorderColor: themeColors.borderColor,
     nodeBorder: themeColors.borderColor,
     
-    // Text colors - FORCE WHITE TEXT ON ALL NODES
-    primaryTextColor: '#ffffff',
-    textColor: '#ffffff',
-    nodeTextColor: '#ffffff',
+    // Text colors - auto-contrast for readability (overridable by custom vars)
+    primaryTextColor: computedTextColor,
+    textColor: computedTextColor,
+    nodeTextColor: computedTextColor,
     
     // Background colors
-    primaryColor: themeColors.nodeColor,
-    mainBkg: themeColors.nodeColor,
-    nodeBkg: themeColors.nodeColor,
-    secondaryColor: themeColors.nodeColor,
-    tertiaryColor: themeColors.nodeColor,
+    primaryColor: nodeBackground,
+    mainBkg: nodeBackground,
+    nodeBkg: nodeBackground,
+    secondaryColor: nodeBackground,
+    tertiaryColor: nodeBackground,
     
-    // Label colors - FORCE WHITE TEXT
-    edgeLabelColor: '#ffffff',
-    clusterTextColor: '#ffffff',
+    // Label colors - match computed text
+    edgeLabelColor: computedTextColor,
+    clusterTextColor: computedTextColor,
     
-    // Decision colors - FORCE WHITE TEXT
-    decisionSecondaryTextColor: '#ffffff',
-    decisionTertiaryTextColor: '#ffffff',
+    // Decision colors - match computed text
+    decisionSecondaryTextColor: computedTextColor,
+    decisionTertiaryTextColor: computedTextColor,
     
     // Edge label background
     edgeLabelBackground: themeColors.previewBg,
@@ -115,6 +178,20 @@ export function initializeMermaid(theme: MermaidTheme = 'default', customThemeVa
     clusterTextColor: filteredCustomVars['clusterTextColor']
   });
 
+  // Inject CSS to enforce readable text color across both SVG text and HTML labels
+  const finalTextColor = filteredCustomVars['nodeTextColor'] || filteredCustomVars['textColor'] || defaultThemeVars.textColor;
+  const finalNodeFill = filteredCustomVars['nodeBkg'] || filteredCustomVars['mainBkg'] || filteredCustomVars['primaryColor'] || defaultThemeVars.nodeBkg;
+  const finalBorder = filteredCustomVars['nodeBorder'] || filteredCustomVars['primaryBorderColor'] || defaultThemeVars.nodeBorder;
+  const css = `
+    /* Ensure node shapes use configured background/border */
+    .node rect, .node circle, .node ellipse, .node polygon, .node path { fill: ${finalNodeFill} !important; stroke: ${finalBorder} !important; }
+    /* Labels inside nodes and clusters - apply both fill and CSS color */
+    .node .label, .label, .nodeLabel, .edgeLabel, .cluster text, .cluster .title, .clusterLabel, .flowchartLabel,
+    .node foreignObject div, .edgeLabel foreignObject div { color: ${finalTextColor} !important; fill: ${finalTextColor} !important; }
+    /* Edge label background should remain readable */
+    .edgeLabel rect { fill: ${defaultThemeVars.edgeLabelBackground} !important; }
+  `;
+
   mermaid.initialize({
     startOnLoad: false,
     theme: theme,
@@ -131,7 +208,8 @@ export function initializeMermaid(theme: MermaidTheme = 'default', customThemeVa
     themeVariables: {
       ...defaultThemeVars,
       ...filteredCustomVars
-    }
+    },
+    themeCSS: css
   });
 }
 

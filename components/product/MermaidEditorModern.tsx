@@ -151,11 +151,6 @@ export default function MermaidEditorModern() {
     mainBkg: DEFAULT_MERMAID_THEME.nodeColor,
     nodeBkg: DEFAULT_MERMAID_THEME.nodeColor,
     
-    // Text colors - FORCE WHITE TEXT
-    primaryTextColor: '#ffffff',
-    textColor: '#ffffff',
-    nodeTextColor: '#ffffff',
-    
     // Border colors
     primaryBorderColor: DEFAULT_MERMAID_THEME.borderColor,
     nodeBorder: DEFAULT_MERMAID_THEME.borderColor,
@@ -163,10 +158,6 @@ export default function MermaidEditorModern() {
     // Line/Arrow colors
     lineColor: DEFAULT_MERMAID_THEME.arrowColor,
     edgeLabelBackground: DEFAULT_MERMAID_THEME.previewBg,
-    
-    // Decision text color - FORCE WHITE TEXT
-    decisionSecondaryTextColor: '#ffffff',
-    decisionTertiaryTextColor: '#ffffff',
   });
   
   const mermaidRef = useRef<HTMLDivElement>(null);
@@ -437,24 +428,34 @@ export default function MermaidEditorModern() {
                   </div>
 
                   <div>
-                    <Label htmlFor="text-color" className="text-xs">Node Text Color (Fixed to White)</Label>
+                    <Label htmlFor="text-color" className="text-xs">Node Text Color</Label>
                     <div className="flex gap-2 mt-1">
                       <Input
                         id="text-color"
                         type="color"
-                        value="#ffffff"
-                        disabled
-                        className="h-9 w-16 opacity-50"
+                        value={(customTheme.nodeTextColor as string) || (customTheme.textColor as string) || '#ffffff'}
+                        onChange={(e) => setCustomTheme(prev => ({
+                          ...prev,
+                          primaryTextColor: e.target.value,
+                          textColor: e.target.value,
+                          nodeTextColor: e.target.value
+                        }))}
+                        className="h-9 w-16"
                       />
                       <Input
                         type="text"
-                        value="#ffffff"
-                        disabled
-                        className="h-9 flex-1 font-mono text-xs opacity-50"
+                        value={(customTheme.nodeTextColor as string) || (customTheme.textColor as string) || '#ffffff'}
+                        onChange={(e) => setCustomTheme(prev => ({
+                          ...prev,
+                          primaryTextColor: e.target.value,
+                          textColor: e.target.value,
+                          nodeTextColor: e.target.value
+                        }))}
+                        className="h-9 flex-1 font-mono text-xs"
                         placeholder="#ffffff"
                       />
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">Text color is fixed to white for better readability</p>
+                    <p className="text-xs text-muted-foreground mt-1">Choose a text color with strong contrast to the node color.</p>
                   </div>
 
 
@@ -492,23 +493,12 @@ export default function MermaidEditorModern() {
                         tertiaryColor: DEFAULT_MERMAID_THEME.nodeColor,
                         mainBkg: DEFAULT_MERMAID_THEME.nodeColor,
                         nodeBkg: DEFAULT_MERMAID_THEME.nodeColor,
-                        
-                        // Text colors - FORCE WHITE TEXT
-                        primaryTextColor: '#ffffff',
-                        textColor: '#ffffff',
-                        nodeTextColor: '#ffffff',
-                        
                         // Border colors
                         primaryBorderColor: DEFAULT_MERMAID_THEME.borderColor,
                         nodeBorder: DEFAULT_MERMAID_THEME.borderColor,
-                        
                         // Line/Arrow colors
                         lineColor: DEFAULT_MERMAID_THEME.arrowColor,
                         edgeLabelBackground: DEFAULT_MERMAID_THEME.previewBg,
-                        
-                        // Decision text color - FORCE WHITE TEXT
-                        decisionSecondaryTextColor: '#ffffff',
-                        decisionTertiaryTextColor: '#ffffff',
                       });
                     }}
                   >
