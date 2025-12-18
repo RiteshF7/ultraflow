@@ -1,4 +1,12 @@
 import createMDX from 'fumadocs-mdx/config';
+import withPWAInit from "@ducanh2912/next-pwa";
+
+const withPWA = withPWAInit({
+  dest: "public",
+  disable: process.env.NODE_ENV === "development",
+  register: true,
+  skipWaiting: true,
+});
 
 const withMDX = createMDX();
 
@@ -26,4 +34,4 @@ const config = {
   }
 };
 
-export default withMDX(config);
+export default withPWA(withMDX(config));

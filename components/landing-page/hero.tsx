@@ -47,35 +47,35 @@ export default function HeroSection() {
       </div>
       <div className="container mx-auto px-4 py-12 md:py-16 lg:py-32">
         <div className="relative z-10 flex max-w-[64rem] flex-col items-center gap-4 text-center mx-auto">
-            <div
-              className={cn(
-                'group rounded-full border border-black/5 bg-neutral-100 text-base text-secondary transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800',
-              )}
-            >
-              <AnimatedGradientText className="inline-flex items-center justify-center gap-2 px-4 py-2">
-                <span>{heroContent.announcement.emoji}</span>
-                <span
-                  className={cn(
-                    `animate-gradient bg-gradient-to-r from-[#b76a24] via-[#6a24b7] to-[#b76a24] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent`,
-                  )}
-                >
-                  {heroContent.announcement.text}
-                </span>
-              </AnimatedGradientText>
-            </div>
+          <div
+            className={cn(
+              'group rounded-full border border-black/5 bg-neutral-100 text-base text-secondary transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800',
+            )}
+          >
+            <AnimatedGradientText className="inline-flex items-center justify-center gap-2 px-4 py-2">
+              <span>{heroContent.announcement.emoji}</span>
+              <span
+                className={cn(
+                  `animate-gradient bg-gradient-to-r from-[#b76a24] via-[#6a24b7] to-[#b76a24] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent`,
+                )}
+              >
+                {heroContent.announcement.text}
+              </span>
+            </AnimatedGradientText>
+          </div>
 
-          <h1 className="font-heading tracking-tight   font-bold text-2xl sm:text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="font-heading tracking-tight font-bold text-2xl sm:text-4xl md:text-5xl lg:text-6xl [text-shadow:0_0_2px_rgba(0,0,0,0.1)] dark:[text-shadow:0_0_20px_rgba(255,255,255,0.3)]">
             {heroContent.heading}
           </h1>
           <div className="max-w-[42rem] font-bold tracking-tight text-primary sm:text-xl sm:leading-8 rounded-full p-2">
             {heroContent.subheading}
           </div>
           <div className="flex flex-wrap justify-center gap-4">
-            <button 
+            <button
               onClick={handleGetStarted}
               disabled={isNavigating}
               className={cn(
-                buttonVariants({ size: 'xl' }), 
+                buttonVariants({ size: 'xl' }),
                 'rounded-full border-2 border-primary dark:border-white text-bold text-white',
                 isNavigating && 'opacity-90 cursor-not-allowed'
               )}

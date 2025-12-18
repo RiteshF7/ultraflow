@@ -104,6 +104,17 @@ export const MERMAID_COLOR_THEMES: Record<string, ColorTheme> = {
     decisionBorder: '#0891b2',
     decisionText: '#22d3ee',
   },
+  smoky: {
+    name: 'Smoky Essence',
+    previewBg: '#09090b',
+    nodeColor: 'rgba(255, 255, 255, 0.1)',
+    borderColor: 'rgba(255, 255, 255, 0.5)',
+    arrowColor: '#a1a1aa',
+    textColor: '#ffffff',
+    decisionBg: 'rgba(255, 255, 255, 0.05)',
+    decisionBorder: 'rgba(255, 255, 255, 0.3)',
+    decisionText: '#e4e4e7',
+  },
   pastel: {
     name: 'Pastel Dreams',
     previewBg: '#fefce8',
