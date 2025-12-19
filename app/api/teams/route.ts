@@ -17,7 +17,7 @@ export async function GET(req: Request) {
 
   // Fetch teams for the authenticated user
   const { data: teams, error } = await supabase
-    .from('team_members')
+    .from('team_members' as any)
     .select(`
       team_id,
       role,
