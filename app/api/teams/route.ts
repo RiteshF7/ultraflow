@@ -1,7 +1,9 @@
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
 
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+export const fetchCache = 'force-no-store'
 
 export async function GET(req: Request) {
   const supabase = createClient()
@@ -33,10 +35,14 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Failed to fetch teams' }, { status: 500 })
   }
 
+  if (!teams) {
+    return NextResponse.json([], { status: 200 })
+  }
+
   // Transform the data to a more convenient format
-  const formattedTeams = teams.map(({ teams, role }) => ({
-    ...teams,
-    role
+  const formattedTeams = teams.map((item: any) => ({
+    ...(item.teams || {}),
+    role: item.role
   }))
 
   return NextResponse.json(formattedTeams)
