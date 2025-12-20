@@ -14,7 +14,7 @@ import { executeArticleToFlowChart } from '@/lib/ArticleToFlowChart/articleToFlo
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { article, themeInstructions } = body;
+    const { article, themeInstructions, count } = body;
 
     if (!article || typeof article !== 'string') {
       return NextResponse.json(
@@ -30,8 +30,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Default to 1 if not specified, verify range
+    const diagramCount = count ? Math.max(1, Math.min(10, parseInt(count))) : 3;
+
     // Execute the pipeline (article -> diagrams in one AI call)
-    const result = await executeArticleToFlowChart(article, themeInstructions || '');
+    const result = await executeArticleToFlowChart(article, themeInstructions || '', diagramCount);
 
     return NextResponse.json({
       success: true,
@@ -46,7 +49,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error processing article:', error);
-    
+
     return NextResponse.json(
       {
         error: 'Failed to process article',

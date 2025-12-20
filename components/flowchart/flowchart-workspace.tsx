@@ -23,6 +23,7 @@ export default function FlowchartWorkspace() {
     const [error, setError] = useState('');
     const [diagrams, setDiagrams] = useState<DiagramData[]>([]);
     const [shouldProcess, setShouldProcess] = useState(false);
+    const [count, setCount] = useState(3);
 
     // Load diagrams from localStorage on mount
     useEffect(() => {
@@ -55,7 +56,7 @@ export default function FlowchartWorkspace() {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ article, themeInstructions: '' }),
+                    body: JSON.stringify({ article, themeInstructions: '', count }),
                 });
 
                 const data = await response.json();
@@ -111,6 +112,8 @@ export default function FlowchartWorkspace() {
                                 onNext={handleNext}
                                 loading={loading}
                                 error={error}
+                                count={count}
+                                setCount={setCount}
                             />
                         </motion.div>
                     )}

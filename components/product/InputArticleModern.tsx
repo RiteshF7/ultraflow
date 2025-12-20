@@ -9,15 +9,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
-import { 
-  Upload, 
-  FileText, 
-  History, 
-  Sparkles, 
-  Trash2, 
+import {
+  Upload,
+  FileText,
+  History,
+  Sparkles,
+  Trash2,
   ArrowRight,
   File,
-  X
+  X,
+  Settings2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -68,13 +69,17 @@ interface InputArticleProps {
   onNext: () => void;
   loading: boolean;
   error: string;
+  count: number;
+  setCount: (count: number) => void;
 }
 
-export default function InputArticleModern({ 
-  setArticle, 
-  onNext, 
-  loading, 
-  error
+export default function InputArticleModern({
+  setArticle,
+  onNext,
+  loading,
+  error,
+  count,
+  setCount
 }: InputArticleProps) {
   const [articles, setArticles] = useState<ArticleItem[]>([]);
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
@@ -93,7 +98,7 @@ export default function InputArticleModern({
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      
+
       const fileExt = file.name.split('.').pop()?.toLowerCase();
       if (fileExt !== 'md' && fileExt !== 'txt') {
         setFileError(`File "${file.name}" is not supported. Only .md and .txt files are allowed.`);
@@ -108,9 +113,9 @@ export default function InputArticleModern({
           content: content,
           type: 'file'
         };
-        
+
         setArticles(prev => [...prev, newArticle]);
-        
+
         if (articles.length === 0 && i === 0) {
           setSelectedArticleId(newArticle.id);
         }
@@ -131,7 +136,7 @@ export default function InputArticleModern({
       content: '',
       type: 'pasted'
     };
-    
+
     setArticles(prev => [...prev, newArticle]);
     setSelectedArticleId(newArticle.id);
   };
@@ -143,7 +148,7 @@ export default function InputArticleModern({
       content: SAMPLE_ARTICLE,
       type: 'pasted'
     };
-    
+
     setArticles(prev => [...prev, newArticle]);
     setSelectedArticleId(newArticle.id);
   };
@@ -158,7 +163,7 @@ export default function InputArticleModern({
 
   const handleUpdateArticleContent = (content: string) => {
     if (!selectedArticleId) return;
-    setArticles(prev => prev.map(a => 
+    setArticles(prev => prev.map(a =>
       a.id === selectedArticleId ? { ...a, content } : a
     ));
   };
@@ -203,7 +208,7 @@ export default function InputArticleModern({
       content: content,
       type: 'pasted'
     };
-    
+
     setArticles(prev => [...prev, newArticle]);
     setSelectedArticleId(newArticle.id);
     setShowHistory(false);
@@ -255,7 +260,7 @@ export default function InputArticleModern({
                   onChange={handleFileUpload}
                   className="hidden"
                 />
-                
+
                 <Button
                   variant="outline"
                   className="w-full justify-start"
@@ -379,6 +384,30 @@ export default function InputArticleModern({
                   </div>
 
                   <div className="border-t pt-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <label className="text-sm font-medium flex items-center gap-2">
+                        <Settings2 className="h-4 w-4 text-primary" />
+                        Number of Flowcharts: <span className="text-primary font-bold">{count}</span>
+                      </label>
+                      <span className="text-xs text-muted-foreground">
+                        Max 10
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-4 mb-4">
+                      <span className="text-xs text-muted-foreground">1</span>
+                      <input
+                        type="range"
+                        min="1"
+                        max="10"
+                        step="1"
+                        value={count}
+                        onChange={(e) => setCount(parseInt(e.target.value))}
+                        className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
+                        disabled={loading}
+                      />
+                      <span className="text-xs text-muted-foreground">10</span>
+                    </div>
+
                     <div className="flex items-center justify-between mb-2">
                       <label className="text-sm font-medium flex items-center gap-2">
                         <Sparkles className="h-4 w-4 text-primary" />
@@ -399,7 +428,7 @@ export default function InputArticleModern({
                       disabled={loading}
                     />
                   </div>
-                  
+
                   <Button
                     size="lg"
                     className="w-full"
@@ -439,7 +468,7 @@ export default function InputArticleModern({
       {showHistory && (
         <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="w-full max-w-4xl max-h-[90vh] overflow-auto">
-            <ArticleHistory 
+            <ArticleHistory
               onSelectArticle={handleLoadFromHistory}
               onClose={() => setShowHistory(false)}
             />

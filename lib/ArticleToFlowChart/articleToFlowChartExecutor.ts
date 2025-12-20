@@ -32,12 +32,12 @@ export interface ArticleToFlowChartResult {
    * Result from Step 1: Article to Mermaid diagrams (single AI call)
    */
   step1: ArticleToMermaidResult;
-  
+
   /**
    * Result from Step 2: Passthrough (for backward compatibility)
    */
   step2: MermaidDiagramsResult;
-  
+
   /**
    * Result from Step 3: MMD to Image (optional)
    */
@@ -60,12 +60,13 @@ export interface ArticleToFlowChartResult {
  */
 export async function executeArticleToFlowChart(
   articleText: string,
-  themeInstructions?: string
+  themeInstructions?: string,
+  count: number = 3
 ): Promise<Omit<ArticleToFlowChartResult, 'step3'>> {
   try {
     // Step 1: Convert article directly to Mermaid diagrams (single AI call)
-    const step1Result = await convertArticleToMermaid(articleText, themeInstructions);
-    
+    const step1Result = await convertArticleToMermaid(articleText, themeInstructions, count);
+
     // Step 2: Just pass through the diagrams (no additional AI call needed)
     const step2Result: MermaidDiagramsResult = {
       diagrams: step1Result.diagrams,
@@ -73,9 +74,9 @@ export async function executeArticleToFlowChart(
       originalJson: articleText,
       timestamp: Date.now()
     };
-    
+
     console.log('✅ Pipeline complete - single AI call optimization');
-    
+
     return {
       step1: step1Result,
       step2: step2Result
@@ -113,20 +114,20 @@ export async function executeArticleToFlowChartWithImage(
   try {
     // Execute Steps 1 & 2
     const result = await executeArticleToFlowChart(articleText, themeInstructions);
-    
+
     // Step 3: Convert first MMD to Image (for backwards compatibility)
     const firstDiagram = result.step2.diagrams[0];
     if (!firstDiagram) {
       throw new Error('No diagrams generated');
     }
-    
+
     const step3Result = await convertMmdToImage(firstDiagram.mermaidCode, {
       format: 'svg',
       backgroundColor: 'white',
       theme: 'default',
       ...imageOptions
     });
-    
+
     return {
       step1: result.step1,
       step2: result.step2,

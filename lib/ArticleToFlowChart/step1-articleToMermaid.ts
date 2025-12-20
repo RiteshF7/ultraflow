@@ -21,12 +21,12 @@ export interface ArticleToMermaidResult {
    * Array of diagrams generated directly from article
    */
   diagrams: DiagramData[];
-  
+
   /**
    * Number of diagrams
    */
   count: number;
-  
+
   /**
    * Original article text
    */
@@ -49,43 +49,45 @@ export interface ArticleToMermaidResult {
  */
 export async function convertArticleToMermaid(
   articleText: string,
-  themeInstructions?: string
+  themeInstructions?: string,
+  count: number = 3
 ): Promise<ArticleToMermaidResult> {
   if (!articleText || articleText.trim().length < 10) {
     throw new Error('Article text is too short or empty');
   }
 
   try {
-    console.log('📝 Converting article directly to Mermaid diagrams...');
+    console.log(`📝 Converting article directly to ${count} Mermaid diagrams...`);
     console.log('📏 Article length:', articleText.length);
     if (themeInstructions) {
       console.log('🎨 Theme instructions provided:', themeInstructions.substring(0, 100));
     }
-    
+
     const response = await promptManager.executePrompt('article-to-json', {
       variables: {
         content: articleText,
-        themeInstructions: themeInstructions || ''
+        themeInstructions: themeInstructions || '',
+        count: count.toString()
       }
     });
-    
+
     console.log('✅ Received response from AI');
     console.log('📏 Response length:', response?.length || 0);
     console.log('📄 Response preview:', response?.substring(0, 300));
-    
+
     if (!response || response.trim().length === 0) {
       throw new Error('AI returned empty response');
     }
-    
+
     // Parse delimiter-based format
     const diagrams = parseDelimiterBasedDiagrams(response);
-    
+
     if (diagrams.length === 0) {
       // Fallback: Treat entire response as single Mermaid diagram
       console.warn('⚠️ No delimiters found, treating as single diagram');
-      
+
       const cleanedMmd = cleanMermaidCode(response);
-      
+
       return {
         diagrams: [{
           title: 'Generated Flowchart',
@@ -95,12 +97,12 @@ export async function convertArticleToMermaid(
         originalArticle: articleText
       };
     }
-    
+
     console.log(`✅ Generated ${diagrams.length} flowchart(s) directly from article`);
     diagrams.forEach((diagram, i) => {
       console.log(`  ${i + 1}. "${diagram.title}" (${diagram.mermaidCode.split('\n')[0]})`);
     });
-    
+
     return {
       diagrams,
       count: diagrams.length,
@@ -118,27 +120,27 @@ export async function convertArticleToMermaid(
  */
 function parseDelimiterBasedDiagrams(response: string): DiagramData[] {
   const diagrams: DiagramData[] = [];
-  
+
   // Clean the response first
   let cleaned = response.trim();
-  
+
   // Remove any markdown code blocks that might wrap the entire response
   cleaned = cleaned.replace(/^```[a-z]*\s*/i, '').replace(/```\s*$/i, '');
-  
+
   // Split by the delimiter pattern: ---DIAGRAM: Title---
   const delimiterRegex = /---DIAGRAM:\s*(.+?)---/gi;
   const parts = cleaned.split(delimiterRegex);
-  
+
   // parts will be: [text before first delimiter, title1, content1, title2, content2, ...]
   // We skip the first element (text before first delimiter) and process pairs
   for (let i = 1; i < parts.length; i += 2) {
     const title = parts[i]?.trim();
     const mermaidCode = parts[i + 1]?.trim();
-    
+
     if (title && mermaidCode) {
       // Clean the mermaid code
       const cleanedCode = cleanMermaidCode(mermaidCode);
-      
+
       if (cleanedCode) {
         diagrams.push({
           title,
@@ -147,7 +149,7 @@ function parseDelimiterBasedDiagrams(response: string): DiagramData[] {
       }
     }
   }
-  
+
   return diagrams;
 }
 
@@ -156,22 +158,22 @@ function parseDelimiterBasedDiagrams(response: string): DiagramData[] {
  */
 function cleanMermaidCode(code: string): string {
   let cleaned = code.trim();
-  
+
   // Remove markdown code block wrappers
   if (cleaned.startsWith('```mermaid')) {
     cleaned = cleaned.replace(/^```mermaid\s*/i, '').replace(/```\s*$/i, '');
   } else if (cleaned.startsWith('```')) {
     cleaned = cleaned.replace(/^```\s*/i, '').replace(/```\s*$/i, '');
   }
-  
+
   // Remove any leading/trailing whitespace
   cleaned = cleaned.trim();
-  
+
   // Remove text after the last line of valid mermaid code
   // (sometimes AI adds explanatory text after)
   const lines = cleaned.split('\n');
   let lastValidLine = lines.length - 1;
-  
+
   // Find the last line that looks like valid mermaid syntax
   for (let i = lines.length - 1; i >= 0; i--) {
     const line = lines[i].trim();
@@ -180,9 +182,9 @@ function cleanMermaidCode(code: string): string {
       break;
     }
   }
-  
+
   cleaned = lines.slice(0, lastValidLine + 1).join('\n');
-  
+
   return cleaned.trim();
 }
 
