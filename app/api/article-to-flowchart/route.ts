@@ -11,6 +11,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { executeArticleToFlowChart } from '@/lib/ArticleToFlowChart/articleToFlowChartExecutor';
 
+export const maxDuration = 60; // Allow up to 60 seconds for AI processing
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
