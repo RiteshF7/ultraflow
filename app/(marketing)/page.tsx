@@ -15,12 +15,12 @@ export default async function IndexPage() {
     <div className="flex flex-col gap-10 mb-5 w-full relative">
       <SmokyBackground />
       <Hero />
-      {/* <LogoCloud /> */}
-      {/* <FeaturesHover /> */}
-      {/* <div className="container mx-auto my-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Core Features</h2>
-          <BentoDemo />
-        </div> */}
+      <LogoCloud />
+      <FeaturesHover />
+      <div className="container mx-auto my-16">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Core Features</h2>
+        <BentoDemo />
+      </div>
       <div id="testimonials">
         <Testimonials />
       </div>

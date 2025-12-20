@@ -9,7 +9,7 @@ export default function FeaturesHover() {
   return (
     <section
       id="features"
-      className="container space-y-6 bg-zinc-50 py-8 dark:bg-zinc-900 md:py-12 lg:py-24 rounded-6xl mb-10"
+      className="container space-y-6 py-8 md:py-12 lg:py-24 rounded-6xl mb-10"
     >
       <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
         <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
@@ -25,7 +25,7 @@ export default function FeaturesHover() {
             whileHover={{ y: -8 }}
             transition={{ type: 'spring', bounce: 0.7 }}
             key={feature.title}
-            className="relative overflow-hidden rounded-lg border bg-background dark:bg-zinc-950 p-6"
+            className="relative overflow-hidden rounded-lg border bg-white/10 dark:bg-black/10 backdrop-blur-md p-6"
           >
             <a target="_blank" rel="noopener noreferrer" href={feature.link}>
               <svg
