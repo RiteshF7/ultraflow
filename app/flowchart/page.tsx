@@ -1,8 +1,8 @@
 'use client';
 
-import ArticleToFlowChart from '@/components/product/ArticleToFlowChart';
+import FlowchartWorkspace from '@/components/flowchart/flowchart-workspace';
 
 export default function FlowChartPage() {
-  return <ArticleToFlowChart />;
+  return <FlowchartWorkspace />;
 }
 

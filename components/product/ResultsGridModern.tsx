@@ -15,14 +15,16 @@ import {
 } from '@/utils/downloadHelpers';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { 
-  Download, 
-  Edit, 
-  Home, 
-  ZoomIn, 
-  ZoomOut, 
+import {
+  Download,
+  Edit,
+  Home,
+  ZoomIn,
+  ZoomOut,
   RotateCcw,
-  RefreshCw 
+  RefreshCw,
+  Code,
+  Image as ImageIcon
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -53,11 +55,11 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
 
   const renderDiagram = async (forceRefresh = false) => {
     if (!mermaidRef.current) return;
-    
+
     try {
       setRenderError('');
       setIsRendered(false);
-      
+
       // Get theme colors for custom theme variables
       const themeColors = MERMAID_COLOR_THEMES[theme] || DEFAULT_MERMAID_THEME;
       const customThemeVars = {
@@ -67,38 +69,38 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
         tertiaryColor: themeColors.nodeColor,
         mainBkg: themeColors.nodeColor,
         nodeBkg: themeColors.nodeColor,
-        
+
         // Text colors - FORCE WHITE TEXT
         primaryTextColor: '#ffffff',
         textColor: '#ffffff',
         nodeTextColor: '#ffffff',
-        
+
         // Border colors
         primaryBorderColor: themeColors.borderColor,
         nodeBorder: themeColors.borderColor,
-        
+
         // Line/Arrow colors
         lineColor: themeColors.arrowColor,
         edgeLabelBackground: themeColors.previewBg,
-        
+
         // Decision text color - FORCE WHITE TEXT
         decisionSecondaryTextColor: '#ffffff',
         decisionTertiaryTextColor: '#ffffff',
       };
-      
+
       if (forceRefresh && typeof window !== 'undefined') {
         initializeMermaid(theme, customThemeVars);
       }
-      
+
       await new Promise(resolve => setTimeout(resolve, 200));
-      
+
       const result = await renderMermaidToElement(
         diagram.mermaidCode,
         `mermaid-card-${index}-${Date.now()}`,
         theme,
         customThemeVars
       );
-      
+
       if (result.svg) {
         setSvgContent(result.svg);
         setIsRendered(true);
@@ -118,7 +120,7 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
       }, 100);
       return () => clearTimeout(timer);
     }
-    
+
     if (mermaidRef.current && diagram.mermaidCode) {
       renderDiagram(false);
     } else if (retryCount >= 5) {
@@ -182,36 +184,75 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
     setForceRefreshTrigger(prev => prev + 1);
   };
 
+  const [showCode, setShowCode] = useState(false);
+
+  const handleCopyCode = async () => {
+    try {
+      await navigator.clipboard.writeText(diagram.mermaidCode);
+      // Ideally show a toast here, but for now we'll just rely on the user knowing
+    } catch (err) {
+      console.error('Failed to copy', err);
+    }
+  };
+
   return (
-    <Card 
-      className="relative overflow-hidden transition-shadow hover:shadow-lg"
+    <Card
+      className="relative overflow-hidden transition-all duration-300 hover:shadow-xl dark:bg-zinc-900/50 dark:backdrop-blur-sm border-zinc-200 dark:border-zinc-800"
       onMouseEnter={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
-      <CardHeader className="pb-3">
-        <CardTitle className="text-lg line-clamp-1">{diagram.title}</CardTitle>
+      <CardHeader className="pb-3 flex flex-row items-center justify-between space-y-0">
+        <CardTitle className="text-lg line-clamp-1 font-medium">{diagram.title}</CardTitle>
+        <div className="flex gap-1">
+          <Button
+            variant={showCode ? "secondary" : "ghost"}
+            size="icon"
+            className="h-8 w-8"
+            onClick={() => setShowCode(!showCode)}
+            title={showCode ? "Show Diagram" : "Show Code"}
+          >
+            {showCode ? <ImageIcon className="h-4 w-4" /> : <Code className="h-4 w-4" />}
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         {/* Diagram Display */}
-        <div className="relative bg-muted/30 rounded-lg overflow-hidden" style={{ minHeight: '300px' }}>
-          <div 
-            className="flex items-center justify-center p-4"
-            style={{
-              transform: `scale(${zoomLevel})`,
-              transformOrigin: 'center',
-              transition: 'transform 0.3s ease'
-            }}
-          >
-            <div 
-              ref={mermaidRef}
-              className="flex justify-center items-center text-muted-foreground text-sm"
-              dangerouslySetInnerHTML={
-                isRendered && svgContent 
-                  ? { __html: svgContent }
-                  : { __html: renderError || 'Rendering...' }
-              }
-            />
-          </div>
+        <div className="relative bg-muted/30 rounded-lg overflow-hidden border border-zinc-100 dark:border-zinc-800" style={{ minHeight: '350px' }}>
+
+          {!showCode ? (
+            <div
+              className="flex items-center justify-center p-4 min-h-[350px]"
+              style={{
+                transform: `scale(${zoomLevel})`,
+                transformOrigin: 'center',
+                transition: 'transform 0.3s ease'
+              }}
+            >
+              <div
+                ref={mermaidRef}
+                className="flex justify-center items-center text-muted-foreground text-sm w-full h-full"
+                dangerouslySetInnerHTML={
+                  isRendered && svgContent
+                    ? { __html: svgContent }
+                    : { __html: renderError || 'Rendering...' }
+                }
+              />
+            </div>
+          ) : (
+            <div className="relative w-full h-[350px] overflow-auto bg-zinc-950 p-4 text-xs font-mono">
+              <pre className="text-zinc-300 whitespace-pre-wrap">
+                {diagram.mermaidCode}
+              </pre>
+              <Button
+                size="sm"
+                variant="secondary"
+                className="absolute top-2 right-2 h-7 text-xs bg-white/10 hover:bg-white/20 text-white border-none"
+                onClick={handleCopyCode}
+              >
+                Copy
+              </Button>
+            </div>
+          )}
 
           {/* Loading Editor Overlay */}
           {isLoadingEditor && (
@@ -223,15 +264,15 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
             </div>
           )}
 
-          {/* Action Buttons (Show on Hover) */}
-          {showActions && isRendered && (
+          {/* Action Buttons (Show on Hover) - Only show in Diagram View */}
+          {showActions && isRendered && !showCode && (
             <div className="absolute top-2 right-2 flex gap-2 z-10">
               <Button
                 variant="secondary"
                 size="sm"
                 onClick={handleEditCode}
                 disabled={isLoadingEditor}
-                className="shadow-lg"
+                className="shadow-lg bg-background/80 backdrop-blur-sm hover:bg-background"
               >
                 <Edit className="h-4 w-4" />
               </Button>
@@ -239,7 +280,7 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
                 variant="secondary"
                 size="sm"
                 onClick={handleForceRefresh}
-                className="shadow-lg"
+                className="shadow-lg bg-background/80 backdrop-blur-sm hover:bg-background"
               >
                 <RefreshCw className="h-4 w-4" />
               </Button>
@@ -248,7 +289,7 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
                 size="sm"
                 onClick={handleDownloadSvg}
                 disabled={downloadType === 'svg'}
-                className="shadow-lg"
+                className="shadow-lg bg-background/80 backdrop-blur-sm hover:bg-background"
               >
                 <Download className="h-4 w-4 mr-1" />
                 SVG
@@ -258,7 +299,7 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
                 size="sm"
                 onClick={handleDownloadPng}
                 disabled={isDownloading || downloadType === 'png'}
-                className="shadow-lg"
+                className="shadow-lg bg-background/80 backdrop-blur-sm hover:bg-background"
               >
                 <Download className="h-4 w-4 mr-1" />
                 PNG
@@ -266,14 +307,15 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
             </div>
           )}
 
-          {/* Zoom Controls (Show on Hover) */}
-          {showActions && isRendered && (
-            <div className="absolute bottom-2 right-2 flex gap-1 bg-background/95 border rounded-lg p-1 shadow-lg">
+          {/* Zoom Controls (Show on Hover) - Only show in Diagram View */}
+          {showActions && isRendered && !showCode && (
+            <div className="absolute bottom-2 right-2 flex gap-1 bg-background/95 backdrop-blur-md border rounded-lg p-1 shadow-lg">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleZoomOut}
                 disabled={zoomLevel <= 0.5}
+                className="h-7 w-7 p-0"
               >
                 <ZoomOut className="h-4 w-4" />
               </Button>
@@ -281,7 +323,7 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
                 variant="ghost"
                 size="sm"
                 onClick={handleZoomReset}
-                className="min-w-[60px]"
+                className="min-w-[50px] h-7 text-xs"
               >
                 {Math.round(zoomLevel * 100)}%
               </Button>
@@ -290,6 +332,7 @@ function DiagramCard({ diagram, index, theme }: { diagram: DiagramData; index: n
                 size="sm"
                 onClick={handleZoomIn}
                 disabled={zoomLevel >= 3}
+                className="h-7 w-7 p-0"
               >
                 <ZoomIn className="h-4 w-4" />
               </Button>
