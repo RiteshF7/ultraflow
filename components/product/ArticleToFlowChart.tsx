@@ -15,6 +15,7 @@ export default function ArticleToFlowChart() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [shouldProcess, setShouldProcess] = useState(false);
+  const [count, setCount] = useState(3);
 
   // Process article when shouldProcess flag is set
   useEffect(() => {
@@ -30,7 +31,7 @@ export default function ArticleToFlowChart() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ article, themeInstructions: '' }),
+          body: JSON.stringify({ article, themeInstructions: '', count }),
         });
 
         const data = await response.json();
@@ -43,23 +44,23 @@ export default function ArticleToFlowChart() {
         const diagramsData: DiagramData[] = data.step2.diagrams || [];
         console.log('Generated', diagramsData.length, 'diagram(s)');
         console.log('Full diagrams data:', diagramsData);
-        
+
         diagramsData.forEach((diagram, i) => {
           console.log(`  ${i + 1}. ${diagram.title}`);
           console.log(`     Mermaid code length: ${diagram.mermaidCode?.length || 0}`);
         });
-        
+
         if (diagramsData.length === 0) {
           throw new Error('No diagrams were generated from the article');
         }
-        
+
         console.log('=== STORING DIAGRAMS AND NAVIGATING TO RESULTS ===');
         console.log('📦 Diagrams to store:', diagramsData);
         console.log('📦 Number of diagrams:', diagramsData.length);
-        
+
         // Store diagrams in localStorage
         localStorage.setItem('generated-diagrams', JSON.stringify(diagramsData));
-        
+
         // Navigate to results page
         window.location.href = '/results';
       } catch (err) {
@@ -79,17 +80,19 @@ export default function ArticleToFlowChart() {
   return (
     <>
       {/* Global Loading Overlay */}
-      <LoadingOverlay 
-        isLoading={loading} 
+      <LoadingOverlay
+        isLoading={loading}
         message="Processing your article..."
       />
-      
+
       <InputArticleModern
         article={article}
         setArticle={setArticle}
         loading={loading}
         error={error}
         onNext={handleNext}
+        count={count}
+        setCount={setCount}
       />
     </>
   );
