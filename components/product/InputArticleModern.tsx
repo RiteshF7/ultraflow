@@ -225,8 +225,9 @@ export default function InputArticleModern({
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold tracking-tight mb-2">
+          <h1 className="text-4xl font-bold tracking-tight mb-2 flex items-center justify-center gap-3">
             Article to Flowchart
+            <Badge variant="secondary" className="text-sm font-normal">v2.0</Badge>
           </h1>
           <p className="text-muted-foreground text-lg">
             Transform your articles into beautiful flowcharts instantly
